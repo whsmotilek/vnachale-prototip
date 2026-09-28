@@ -87,7 +87,9 @@ section{padding-block:var(--rhythm)}
 /* ---------- объявление: статичное, не ползёт ---------- */
 .ann{position:fixed;top:0;left:0;right:0;z-index:56;background:var(--ink);color:#fff;display:flex;align-items:center;gap:12px;
   padding:9px var(--gut) 9px;padding-top:calc(9px + env(safe-area-inset-top,0px))}
-.ann p{margin:0;flex:1;font-size:11px;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
+.ann p{margin:0;flex:1;font-size:11px;letter-spacing:.1em;text-transform:uppercase;line-height:1.4}
+.ann__l{display:none}
+@media (min-width:700px){ .ann__s{display:none} .ann__l{display:inline} }
 .ann a{border-bottom:1px solid rgba(255,255,255,.5)}
 .ann button{flex:0 0 auto;width:26px;height:26px;display:grid;place-items:center;opacity:.55}
 .ann button svg{width:10px;height:10px;stroke:#fff;stroke-width:1.5;fill:none}
@@ -551,7 +553,7 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 <body>
 
 <div class="ann" id="ann">
-  <p>Предзаказ новой коллекции — на складе 1–10 октября. <a href="#/preorder">Смотреть предзаказ</a></p>
+  <p><span class="ann__s">Предзаказ · 1–10 октября</span><span class="ann__l">Предзаказ новой коллекции — на складе 1–10 октября</span> <a href="#/preorder">Смотреть</a></p>
   <button id="annx" aria-label="Скрыть объявление"><svg viewBox="0 0 12 12"><path d="M1 1 11 11M11 1 1 11"/></svg></button>
 </div>
 
