@@ -391,6 +391,9 @@ body[data-p="/"] .fass{display:none}
 .sw.on{color:var(--ink)}
 .sw.on i{box-shadow:0 0 0 1px var(--ink),inset 0 0 0 2px var(--paper)}
 .sizes{display:flex;gap:8px;flex-wrap:wrap}
+.lookrow{border-bottom:1px solid var(--line-2);padding-bottom:16px;margin-bottom:16px}
+.lookrow:last-of-type{border-bottom:0}
+.lookrow__s .size{min-width:48px;height:40px;font-size:13px}
 .size{min-width:60px;height:52px;border:1px solid var(--line);display:grid;place-items:center;
   font-size:14px;transition:border-color .2s,background .2s}
 .size:hover{border-color:var(--ink)}
@@ -518,13 +521,21 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 .pochip{display:inline-block;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
 .steps{display:grid;gap:var(--gut);padding-top:var(--step)}
 @media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
-.step{position:relative;padding-left:40px}
+.step{position:relative;padding-left:58px}
 .step b{position:absolute;left:0;top:0;line-height:1.5;font-size:12px;font-weight:400;
   letter-spacing:.14em;color:var(--muted)}
 .step span{display:block;font-size:15px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
 
 /* ---------- текстовые страницы ---------- */
-.doc{max-width:60ch}
+.doc{max-width:62ch}
+@media (min-width:1100px){
+  /* редакционная раскладка: заголовок и оглавление слева, текст в своей колонке */
+  .doc{max-width:none;display:grid;grid-template-columns:300px minmax(0,62ch);
+    column-gap:clamp(56px,6vw,110px);row-gap:0;align-items:start}
+  .doc > h1{grid-column:1;position:sticky;top:calc(var(--annh,0px) + var(--head) + 40px);margin:16px 0 0}
+  .doc > *:not(h1){grid-column:2}
+  .doc > *:not(h1):first-of-type{margin-top:16px}
+}
 .doc h1{font-family:var(--display);font-weight:500;font-size:clamp(34px,5vw,62px);line-height:1.04;letter-spacing:-.025em;margin:16px 0 32px}
 .doc h2{font-family:var(--display);font-weight:500;font-size:clamp(24px,2.6vw,34px);line-height:1.12;letter-spacing:-.015em;margin:52px 0 18px}
 .doc p{font-size:17px;line-height:1.72;color:var(--ink-2);margin:0 0 18px}
@@ -730,7 +741,25 @@ function paintCart(){
 
 /* ===================== шторки ===================== */
 let openSheet = null;
+let overlayPushed = false;   // лишняя запись в истории, чтобы «назад» закрывала шторку
+function overlayPush(){
+  if(overlayPushed) return;
+  overlayPushed = true;
+  try{ history.pushState({vnOverlay:1}, '', location.href) }catch(e){ overlayPushed = false }
+}
+function overlayPop(){
+  if(!overlayPushed) return;
+  overlayPushed = false;
+  try{ history.back() }catch(e){}
+}
+addEventListener('popstate', ()=>{
+  if(!overlayPushed) return;
+  overlayPushed = false;                    // уже сняли — назад больше не дёргаем
+  if(openSheet || $('#menu').classList.contains('on')){ sheetClose(); menuClose(); }
+});
+
 function sheetOpen(id){
+  overlayPush();
   if(openSheet) $(openSheet).classList.remove('on');
   openSheet = '#'+id;
   $(openSheet).classList.add('on');
@@ -738,17 +767,19 @@ function sheetOpen(id){
   $('#scrim').classList.add('on');
   document.body.classList.add('locked');
 }
-function sheetClose(){
+function sheetClose(keepHistory){
   const was = openSheet;
   if(openSheet){ $(openSheet).classList.remove('on'); $(openSheet).setAttribute('aria-hidden','true'); }
   openSheet = null;
   if(was === '#sizeguide' && pickReturn){ const go = pickReturn; pickReturn = null; setTimeout(go, 120); return; }
+  if(!keepHistory) overlayPop();
   $('#scrim').classList.remove('on');
   if(!$('#menu').classList.contains('on')) document.body.classList.remove('locked');
 }
 $('#scrim').addEventListener('click', ()=>{ sheetClose(); menuClose(); });
 document.addEventListener('click', e=>{
-  if(e.target.closest('[data-close]')) sheetClose();
+  const cl = e.target.closest('[data-close]');
+  if(cl) sheetClose(!!cl.closest('a[href]'));
   const rm = e.target.closest('[data-rm]'); if(rm) cartRm(rm.dataset.rm);
   const sel = e.target.closest('[data-size]');
   if(sel) return;
@@ -816,13 +847,16 @@ try{ if(location.search.indexOf('dev')>=0) document.body.classList.add('dev') }c
 
 /* ===================== меню ===================== */
 function menuOpen(){
+  overlayPush();
   $('#menu').classList.add('on'); $('#menu').setAttribute('aria-hidden','false');
   $('#burger').classList.add('x');
   document.body.classList.add('locked');
 }
-function menuClose(){
+function menuClose(keepHistory){
+  const was = $('#menu').classList.contains('on');
   $('#menu').classList.remove('on'); $('#menu').setAttribute('aria-hidden','true');
   $('#burger').classList.remove('x');
+  if(was && !openSheet && !keepHistory) overlayPop();
   if(!openSheet) document.body.classList.remove('locked');
 }
 $('#burger').addEventListener('click', ()=> $('#menu').classList.contains('on') ? menuClose() : menuOpen());
@@ -1195,10 +1229,11 @@ function viewPreorder(){
 
   <section style="padding-bottom:0">
     <div class="wrap">
+      <div class="headline rv"><span class="num">01</span><span class="lbl">Как это работает</span></div>
       <div class="steps">
-        <div class="step rv"><b>01</b><span>Выбираете модель, цвет и размер. Оплачиваете как обычный заказ.</span></div>
-        <div class="step rv" style="--d:80ms"><b>02</b><span>Партия приходит на склад 1–10 октября. Пишем вам в тот же день.</span></div>
-        <div class="step rv" style="--d:160ms"><b>03</b><span>Отправляем в течение суток. Сдвинется срок — вернём деньги по первому слову.</span></div>
+        <div class="step rv"><b>Шаг 1</b><span>Выбираете модель, цвет и размер. Оплачиваете как обычный заказ.</span></div>
+        <div class="step rv" style="--d:80ms"><b>Шаг 2</b><span>Партия приходит на склад 1–10 октября. Пишем вам в тот же день.</span></div>
+        <div class="step rv" style="--d:160ms"><b>Шаг 3</b><span>Отправляем в течение суток. Сдвинется срок — вернём деньги по первому слову.</span></div>
       </div>
     </div>
   </section>
@@ -1217,8 +1252,8 @@ function viewPreorder(){
 function viewAbout(){
   return `<section class="wrap"><div class="doc rv">
     <h1>Философия бренда</h1>
-    <p class="lead">Мы верим, что мужественность не нужно изобретать заново и подстраивать под чужие ожидания.</p>
-    <p>Задолго до трендов и навязанных ролей мужчина находил опору в своей природе и способности создавать, защищать, брать ответственность и оставаться верным себе.</p>
+    <p class="lead">Мужественность не нужно изобретать заново и подстраивать под чужие ожидания.</p>
+    <p>Задолго до трендов и навязанных ролей мужчина находил опору в своей природе и способности создавать, защищать, брать ответственность и не менять себя под обстоятельства.</p>
     <p>Настоящая сила не нуждается в доказательствах, потому что она проявляется в поступках, а не в навязанных образах. Она чувствуется в уверенности, спокойствии и способности оставаться верным себе при любых обстоятельствах.</p>
     <h2>Исходный код</h2>
     <p>Долгое время статус ассоциировался со строгими силуэтами, формальной одеждой и необходимостью соответствовать ожиданиям окружающих. Но в современном мире статус больше не нуждается в подобных доказательствах. Комфорт не противоречит статусу, а уверенность не требует строгого дресс-кода.</p>
@@ -1381,7 +1416,7 @@ function wire(path, q){
     if(el) window.scrollTo({top: el.getBoundingClientRect().top + scrollY - 70, behavior:'smooth'});
   }));
 
-  if(path.startsWith('/p/')) { galInit(); stickyInit(); }
+  if(path.startsWith('/p/')) { galInit(); stickyInit(); pdpSwitch(); }
   if(path === '/catalog') catalogInit(q);
 }
 
@@ -1389,6 +1424,24 @@ addEventListener('scroll', ()=>{
   document.body.classList.toggle('scrolled', scrollY > 8);
   syncOver();
 }, {passive:true});
+
+// каждый тап по размеру или цвету был переходом: страница перерисовывалась,
+// галерея отматывалась в начало, а в истории копились шаги — до каталога шесть «назад»
+function pdpSwitch(){
+  const col = $('.pdp__i'); if(!col) return;
+  col.addEventListener('click', e=>{
+    const a = e.target.closest('.sizes a[href^="#/p/"], .sws a[href^="#/p/"]');
+    if(!a) return;
+    e.preventDefault();
+    const keepGal = !!a.closest('.sizes');           // цвет меняет кадры, размер — нет
+    const gal = $('#galv');
+    const x = keepGal && gal ? gal.scrollLeft : 0;
+    history.replaceState(null, '', a.getAttribute('href'));
+    route();
+    const g = $('#galv');
+    if(g && x) g.scrollLeft = x;
+  });
+}
 
 function galInit(){
   const vp = $('#galv'), out = $('#gcount');
@@ -1475,21 +1528,37 @@ function openNotify(pid, size, back){
 
 function openLook(li){
   const L = LOOKS[li];
-  const it = L.items.map(([id,vi])=>({p:byId(id), v:byId(id).variants[vi], vi}));
+  const it = L.items.map(([id,vi])=>({p:byId(id), v:byId(id).variants[vi], vi, size:null}));
   const sum = it.reduce((s,x)=>s+x.v.price,0);
   $('#pickt').textContent = L.n;
-  $('#pickb').innerHTML = it.map(x=>`
-    <a class="ci" href="#/p/${x.p.id}?v=${x.vi}" data-close>
-      <img src="${im(x.v.imgs[0],'s')}" alt="" loading="lazy">
-      <div><div class="ci__n">${esc(x.p.name)}</div><div class="ci__m">${esc(x.v.color)}</div></div>
-      <div class="ci__p tnum">${money(x.v.price)}</div>
-    </a>`).join('')
-    + `<p class="muted" style="font-size:13px;margin-top:20px">Добавим по одной вещи в первом доступном размере. Нужен другой — откройте карточку товара.</p>`;
-  $('#pickf').innerHTML = `<button class="btn btn--w" data-golook>Добавить образ · ${money(sum)}</button>`;
-  $('#pickf [data-golook]').addEventListener('click', ()=>{
-    it.forEach(x=>cartAdd(x.p.id, x.vi, x.p.sizes.find(z=>!x.p.out.includes(z))));
-    sheetClose(); toast('Образ в корзине');
-  });
+  // раньше образ уезжал в корзину в первом доступном размере, то есть почти всегда в S,
+  // при том что основной покупатель берёт L–XL. Размер выбирается для каждой вещи
+  const paint = () => {
+    $('#pickb').innerHTML = it.map((x,i)=>`
+      <div class="lookrow">
+        <a class="ci" href="#/p/${x.p.id}?v=${x.vi}" data-close style="padding-bottom:10px">
+          <img src="${im(x.v.imgs[0],'s')}" alt="" loading="lazy">
+          <div><div class="ci__n">${esc(x.p.name)}</div><div class="ci__m">${esc(x.v.color)}</div></div>
+          <div class="ci__p tnum">${money(x.v.price)}</div>
+        </a>
+        <div class="sizes lookrow__s">${x.p.sizes.map(z=>x.p.out.includes(z)
+          ? `<button class="size off" disabled>${z}</button>`
+          : `<button class="size ${x.size===z?'on':''}" data-look="${i}|${z}">${z}</button>`).join('')}</div>
+      </div>`).join('');
+    $$('#pickb [data-look]').forEach(b=>b.addEventListener('click', ()=>{
+      const [i, z] = b.dataset.look.split('|');
+      it[+i].size = z; paint();
+    }));
+    const ready = it.every(x=>x.size);
+    $('#pickf').innerHTML = `<button class="btn btn--w" ${ready?'':'disabled'} data-golook>${
+      ready ? 'Добавить образ · ' + money(sum) : 'Выберите размеры · ' + money(sum)}</button>`;
+    $('#pickf [data-golook]')?.addEventListener('click', ()=>{
+      if(!it.every(x=>x.size)) return;
+      it.forEach(x=>cartAdd(x.p.id, x.vi, x.size));
+      sheetClose(); toast('Образ в корзине');
+    });
+  };
+  paint();
   sheetOpen('pick');
 }
 
@@ -1541,7 +1610,7 @@ function openPick(pid, startV, startS){
 
 /* ===================== старт ===================== */
 if('scrollRestoration' in history) history.scrollRestoration = 'manual';
-window.addEventListener('hashchange', ()=>{ menuClose(); sheetClose(); route(); });
+window.addEventListener('hashchange', ()=>{ menuClose(true); sheetClose(true); route(); });
 paintCart();
 route();
 </script>
