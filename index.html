@@ -35,9 +35,9 @@
 
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
-html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+html{-webkit-text-size-adjust:100%;overflow-x:hidden}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);
-  font-size:15px;line-height:1.62;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  font-size:15px;line-height:1.62;-webkit-font-smoothing:antialiased}
 @media (min-width:900px){ body{font-size:16px;line-height:1.66} }
 body.locked{overflow:hidden}
 img{display:block;max-width:100%}
@@ -54,7 +54,6 @@ a{color:inherit;text-decoration:none}
 .js-rv .rv{opacity:0}
 .js-rv .rv.in{opacity:1}
 @media (prefers-reduced-motion:reduce){
-  html{scroll-behavior:auto}
   .rv,.js-rv .rv{transition:none!important;opacity:1!important}
 }
 
@@ -67,7 +66,7 @@ section{padding-block:var(--rhythm)}
 .num{position:absolute;left:0;top:-.34em;font-family:var(--display);font-weight:400;
   font-size:clamp(42px,5vw,78px);line-height:.78;color:var(--line);user-select:none;pointer-events:none}
 .more{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;
-  border-bottom:1px solid var(--line);padding-bottom:3px;transition:opacity .2s var(--ease)}
+  border-bottom:1px solid var(--line);padding:12px 0 3px;transition:opacity .2s var(--ease)}
 .more:hover{opacity:.55}
 
 /* красная нить — один раз на страницу, от края листа */
@@ -94,13 +93,14 @@ body.noann .ann{display:none}
 .hdr__r{justify-content:flex-end}
 .hdr__logo{justify-self:center;display:block;line-height:0}
 .hdr__logo img{height:19px;width:auto}
-.hdr__cart{font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap}
-.burger{width:22px;height:11px;position:relative;display:block}
-.burger i{position:absolute;left:0;right:0;height:1.2px;background:currentColor;transition:.3s var(--ease)}
-.burger i:nth-child(1){top:0}
-.burger i:nth-child(2){top:10px}
-.burger.x i:nth-child(1){top:5px;transform:rotate(45deg)}
-.burger.x i:nth-child(2){top:5px;transform:rotate(-45deg)}
+.hdr__cart{font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding:16px 0;margin:-16px 0}
+#searchbtn{padding:15px 8px;margin:-15px -8px}
+.burger{width:22px;height:11px;position:relative;display:block;padding:17px 11px;box-sizing:content-box;margin:-17px -11px}
+.burger i{position:absolute;left:11px;right:11px;height:1.2px;background:currentColor;transition:.3s var(--ease)}
+.burger i:nth-child(1){top:17px}
+.burger i:nth-child(2){top:27px}
+.burger.x i:nth-child(1){top:22px;transform:rotate(45deg)}
+.burger.x i:nth-child(2){top:22px;transform:rotate(-45deg)}
 .ico{width:18px;height:18px;stroke:currentColor;stroke-width:1.2;fill:none}
 body.scrolled .hdr{box-shadow:0 1px 0 var(--line-2)}
 
@@ -200,7 +200,7 @@ body.scrolled .hdr{box-shadow:0 1px 0 var(--line-2)}
 .card__p s{color:var(--muted)}
 .card__meta{font-size:12px;color:var(--muted);margin-top:5px}
 .card__buy{margin-top:11px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  border-bottom:1px solid var(--line);padding-bottom:3px;transition:opacity .2s}
+  border-bottom:1px solid var(--line);padding:12px 0 3px;transition:opacity .2s}
 .card__buy:hover{opacity:.55}
 
 /* ---------- лента ---------- */
@@ -284,7 +284,7 @@ footer{padding-bottom:calc(34px + env(safe-area-inset-bottom,0px));background:va
 @media (min-width:900px){.chips{-webkit-mask-image:none;mask-image:none}}
 .chips::-webkit-scrollbar{display:none}
 .chip{flex:0 0 auto;font-size:13px;color:var(--muted);white-space:nowrap;
-  border-bottom:1px solid transparent;padding-bottom:4px;transition:opacity .2s}
+  border-bottom:1px solid transparent;padding:12px 0 4px;transition:opacity .2s}
 .chip:hover{opacity:.6}
 .chip.on{color:var(--ink);border-bottom-color:var(--ink)}
 .tools{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:0 var(--gut) 18px;flex-wrap:wrap}
@@ -319,10 +319,10 @@ footer{padding-bottom:calc(34px + env(safe-area-inset-bottom,0px));background:va
 .flab span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .flab .hand{font-family:var(--display);font-size:clamp(17px,1.5vw,21px);letter-spacing:.01em;
   text-transform:none;color:var(--ink)}
-.flab a{font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);padding-bottom:2px;transition:opacity .2s}
+.flab a{font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);padding:12px 0 2px;transition:opacity .2s}
 .flab a:hover{opacity:.55}
 .sws{display:flex;gap:18px;flex-wrap:wrap}
-.sw{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-2);transition:opacity .2s}
+.sw{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-2);transition:opacity .2s;padding:12px 0;margin:-12px 0}
 .sw i{width:16px;height:16px;display:block}
 .sw:hover{opacity:.6}
 .sw.on{color:var(--ink)}
@@ -404,7 +404,11 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 /* ---------- корзина ---------- */
 .ci{display:grid;grid-template-columns:66px 1fr auto;gap:16px;padding:18px 0;border-bottom:1px solid var(--line-2)}
 .ci img{width:66px;aspect-ratio:2/3;object-fit:cover;background:var(--mist)}
-.ci__n{font-size:14px;line-height:1.35}
+.ci__n{display:block;font-size:14px;line-height:1.35}
+.ci__n:hover{opacity:.6}
+.ci__size{font:inherit;font-size:13px;color:var(--muted);background:transparent;border:0;
+  border-bottom:1px solid var(--line);padding:2px 2px 3px;border-radius:0;-webkit-appearance:none;appearance:none}
+.ci__size:focus{outline:none;border-color:var(--ink);color:var(--ink)}
 .ci__m{font-size:13px;color:var(--muted);margin-top:6px}
 .ci__p{font-size:14px;white-space:nowrap;color:var(--ink-2)}
 .ci__rm{font-size:12px;color:var(--muted);margin-top:8px;border-bottom:1px solid var(--line);
@@ -532,7 +536,7 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 
 <script>
 /* ===================== данные ===================== */
-const PRODUCTS = [{"id":"suit-boil","cat":"suits","name":"Костюм спортивный с эффектом варки","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL","3XL"],"out":["3XL"],"about":"Свободный силуэт из плотной ткани с эффектом варки: выразительная фактура и характерный оттенок. Худи нестандартного кроя с декоративными строчками держит форму, объёмные брюки дают расслабленный силуэт. Носится комплектом или по отдельности.","spec":[["Крой","свободный, oversize"],["Сезон","демисезон"],["Особенность","эффект варки, декоративные строчки"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°","Не сушить в машине"],"comp":"Худи: внешний слой 100% хлопок, подкладка 100% спандекс. Брюки: 100% хлопок.","variants":[{"page":"022","color":"Синий","hex":"#2f4f7a","price":11490,"old":14390,"imgs":["ed-glass-blue","ed-glass-blue-2","suit-boil_0_0","suit-boil_0_1","suit-boil_0_2","suit-boil_0_3","suit-boil_0_4","suit-boil_0_5","suit-boil_0_6","suit-boil_0_7"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null},{"page":"023","color":"Чёрный","hex":"#1b1b1b","price":11490,"old":14390,"imgs":["suit-boil_1_0","suit-boil_1_1","suit-boil_1_2","suit-boil_1_3","suit-boil_1_4","suit-boil_1_5","suit-boil_1_6"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null},{"page":"024","color":"Кирпичный","hex":"#c14a42","price":11490,"old":14390,"imgs":["ed-glass-red","suit-boil_2_0","suit-boil_2_1","suit-boil_2_2","suit-boil_2_3","suit-boil_2_4","suit-boil_2_5","suit-boil_2_6","suit-boil_2_7"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null}],"goesWith":["tshirt","pants-pleat"],"chart":null,"card":0},{"id":"suit-sport","cat":"suits","name":"Костюм спортивный утеплённый","stock":"in","sizes":["S","M","L","XL","2XL","3XL"],"out":["S"],"about":"Куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тёплый костюм на межсезонье, который не выглядит спортзалом.","spec":[["Крой","свободный"],["Сезон","демисезон, утеплённый"],["Вышивка","на груди куртки"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок 80%, полиэстер 20%. Подкладка брюк — флис.","variants":[{"page":"013","color":"Серый","hex":"#8a8a8a","price":10900,"old":null,"imgs":["ed-lib-back","suit-sport_0_0","suit-sport_0_1","suit-sport_0_2","suit-sport_0_3","suit-sport_0_4","suit-sport_0_5","suit-sport_0_6"],"desc":"Утеплённый спортивный костюм VNACHALE, серый: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и свобода движений.","chart":"https://static.tildacdn.com/tild3661-3163-4564-a435-373932353561/IMG_2594_1.png"},{"page":"014","color":"Чёрный","hex":"#1b1b1b","price":10900,"old":null,"imgs":["ed-cage-black-1","ed-flat-black","suit-sport_1_0","suit-sport_1_1","suit-sport_1_2","suit-sport_1_3"],"desc":"Утеплённый спортивный костюм VNACHALE, чёрный: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой — тепло и свобода движений.","chart":"https://static.tildacdn.com/tild3430-3331-4638-b163-616662396365/IMG_2593_1.png"},{"page":"015","color":"Синий","hex":"#27407a","price":10900,"old":null,"imgs":["ed-cage-mint-1","ed-cage-mint-2","ed-flat-mint","suit-sport_2_0","suit-sport_2_1","suit-sport_2_2"],"desc":"Утеплённый спортивный костюм VNACHALE, синий: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и лаконично.","chart":"https://static.tildacdn.com/tild6262-3563-4237-b264-616661366239/IMG_2597_1.png"}],"goesWith":["tshirt","longsleeve"],"chart":"suit-sport_chart","card":0},{"id":"suit-casual","cat":"suits","name":"Костюм кэжуал","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Современная классика свободного кроя: куртка на подкладке с вышивкой и брюки комфортной посадки. Сложный крой и конструктивные детали вместо логотипов.","spec":[["Крой","свободный"],["Сезон","демисезон"],["Детали","куртка на подкладке, вышивка"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок, полиэстер.","variants":[{"page":"004","color":"Серый","hex":"#9a9a97","price":12490,"old":15590,"imgs":["ed-mansion-1","ed-mansion-2","suit-casual_0_0","suit-casual_0_1","suit-casual_0_2","suit-casual_0_3","suit-casual_0_4","suit-casual_0_5","suit-casual_0_6","suit-casual_0_7"],"desc":"Современная классика свободного кроя Цвет: серый Куртка на подкладке с вышивкой Брюки комфортной посадки Матерал: хлопок 80% неопрен 20%","chart":null},{"page":"025","color":"Коричневый","hex":"#6b5140","price":12490,"old":15590,"imgs":["suit-casual_1_0","suit-casual_1_1","suit-casual_1_2","suit-casual_1_3","suit-casual_1_4","suit-casual_1_5","suit-casual_1_6","suit-casual_1_7"],"desc":"Костюм VNACHALE в стиле кэжуал casual с акцентом на сложный крой и конструктивные детали.","chart":null}],"goesWith":["longsleeve","shirt"],"chart":null,"card":0},{"id":"suit-purple","cat":"suits","name":"Костюм фиолетовый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Рубашка и шорты свободного кроя. Лёгкая ткань для жары. Носится комплектом или по отдельности — верх и низ продаются раздельно.","spec":[["Состав комплекта","рубашка + шорты"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"001","color":"Фиолетовый","hex":"#b9a7b0","price":10900,"old":null,"imgs":["ed-chair-1","suit-summer_0_0","suit-summer_0_1","suit-summer_0_2","suit-summer_0_3","suit-summer_0_4"],"desc":"Летний костюм VNACHALE, фиолетовый: рубашка и шорты свободного кроя. Лёгкая ткань для жары, носится комплектом или по отдельности. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["shirt","shorts"],"chart":"suit-summer_chart","card":0},{"id":"suit-graphite","cat":"suits","name":"Костюм графитовый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или по отдельности.","spec":[["Состав комплекта","рубашка + брюки"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"002","color":"Графитовый","hex":"#43454a","price":10900,"old":null,"imgs":["ed-street-1","suit-summer_1_0","suit-summer_1_1","suit-summer_1_2","suit-summer_1_3"],"desc":"Летний костюм VNACHALE, графит: рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или раздельно. Доставка по России.","chart":"https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}],"goesWith":["shirt","pants-summer"],"chart":"suit-summer_chart","card":0},{"id":"suit-grey","cat":"suits","name":"Костюм серый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Лёгкое худи и шорты. Мягкая ткань для тёплых дней. Носится комплектом или по отдельности.","spec":[["Состав комплекта","худи + шорты"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"003","color":"Серый","hex":"#9d9d9a","price":10900,"old":null,"imgs":["ed-brick-1","suit-summer_2_0","suit-summer_2_1","suit-summer_2_2","suit-summer_2_3","suit-summer_2_4","suit-summer_2_5","suit-summer_2_6","suit-summer_2_7"],"desc":"Летний костюм VNACHALE, серый: лёгкое худи и шорты. Мягкая ткань для тёплых дней, комплект или отдельные вещи на выбор. Доставка по России.","chart":null}],"goesWith":["hoodie-summer","shorts"],"chart":"suit-summer_chart","card":0},{"id":"jacket","cat":"outer","name":"Куртка-пуховик демисезонная","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S","2XL"],"about":"Гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло без объёма.","spec":[["Утеплитель","гусиный пух"],["Ткань","водоотталкивающая"],["Капюшон","отстёгивается"]],"care":["Стирка при 30°, деликатный режим","Сушить в расправленном виде","Не отбеливать"],"comp":"Верх: полиамид. Наполнитель: гусиный пух.","variants":[{"page":"021","color":"Чёрная","hex":"#1b1b1b","price":19900,"old":null,"imgs":["ed-lib-black-1","ed-lib-detail","jacket_0_0","jacket_0_1","jacket_0_2","jacket_0_3","jacket_0_4","jacket_0_5","jacket_0_6","jacket_0_7"],"desc":"Демисезонный пуховик VNACHALE, чёрный: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон. Тепло без объёма. Доставка по России.","chart":null},{"page":"020","color":"Белая","hex":"#cfc5b6","price":19900,"old":null,"imgs":["ed-puffer-1","ed-puffer-sit","ed-puffer-back","jacket_1_0","jacket_1_1","jacket_1_2"],"desc":"Демисезонный пуховик VNACHALE, белый: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло и лёгкость. Доставка по РФ.","chart":null}],"goesWith":["hoodie-boil","pants-summer"],"chart":null,"card":0},{"id":"hoodie-boil","cat":"top","name":"Худи с эффектом варки","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Оверсайз, утеплённый подклад, ткань-варка, вышивка-манифест на спине. Тёплое и тактильное.","spec":[["Крой","оверсайз"],["Особенность","вышивка на спине"],["Сезон","демисезон"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок 80%, полиэстер 20%.","variants":[{"page":"019","color":"Серый","hex":"#8f8f8c","price":7990,"old":null,"imgs":["ed-cord-1","ed-cord-detail","hoodie-boil_0_0","hoodie-boil_0_1","hoodie-boil_0_2"],"desc":"Худи VNACHALE оверсайз, серое: утеплённый подклад, ткань-варка, вышивка-манифест на спине. Хлопок 80%. Тёплое и тактильное. Доставка по России.","chart":null}],"goesWith":["pants-summer","tshirt"],"chart":null,"card":0},{"id":"hoodie-summer","cat":"top","name":"Худи летнее","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S"],"about":"Мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма летнего серого"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"005","color":"Серый","hex":"#9d9d9a","price":6690,"old":null,"imgs":["ed-brick-1","hoodie-summer_0_0","hoodie-summer_0_1","hoodie-summer_0_2","hoodie-summer_0_3","hoodie-summer_0_4","hoodie-summer_0_5","hoodie-summer_0_6"],"desc":"Лёгкое летнее худи VNACHALE, серое: мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами. Доставка по РФ.","chart":"https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}],"goesWith":["shorts","tshirt"],"chart":"hoodie-summer_chart","card":0},{"id":"shirt","cat":"top","name":"Рубашка летняя","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Свободный крой, лёгкая ткань для лета. Часть летнего костюма — можно взять отдельно или в комплекте с низом того же цвета.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма летнего"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"007","color":"Графитовая","hex":"#4a4a4d","price":5690,"old":null,"imgs":["ed-street-1","shirt_0_0","shirt_0_1","shirt_0_2","shirt_0_3","shirt_0_4","shirt_0_5","shirt_0_6","shirt_0_7"],"desc":"","chart":null},{"page":"009","color":"Фиолетовая","hex":"#c3b2ba","price":6690,"old":null,"imgs":["ed-chair-1","shirt_1_0","shirt_1_1","shirt_1_2","shirt_1_3","shirt_1_4","shirt_1_5"],"desc":"Мужская рубашка VNACHALE, фиолетовая: свободный крой, лёгкая ткань для лета. Часть фиолетового костюма — отдельно или с шортами. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["pants-summer","longsleeve"],"chart":"shirt_chart","card":0},{"id":"longsleeve","cat":"top","name":"Лонгслив","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Мягкий хлопок, свободный крой, лаконичная база под любой образ.","spec":[["Крой","свободный"],["Сезон","всесезон"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"016","color":"Чёрный","hex":"#1b1b1b","price":6990,"old":null,"imgs":["longsleeve_0_0","longsleeve_0_1","longsleeve_0_2","longsleeve_0_3","longsleeve_0_4","longsleeve_0_5","longsleeve_0_6","longsleeve_0_7"],"desc":"Мужской лонгслив VNACHALE, чёрный: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.","chart":null},{"page":"017","color":"Белый","hex":"#efece5","price":6990,"old":null,"imgs":["longsleeve_1_0","longsleeve_1_1","longsleeve_1_2","longsleeve_1_3","longsleeve_1_4","longsleeve_1_5","longsleeve_1_6","longsleeve_1_7"],"desc":"Мужской лонгслив VNACHALE, белый: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.","chart":null}],"goesWith":["pants-pleat","jacket"],"chart":null,"card":0},{"id":"tshirt","cat":"top","name":"Футболка оверсайз","stock":"in","sizes":["S","M","L","XL","2XL","3XL"],"out":[],"about":"Плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается со всем остальным.","spec":[["Крой","оверсайз"],["Плотность","плотный хлопок"],["Сезон","всесезон"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"011","color":"Чёрная","hex":"#1b1b1b","price":3900,"old":null,"imgs":["tshirt_0_0","tshirt_0_1","tshirt_0_2","tshirt_0_3"],"desc":"Мужская футболка VNACHALE оверсайз, чёрная: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.","chart":"https://static.tildacdn.com/tild3762-6166-4263-b166-313230333164/IMG_2592_1.png"},{"page":"012","color":"Белая","hex":"#efece5","price":3900,"old":null,"imgs":["tshirt_1_0","tshirt_1_1","tshirt_1_2","tshirt_1_3"],"desc":"Мужская футболка VNACHALE оверсайз, белая: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.","chart":"https://static.tildacdn.com/tild3133-6163-4565-b339-316562643066/IMG_2590_1_1.png"}],"goesWith":["pants-pleat","hoodie-boil"],"chart":"tshirt_chart","card":2},{"id":"pants-pleat","cat":"bottom","name":"Брюки с защипами","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Свободный крой с защипами, декоративные детали на поясе. 100% хлопок. Комфорт на каждый день.","spec":[["Крой","свободный, защипы"],["Пояс","декоративные детали"],["Сезон","всесезон"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"018","color":"Меланж","hex":"#e5dfd2","price":5990,"old":7490,"imgs":["pants-pleat_0_0","pants-pleat_0_1","pants-pleat_0_2","pants-pleat_0_3","pants-pleat_0_4","pants-pleat_0_5","pants-pleat_0_6"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":"https://static.tildacdn.com/tild3036-6437-4365-a465-653661666336/size_grid_with_S_gra.png"},{"page":"026","color":"Коричневые","hex":"#6b5140","price":5990,"old":7490,"imgs":["pants-pleat_1_0","pants-pleat_1_1","pants-pleat_1_2","pants-pleat_1_3","pants-pleat_1_4"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":null},{"page":"027","color":"Чёрные","hex":"#1b1b1b","price":5990,"old":7490,"imgs":["pants-pleat_2_0","pants-pleat_2_1","pants-pleat_2_2","pants-pleat_2_3","pants-pleat_2_4"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":null}],"goesWith":["tshirt","longsleeve"],"chart":"pants-pleat_chart","card":0},{"id":"pants-summer","cat":"bottom","name":"Брюки летние","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма графитового"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"008","color":"Графитовые","hex":"#4a4a4d","price":5690,"old":null,"imgs":["ed-street-1","pants-summer_0_0","pants-summer_0_1","pants-summer_0_2","pants-summer_0_3"],"desc":"Мужские брюки VNACHALE, графит: свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой. Доставка по РФ.","chart":"https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}],"goesWith":["shirt","tshirt"],"chart":"pants-summer_chart","card":0},{"id":"shorts","cat":"bottom","name":"Шорты","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S"],"about":"Свободный крой, лёгкая ткань. Часть летнего костюма — можно взять отдельно или с верхом того же цвета.","spec":[["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"006","color":"Серые","hex":"#9d9d9a","price":4890,"old":null,"imgs":["ed-brick-1","shorts_0_0","shorts_0_1","shorts_0_2","shorts_0_3","shorts_0_4","shorts_0_5","shorts_0_6"],"desc":"Мужские шорты VNACHALE, серые: свободный крой, лёгкая ткань. Часть серого летнего костюма — можно взять отдельно или с худи. Доставка по России.","chart":"https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"},{"page":"010","color":"Фиолетовые","hex":"#c3b2ba","price":4690,"old":null,"imgs":["ed-chair-1","shorts_1_0","shorts_1_1","shorts_1_2","shorts_1_3","shorts_1_4"],"desc":"Мужские шорты VNACHALE, фиолетовые: свободный крой, лёгкая ткань. Часть фиолетового костюма — можно взять отдельно или с рубашкой. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["hoodie-summer","tshirt"],"chart":"shorts_chart","card":0}];
+const PRODUCTS = [{"id":"suit-boil","cat":"suits","name":"Костюм спортивный с эффектом варки","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL","3XL"],"out":["3XL"],"about":"Свободный силуэт из плотной ткани с эффектом варки: выразительная фактура и характерный оттенок. Худи нестандартного кроя с декоративными строчками держит форму, объёмные брюки дают расслабленный силуэт. Носится комплектом или по отдельности.","spec":[["Крой","свободный, oversize"],["Сезон","демисезон"],["Особенность","эффект варки, декоративные строчки"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°","Не сушить в машине"],"comp":"Худи: внешний слой 100% хлопок, подкладка 100% спандекс. Брюки: 100% хлопок.","variants":[{"page":"022","color":"Синий","hex":"#2f4f7a","price":11490,"old":14390,"imgs":["suit-boil_0_0","ed-glass-blue","ed-glass-blue-2","suit-boil_0_1","suit-boil_0_2","suit-boil_0_3","suit-boil_0_4","suit-boil_0_5","suit-boil_0_6","suit-boil_0_7"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null},{"page":"023","color":"Чёрный","hex":"#1b1b1b","price":11490,"old":14390,"imgs":["suit-boil_1_0","suit-boil_1_1","suit-boil_1_2","suit-boil_1_3","suit-boil_1_4","suit-boil_1_5","suit-boil_1_6"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null},{"page":"024","color":"Кирпичный","hex":"#c14a42","price":11490,"old":14390,"imgs":["suit-boil_2_0","ed-glass-red","suit-boil_2_1","suit-boil_2_2","suit-boil_2_3","suit-boil_2_4","suit-boil_2_5","suit-boil_2_6","suit-boil_2_7"],"desc":"Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.","chart":null}],"goesWith":["tshirt","pants-pleat"],"chart":null,"card":1},{"id":"suit-sport","cat":"suits","name":"Костюм спортивный утеплённый","stock":"in","sizes":["S","M","L","XL","2XL","3XL"],"out":["S"],"about":"Куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тёплый костюм на межсезонье, который не выглядит спортзалом.","spec":[["Крой","свободный"],["Сезон","демисезон, утеплённый"],["Вышивка","на груди куртки"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок 80%, полиэстер 20%. Подкладка брюк — флис.","variants":[{"page":"013","color":"Серый","hex":"#8a8a8a","price":10900,"old":null,"imgs":["suit-sport_0_0","ed-lib-back","suit-sport_0_1","suit-sport_0_2","suit-sport_0_3","suit-sport_0_4","suit-sport_0_5","suit-sport_0_6"],"desc":"Утеплённый спортивный костюм VNACHALE, серый: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и свобода движений.","chart":"https://static.tildacdn.com/tild3661-3163-4564-a435-373932353561/IMG_2594_1.png"},{"page":"014","color":"Чёрный","hex":"#1b1b1b","price":10900,"old":null,"imgs":["suit-sport_1_0","ed-cage-black-1","ed-flat-black","suit-sport_1_1","suit-sport_1_2","suit-sport_1_3"],"desc":"Утеплённый спортивный костюм VNACHALE, чёрный: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой — тепло и свобода движений.","chart":"https://static.tildacdn.com/tild3430-3331-4638-b163-616662396365/IMG_2593_1.png"},{"page":"015","color":"Синий","hex":"#27407a","price":10900,"old":null,"imgs":["suit-sport_2_0","ed-cage-mint-1","ed-cage-mint-2","ed-flat-mint","suit-sport_2_1","suit-sport_2_2"],"desc":"Утеплённый спортивный костюм VNACHALE, синий: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и лаконично.","chart":"https://static.tildacdn.com/tild6262-3563-4237-b264-616661366239/IMG_2597_1.png"}],"goesWith":["tshirt","longsleeve"],"chart":"suit-sport_chart","card":1},{"id":"suit-casual","cat":"suits","name":"Костюм кэжуал","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Современная классика свободного кроя: куртка на подкладке с вышивкой и брюки комфортной посадки. Сложный крой и конструктивные детали вместо логотипов.","spec":[["Крой","свободный"],["Сезон","демисезон"],["Детали","куртка на подкладке, вышивка"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок, полиэстер.","variants":[{"page":"004","color":"Серый","hex":"#9a9a97","price":12490,"old":15590,"imgs":["suit-casual_0_0","ed-mansion-1","ed-mansion-2","suit-casual_0_1","suit-casual_0_2","suit-casual_0_3","suit-casual_0_4","suit-casual_0_5","suit-casual_0_6","suit-casual_0_7"],"desc":"Современная классика свободного кроя Цвет: серый Куртка на подкладке с вышивкой Брюки комфортной посадки Матерал: хлопок 80% неопрен 20%","chart":null},{"page":"025","color":"Коричневый","hex":"#6b5140","price":12490,"old":15590,"imgs":["suit-casual_1_0","suit-casual_1_1","suit-casual_1_2","suit-casual_1_3","suit-casual_1_4","suit-casual_1_5","suit-casual_1_6","suit-casual_1_7"],"desc":"Костюм VNACHALE в стиле кэжуал casual с акцентом на сложный крой и конструктивные детали.","chart":null}],"goesWith":["longsleeve","shirt"],"chart":null,"card":1},{"id":"suit-purple","cat":"suits","name":"Костюм фиолетовый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Рубашка и шорты свободного кроя. Лёгкая ткань для жары. Носится комплектом или по отдельности — верх и низ продаются раздельно.","spec":[["Состав комплекта","рубашка + шорты"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"001","color":"Фиолетовый","hex":"#b9a7b0","price":10900,"old":null,"imgs":["suit-summer_0_0","ed-chair-1","suit-summer_0_1","suit-summer_0_2","suit-summer_0_3","suit-summer_0_4"],"desc":"Летний костюм VNACHALE, фиолетовый: рубашка и шорты свободного кроя. Лёгкая ткань для жары, носится комплектом или по отдельности. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["shirt","shorts"],"chart":"suit-summer_chart","card":1},{"id":"suit-graphite","cat":"suits","name":"Костюм графитовый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или по отдельности.","spec":[["Состав комплекта","рубашка + брюки"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"002","color":"Графитовый","hex":"#43454a","price":10900,"old":null,"imgs":["suit-summer_1_0","ed-street-1","suit-summer_1_1","suit-summer_1_2","suit-summer_1_3"],"desc":"Летний костюм VNACHALE, графит: рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или раздельно. Доставка по России.","chart":"https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}],"goesWith":["shirt","pants-summer"],"chart":"suit-summer_chart","card":1},{"id":"suit-grey","cat":"suits","name":"Костюм серый","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Лёгкое худи и шорты. Мягкая ткань для тёплых дней. Носится комплектом или по отдельности.","spec":[["Состав комплекта","худи + шорты"],["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"003","color":"Серый","hex":"#9d9d9a","price":10900,"old":null,"imgs":["suit-summer_2_0","ed-brick-1","suit-summer_2_1","suit-summer_2_2","suit-summer_2_3","suit-summer_2_4","suit-summer_2_5","suit-summer_2_6","suit-summer_2_7"],"desc":"Летний костюм VNACHALE, серый: лёгкое худи и шорты. Мягкая ткань для тёплых дней, комплект или отдельные вещи на выбор. Доставка по России.","chart":null}],"goesWith":["hoodie-summer","shorts"],"chart":"suit-summer_chart","card":1},{"id":"jacket","cat":"outer","name":"Куртка-пуховик демисезонная","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S","2XL"],"about":"Гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло без объёма.","spec":[["Утеплитель","гусиный пух"],["Ткань","водоотталкивающая"],["Капюшон","отстёгивается"]],"care":["Стирка при 30°, деликатный режим","Сушить в расправленном виде","Не отбеливать"],"comp":"Верх: полиамид. Наполнитель: гусиный пух.","variants":[{"page":"021","color":"Чёрная","hex":"#1b1b1b","price":19900,"old":null,"imgs":["jacket_0_0","ed-lib-black-1","ed-lib-detail","jacket_0_1","jacket_0_2","jacket_0_3","jacket_0_4","jacket_0_5","jacket_0_6","jacket_0_7"],"desc":"Демисезонный пуховик VNACHALE, чёрный: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон. Тепло без объёма. Доставка по России.","chart":null},{"page":"020","color":"Белая","hex":"#cfc5b6","price":19900,"old":null,"imgs":["jacket_1_0","ed-puffer-1","ed-puffer-sit","ed-puffer-back","jacket_1_1","jacket_1_2"],"desc":"Демисезонный пуховик VNACHALE, белый: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло и лёгкость. Доставка по РФ.","chart":null}],"goesWith":["hoodie-boil","pants-summer"],"chart":null,"card":1},{"id":"hoodie-boil","cat":"top","name":"Худи с эффектом варки","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Оверсайз, утеплённый подклад, ткань-варка, вышивка-манифест на спине. Тёплое и тактильное.","spec":[["Крой","оверсайз"],["Особенность","вышивка на спине"],["Сезон","демисезон"]],"care":["Стирка при 30°","Не отбеливать","Гладить при 110°"],"comp":"Хлопок 80%, полиэстер 20%.","variants":[{"page":"019","color":"Серый","hex":"#8f8f8c","price":7990,"old":null,"imgs":["hoodie-boil_0_0","ed-cord-1","ed-cord-detail","hoodie-boil_0_1","hoodie-boil_0_2"],"desc":"Худи VNACHALE оверсайз, серое: утеплённый подклад, ткань-варка, вышивка-манифест на спине. Хлопок 80%. Тёплое и тактильное. Доставка по России.","chart":null}],"goesWith":["pants-summer","tshirt"],"chart":null,"card":1},{"id":"hoodie-summer","cat":"top","name":"Худи летнее","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S"],"about":"Мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма летнего серого"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"005","color":"Серый","hex":"#9d9d9a","price":6690,"old":null,"imgs":["hoodie-summer_0_0","ed-brick-1","hoodie-summer_0_1","hoodie-summer_0_2","hoodie-summer_0_3","hoodie-summer_0_4","hoodie-summer_0_5","hoodie-summer_0_6"],"desc":"Лёгкое летнее худи VNACHALE, серое: мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами. Доставка по РФ.","chart":"https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}],"goesWith":["shorts","tshirt"],"chart":"hoodie-summer_chart","card":1},{"id":"shirt","cat":"top","name":"Рубашка летняя","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Свободный крой, лёгкая ткань для лета. Часть летнего костюма — можно взять отдельно или в комплекте с низом того же цвета.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма летнего"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"007","color":"Графитовая","hex":"#4a4a4d","price":5690,"old":null,"imgs":["shirt_0_0","ed-street-1","shirt_0_1","shirt_0_2","shirt_0_3","shirt_0_4","shirt_0_5","shirt_0_6","shirt_0_7"],"desc":"","chart":null},{"page":"009","color":"Фиолетовая","hex":"#c3b2ba","price":6690,"old":null,"imgs":["shirt_1_0","ed-chair-1","shirt_1_1","shirt_1_2","shirt_1_3","shirt_1_4","shirt_1_5"],"desc":"Мужская рубашка VNACHALE, фиолетовая: свободный крой, лёгкая ткань для лета. Часть фиолетового костюма — отдельно или с шортами. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["pants-summer","longsleeve"],"chart":"shirt_chart","card":1},{"id":"longsleeve","cat":"top","name":"Лонгслив","stock":"in","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Мягкий хлопок, свободный крой, лаконичная база под любой образ.","spec":[["Крой","свободный"],["Сезон","всесезон"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"016","color":"Чёрный","hex":"#1b1b1b","price":6990,"old":null,"imgs":["longsleeve_0_0","longsleeve_0_1","longsleeve_0_2","longsleeve_0_3","longsleeve_0_4","longsleeve_0_5","longsleeve_0_6","longsleeve_0_7"],"desc":"Мужской лонгслив VNACHALE, чёрный: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.","chart":null},{"page":"017","color":"Белый","hex":"#efece5","price":6990,"old":null,"imgs":["longsleeve_1_0","longsleeve_1_1","longsleeve_1_2","longsleeve_1_3","longsleeve_1_4","longsleeve_1_5","longsleeve_1_6","longsleeve_1_7"],"desc":"Мужской лонгслив VNACHALE, белый: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.","chart":null}],"goesWith":["pants-pleat","jacket"],"chart":null,"card":0},{"id":"tshirt","cat":"top","name":"Футболка оверсайз","stock":"in","sizes":["S","M","L","XL","2XL","3XL"],"out":[],"about":"Плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается со всем остальным.","spec":[["Крой","оверсайз"],["Плотность","плотный хлопок"],["Сезон","всесезон"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"011","color":"Чёрная","hex":"#1b1b1b","price":3900,"old":null,"imgs":["tshirt_0_0","tshirt_0_1","tshirt_0_2","tshirt_0_3"],"desc":"Мужская футболка VNACHALE оверсайз, чёрная: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.","chart":"https://static.tildacdn.com/tild3762-6166-4263-b166-313230333164/IMG_2592_1.png"},{"page":"012","color":"Белая","hex":"#efece5","price":3900,"old":null,"imgs":["tshirt_1_0","tshirt_1_1","tshirt_1_2","tshirt_1_3"],"desc":"Мужская футболка VNACHALE оверсайз, белая: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.","chart":"https://static.tildacdn.com/tild3133-6163-4565-b339-316562643066/IMG_2590_1_1.png"}],"goesWith":["pants-pleat","hoodie-boil"],"chart":"tshirt_chart","card":0},{"id":"pants-pleat","cat":"bottom","name":"Брюки с защипами","stock":"preorder","eta":"1–10 октября","sizes":["S","M","L","XL","2XL"],"out":[],"about":"Свободный крой с защипами, декоративные детали на поясе. 100% хлопок. Комфорт на каждый день.","spec":[["Крой","свободный, защипы"],["Пояс","декоративные детали"],["Сезон","всесезон"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"018","color":"Меланж","hex":"#e5dfd2","price":5990,"old":7490,"imgs":["pants-pleat_0_0","pants-pleat_0_1","pants-pleat_0_2","pants-pleat_0_3","pants-pleat_0_4","pants-pleat_0_5","pants-pleat_0_6"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":"https://static.tildacdn.com/tild3036-6437-4365-a465-653661666336/size_grid_with_S_gra.png"},{"page":"026","color":"Коричневые","hex":"#6b5140","price":5990,"old":7490,"imgs":["pants-pleat_1_0","pants-pleat_1_1","pants-pleat_1_2","pants-pleat_1_3","pants-pleat_1_4"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":null},{"page":"027","color":"Чёрные","hex":"#1b1b1b","price":5990,"old":7490,"imgs":["pants-pleat_2_0","pants-pleat_2_1","pants-pleat_2_2","pants-pleat_2_3","pants-pleat_2_4"],"desc":"Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.","chart":null}],"goesWith":["tshirt","longsleeve"],"chart":"pants-pleat_chart","card":0},{"id":"pants-summer","cat":"bottom","name":"Брюки летние","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["2XL"],"about":"Свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой.","spec":[["Крой","свободный"],["Сезон","лето"],["Комплект","часть костюма графитового"]],"care":["Стирка при 30°","Гладить при 110°"],"comp":"100% хлопок.","variants":[{"page":"008","color":"Графитовые","hex":"#4a4a4d","price":5690,"old":null,"imgs":["pants-summer_0_0","ed-street-1","pants-summer_0_1","pants-summer_0_2","pants-summer_0_3"],"desc":"Мужские брюки VNACHALE, графит: свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой. Доставка по РФ.","chart":"https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}],"goesWith":["shirt","tshirt"],"chart":"pants-summer_chart","card":1},{"id":"shorts","cat":"bottom","name":"Шорты","stock":"in","sizes":["S","M","L","XL","2XL"],"out":["S"],"about":"Свободный крой, лёгкая ткань. Часть летнего костюма — можно взять отдельно или с верхом того же цвета.","spec":[["Крой","свободный"],["Сезон","лето"]],"care":["Стирка при 30°","Не отбеливать"],"comp":"100% хлопок.","variants":[{"page":"006","color":"Серые","hex":"#9d9d9a","price":4890,"old":null,"imgs":["shorts_0_0","ed-brick-1","shorts_0_1","shorts_0_2","shorts_0_3","shorts_0_4","shorts_0_5","shorts_0_6"],"desc":"Мужские шорты VNACHALE, серые: свободный крой, лёгкая ткань. Часть серого летнего костюма — можно взять отдельно или с худи. Доставка по России.","chart":"https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"},{"page":"010","color":"Фиолетовые","hex":"#c3b2ba","price":4690,"old":null,"imgs":["shorts_1_0","ed-chair-1","shorts_1_1","shorts_1_2","shorts_1_3","shorts_1_4"],"desc":"Мужские шорты VNACHALE, фиолетовые: свободный крой, лёгкая ткань. Часть фиолетового костюма — можно взять отдельно или с рубашкой. Доставка по России.","chart":"https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}],"goesWith":["hoodie-summer","tshirt"],"chart":"shorts_chart","card":1}];
 
 const CATS = [
   {id:'suits',  name:'Костюмы', cover:'ed-cage-mint-2'},
@@ -607,8 +611,12 @@ function paintCart(){
     return `<div class="ci">
       <img src="${im(v.imgs[0],'s')}" alt="" loading="lazy">
       <div>
-        <div class="ci__n">${esc(p.name)}</div>
-        <div class="ci__m">${esc(v.color)} · размер ${i.size}</div>
+        <a class="ci__n" href="#/p/${p.pid ? p.pid : p.id}?v=${i.vi}&size=${i.size}" data-close>${esc(p.name)}</a>
+        <div class="ci__m">${esc(v.color)} · размер
+          <select class="ci__size" data-size="${i.key}">
+            ${p.sizes.filter(z=>!p.out.includes(z)).map(z=>`<option${z===i.size?' selected':''}>${z}</option>`).join('')}
+          </select>
+        </div>
         ${p.stock==='preorder'?`<div class="ci__pre">Предзаказ · отправим после 10 октября</div>`:''}
         <div class="qty">
           <button data-q="${i.key}|-1" aria-label="Меньше">−</button>
@@ -649,8 +657,10 @@ function sheetOpen(id){
   document.body.classList.add('locked');
 }
 function sheetClose(){
+  const was = openSheet;
   if(openSheet){ $(openSheet).classList.remove('on'); $(openSheet).setAttribute('aria-hidden','true'); }
   openSheet = null;
+  if(was === '#sizeguide' && pickReturn){ const go = pickReturn; pickReturn = null; setTimeout(go, 120); return; }
   $('#scrim').classList.remove('on');
   if(!$('#menu').classList.contains('on')) document.body.classList.remove('locked');
 }
@@ -658,6 +668,8 @@ $('#scrim').addEventListener('click', ()=>{ sheetClose(); menuClose(); });
 document.addEventListener('click', e=>{
   if(e.target.closest('[data-close]')) sheetClose();
   const rm = e.target.closest('[data-rm]'); if(rm) cartRm(rm.dataset.rm);
+  const sel = e.target.closest('[data-size]');
+  if(sel) return;
   const q = e.target.closest('[data-q]');
   if(q){
     // ключ строки сам содержит «|», поэтому режем только по последнему
@@ -666,8 +678,19 @@ document.addEventListener('click', e=>{
   }
   if(e.target.closest('[data-promo]')) toast('Промокод — проверка на стороне сервера');
   if(e.target.closest('[data-checkout]')) toast('Оформление — следующий экран');
+  const nf = e.target.closest('[data-notify]');
+  if(nf){ e.preventDefault(); const [pid, size] = nf.dataset.notify.split('|'); openNotify(pid, size); }
 });
 $('#cartbtn').addEventListener('click', ()=>sheetOpen('cart'));
+document.addEventListener('change', e=>{
+  const sel = e.target.closest('[data-size]');
+  if(!sel) return;
+  const key = sel.dataset.size, it = CART.find(i=>i.key===key);
+  if(!it) return;
+  it.size = sel.value;
+  it.key = it.pid + '|' + it.vi + '|' + it.size;
+  saveCart(); paintCart();
+});
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ sheetClose(); menuClose(); } });
 
 let toastT;
@@ -724,10 +747,22 @@ $$('#menub a').forEach(a=>a.addEventListener('click', menuClose));
 /* ===================== поиск ===================== */
 $('#searchbtn').addEventListener('click', ()=>{ sheetOpen('search'); paintSearch(''); setTimeout(()=>$('#sq').focus(), 320); });
 $('#sq').addEventListener('input', e=>paintSearch(e.target.value));
+const SYN = {
+  'штаны':'брюки', 'треники':'брюки', 'спортивки':'костюм',
+  'свитшот':'худи', 'толстовка':'худи', 'кофта':'худи',
+  'футболки':'футболка', 'куртка':'пуховик', 'верхняя':'пуховик',
+  'майка':'футболка', 'шорты':'шорты', 'рубаха':'рубашка'
+};
+function searchHay(p){
+  return (p.name + ' ' + p.variants.map(v=>v.color).join(' ') + ' ' + catName(p.cat) + ' ' +
+          p.about + ' ' + p.spec.map(x=>x.join(' ')).join(' ')).toLowerCase();
+}
 function paintSearch(q){
   const t = q.trim().toLowerCase();
+  // ищем по словам: «спортивный костюм» находит «Костюм спортивный утеплённый»
+  const words = t.split(/[\s,]+/).filter(Boolean).map(w => SYN[w] || w);
   const list = !t ? PRODUCTS.filter(inStock).slice(0,6)
-    : PRODUCTS.filter(p => (p.name+' '+p.variants.map(v=>v.color).join(' ')+' '+catName(p.cat)).toLowerCase().includes(t));
+    : PRODUCTS.filter(p => { const hay = searchHay(p); return words.every(w => hay.includes(w)); });
   $('#sres').innerHTML = (!t ? '<div class="flab"><span>Популярное</span></div>' : '')
     + (list.length ? list.map(p=>`<a class="ci" href="#/p/${p.id}" data-close style="grid-template-columns:54px 1fr auto">
         <img src="${im(p.variants[0].imgs[0],'s')}" alt="" loading="lazy" style="width:54px">
@@ -756,7 +791,7 @@ function cardHTML(p, d){
     </a>
     <div class="card__b">
       <a href="#/p/${p.id}"><div class="card__n">${esc(p.name)}</div>
-      <div class="card__p tnum"><span>${money(price)}</span>${old?`<s>${money(old)}</s>`:''}</div></a>
+      <div class="card__p tnum"><span>${p.variants.some(x=>x.price!==price)?'от ':''}${money(price)}</span>${old?`<s>${money(old)}</s>`:''}</div></a>
       ${meta?`<div class="card__meta">${meta}</div>`:''}
       <button class="card__buy" data-pick="${p.id}">${p.stock==='preorder'?'Предзаказать':'Купить'}</button>
     </div>
@@ -949,7 +984,7 @@ function viewProduct(id, q){
         <h1 class="pdp__t">${esc(p.name)}</h1>
         <div class="pr tnum"><b>${money(v.price)}</b>${v.old?`<s>${money(v.old)}</s>`:''}</div>
         <div class="split">или ${money(Math.round(v.price/4))} × 4 платежа · Яндекс Сплит${
-          p.stock==='preorder' ? '<br>Предзаказ · поступление '+p.eta+' 2026' : ''}</div>
+          p.stock==='preorder' ? '<br>Предзаказ · поступление '+p.eta+' 2026 года' : ''}</div>
 
         ${p.variants.length>1 ? `
         <div class="flab"><span class="hand">Цвет: ${esc(v.color.toLowerCase())}</span></div>
@@ -1119,9 +1154,13 @@ function footerHTML(){
 }
 
 /* ===================== роутер ===================== */
+let lastPath = null;               // где были до перерисовки
+const scrollMemo = Object.create(null);  // и на какой высоте стояли
+
 function route(){
   const raw = location.hash.slice(1) || '/';
   const [path, qs] = raw.split('?');
+  if(lastPath !== null) scrollMemo[lastPath] = window.scrollY;
   const q = new URLSearchParams(qs||'');
   let html = '';
   if(path === '/' || path === '') html = viewHome();
@@ -1137,14 +1176,23 @@ function route(){
         <a class="size" style="min-width:auto;padding:0 18px" href="#/">На главную</a>
       </div></div></div>`;
   $('#app').innerHTML = html + footerHTML();
+  const same = path === lastPath;          // сменили размер или цвет — страница та же
+  const back = scrollMemo[path];           // вернулись назад — помним высоту
+  lastPath = path;
+  const keep = same ? scrollMemo[path] : (typeof back === 'number' ? back : 0);
   const sh = new URLSearchParams(location.search).get('scroll');
   if(sh){
     // ждём, пока картинки дадут странице настоящую высоту, иначе прокрутка упрётся в ноль
-    const go = () => window.scrollTo(0, +sh);
+    const go = () => window.scrollTo({top:+sh, behavior:'instant'});
     go(); requestAnimationFrame(go);
     setTimeout(go, 350); setTimeout(go, 1200); setTimeout(go, 2500);
     addEventListener('load', go, {once:true});
-  } else window.scrollTo(0,0);
+  } else if(keep){
+    // повторяем, пока картинки не дадут странице настоящую высоту
+    const go = () => window.scrollTo({top:keep, behavior:'instant'});
+    go(); requestAnimationFrame(go);
+    setTimeout(go, 120); setTimeout(go, 420); setTimeout(go, 900);
+  } else window.scrollTo({top:0, behavior:'instant'});
   wire(path, q);
 }
 
@@ -1204,12 +1252,6 @@ function wire(path, q){
   }));
 
   $$('[data-look]').forEach(b=>b.addEventListener('click', ()=>openLook(+b.dataset.look)));
-
-  $$('[data-notify]').forEach(b=>b.addEventListener('click', e=>{
-    e.preventDefault();
-    const [pid, size] = b.dataset.notify.split('|');
-    openNotify(pid, size);
-  }));
 
   $$('[data-scroll]').forEach(b=>b.addEventListener('click', ()=>{
     const el = document.getElementById(b.dataset.scroll);
@@ -1278,6 +1320,8 @@ function catalogInit(q){
   });
 }
 
+let pickReturn = null;   // куда вернуться, закрыв размерную сетку
+
 function openNotify(pid, size){
   const p = byId(pid);
   $('#pickt').textContent = 'Нет в наличии';
@@ -1318,9 +1362,9 @@ function openLook(li){
   sheetOpen('pick');
 }
 
-function openPick(pid){
+function openPick(pid, startV, startS){
   const p = byId(pid);
-  let vi = 0, size = null;
+  let vi = startV || 0, size = startS || null;
   const paint = () => {
     const v = p.variants[vi];
     $('#pickt').textContent = p.name;
@@ -1345,7 +1389,12 @@ function openPick(pid){
       size ? (p.stock==='preorder' ? 'Оформить предзаказ' : 'В корзину') + ' · ' + money(v.price) : 'Выберите размер'}</button>`;
     $$('#pickb [data-v]').forEach(b=>b.addEventListener('click',()=>{ vi = +b.dataset.v; paint(); }));
     $$('#pickb [data-s]').forEach(b=>b.addEventListener('click',()=>{ size = b.dataset.s; paint(); }));
-    $('#pickb [data-sgp]')?.addEventListener('click', e=>{ e.preventDefault(); $('#sgb').innerHTML = sizeTable(p); sheetOpen('sizeguide'); });
+    $('#pickb [data-sgp]')?.addEventListener('click', e=>{
+      e.preventDefault();
+      pickReturn = () => { openPick(p.id, vi, size); };   // вернём и цвет, и размер
+      $('#sgb').innerHTML = sizeTable(p);
+      sheetOpen('sizeguide');
+    });
     $('#pickf [data-go]')?.addEventListener('click',()=>{ if(size){ cartAdd(p.id, vi, size); sheetClose();
       toast(p.stock==='preorder' ? 'Добавлено в предзаказ' : 'Добавлено в корзину'); } });
   };
