@@ -28,6 +28,7 @@
   --hand:'Vnachale','Helvetica Neue',Helvetica,Arial,sans-serif;
   --display:'Golos Text','Helvetica Neue',Helvetica,Arial,sans-serif;
   --sans:'Golos Text',Helvetica,'Helvetica Neue',Arial,sans-serif;
+  --wrap:1600px;
   --gut:20px;
   --rhythm:56px;
   --step:36px;
@@ -38,6 +39,7 @@
 }
 @media (min-width:900px){ :root{ --gut:56px; --rhythm:88px; --step:44px; --head:64px; --note:30px } }
 @media (min-width:1440px){ :root{ --gut:72px; --rhythm:104px } }
+@media (min-width:1700px){ :root{ --gut:88px } }
 
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
@@ -53,7 +55,9 @@ a{color:inherit;text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .tnum{font-variant-numeric:tabular-nums}
 .muted{color:var(--muted)}
-.bleed{width:100vw;margin-left:calc(50% - 50vw)}
+/* 100vw включает полосу прокрутки и давало 7 px горизонтального выезда;
+   родитель у баннера и так во всю ширину */
+.bleed{width:100%}
 
 /* ---------- проявление: только прозрачность, медленно ---------- */
 .rv{transition:opacity .9s var(--slow);transition-delay:var(--d,0ms)}
@@ -64,14 +68,14 @@ a{color:inherit;text-decoration:none}
 }
 
 /* ---------- раскладка ---------- */
-.wrap{padding-inline:var(--gut)}
+.wrap{padding-inline:var(--gut);max-width:var(--wrap);margin-inline:auto}
 section{padding-block:var(--rhythm)}
 .lbl{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);white-space:nowrap}
-.headline{display:flex;align-items:center;gap:22px;margin-bottom:var(--step)}
-.headline::after{content:'';flex:1;height:1px;background:var(--line);order:5}
+.headline{display:flex;align-items:flex-end;gap:22px;margin-bottom:var(--step)}
+.headline::after{content:'';flex:1;height:1px;background:var(--line);order:5;margin-bottom:6px}
 .num{font-size:12px;letter-spacing:.14em;color:var(--muted);order:-1}
 .more{order:9;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;
-  border-bottom:1px solid var(--line);padding:12px 0 3px;transition:opacity .2s var(--ease)}
+  border-bottom:1px solid var(--line);padding:0 0 5px;transition:opacity .2s var(--ease)}
 .more:hover{opacity:.55}
 
 /* красная нить — один раз на страницу, от края листа */
@@ -83,7 +87,7 @@ section{padding-block:var(--rhythm)}
 /* ---------- объявление: статичное, не ползёт ---------- */
 .ann{position:fixed;top:0;left:0;right:0;z-index:56;background:var(--ink);color:#fff;display:flex;align-items:center;gap:12px;
   padding:9px var(--gut) 9px;padding-top:calc(9px + env(safe-area-inset-top,0px))}
-.ann p{margin:0;flex:1;font-size:13px;line-height:1.35}
+.ann p{margin:0;flex:1;font-size:11px;letter-spacing:.12em;text-transform:uppercase;line-height:1.4}
 .ann a{border-bottom:1px solid rgba(255,255,255,.5)}
 .ann button{flex:0 0 auto;width:26px;height:26px;display:grid;place-items:center;opacity:.55}
 .ann button svg{width:10px;height:10px;stroke:#fff;stroke-width:1.5;fill:none}
@@ -109,7 +113,16 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 @media (min-width:1100px){ .hdr__nav{display:flex} }
 .hdr__logo{justify-self:center;display:block;line-height:0}
 .hdr__logo img{height:19px;width:auto}
-.hdr__cart{font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;padding:16px 0;margin:-16px 0}
+.hdr__cart{font-size:11px;letter-spacing:.14em;text-transform:uppercase;white-space:nowrap;
+  padding:16px 0;margin:-16px 0;display:flex;align-items:center;gap:6px}
+.hdr__cart-i{display:none}
+.hdr__cart #cartn{font-variant-numeric:tabular-nums}
+@media (max-width:719px){
+  /* текст «Корзина (1)» наезжал на логотип и дёргал его при каждом изменении счётчика */
+  .hdr__cart-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .hdr__cart-i{display:block}
+  .hdr__l,.hdr__r{min-width:84px}
+}
 #searchbtn{padding:15px 8px;margin:-15px -8px}
 .burger{width:22px;height:11px;position:relative;display:block;padding:17px 11px;box-sizing:content-box;margin:-17px -11px}
 @media (min-width:1100px){ .burger{display:none} }
@@ -149,18 +162,18 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 
 /* ---------- кнопки ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  min-height:58px;padding:17px 24px;background:var(--ink);color:#fff;border:1px solid var(--ink);
-  font-size:11px;letter-spacing:.14em;text-transform:uppercase;line-height:1.3;text-align:center;
+  min-height:52px;padding:16px 28px;background:var(--ink);color:#fff;border:1px solid var(--ink);
+  font-size:12px;letter-spacing:.12em;text-transform:uppercase;line-height:1.3;text-align:center;
+  width:max-content;max-width:100%;justify-self:start;
   transition:opacity .2s var(--ease)}
 .btn:hover{opacity:.82}
 .btn--out{background:transparent;color:var(--ink)}
 .btn--out:hover{background:var(--ink);color:#fff;opacity:1}
-.btn--ghost{background:transparent;color:#fff;border-color:rgba(255,255,255,.5)}
+.btn--ghost{background:transparent;color:#fff;border-color:#fff}
 .btn--ghost:hover{background:#fff;color:var(--ink);border-color:#fff;opacity:1}
-.btn--w{width:100%}
+.btn--w{width:100%;max-width:none}
 .btn[disabled]{opacity:.28;pointer-events:none}
-.btn--wait{background:var(--ink);color:#fff;border-color:var(--ink);opacity:.62}
-.btn--wait:hover{opacity:.82}
+.hint{font-size:12px;color:var(--muted);padding-top:10px}
 .sizes.ask .size{animation:ask .5s var(--ease) 2}
 @keyframes ask{0%,100%{border-color:var(--line-2)}50%{border-color:var(--ink)}}
 @media (prefers-reduced-motion:reduce){.sizes.ask .size{animation:none;border-color:var(--ink)}}
@@ -174,14 +187,15 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 @media (min-width:900px){ .hero{height:100vh} }
 .hero img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
 .hero__v{position:absolute;inset:0;
-  background:linear-gradient(to top,rgba(0,0,0,.34),rgba(0,0,0,.08) 34%,transparent 62%)}
+  background:linear-gradient(to top,rgba(0,0,0,.34),rgba(0,0,0,.08) 34%,transparent 62%),
+             linear-gradient(to bottom,rgba(0,0,0,.28),transparent 18%)}
 .hero__t{position:absolute;left:0;right:0;bottom:0;padding:0 var(--gut) clamp(34px,6vh,64px);color:#fff}
 .hero__k{display:block;font-size:clamp(11px,.9vw,14px);letter-spacing:.14em;text-transform:uppercase;margin-bottom:20px;opacity:.88}
 .hero__h{display:block;font-family:var(--hand);font-weight:400;
   font-size:clamp(52px,11vw,210px);line-height:.88;letter-spacing:-.01em;max-width:11ch}
 .hero__m{display:inline-block;margin-top:clamp(28px,4vh,44px);font-size:clamp(12px,.9vw,15px);
   letter-spacing:.14em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.6);padding-bottom:5px}
-.hero__alt{display:block;font-size:14px;color:var(--ink-2);padding:26px 0 0}
+.hero__alt{display:block;font-size:14px;color:var(--ink-2);padding:48px 0 0}
 .hero__alt b{font-weight:500;color:var(--ink);border-bottom:1px solid var(--line)}
 .js-rv .hero__k,.js-rv .hero__h,.js-rv .hero__m{opacity:0;transition:opacity 1s var(--slow)}
 .js-rv .hero.in .hero__k{opacity:.88;transition-delay:.2s}
@@ -199,10 +213,12 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 /* ---------- категории ---------- */
 .cats{display:grid;grid-template-columns:1fr 1fr;gap:var(--gut)}
 @media (min-width:900px){.cats{grid-template-columns:repeat(4,1fr)}}
-.cat{display:block}
-.cat img{width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--mist)}
+.cat{display:block;overflow:hidden}
+.cat img{width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--mist);
+  transition:transform .6s var(--slow)}
+@media (hover:hover){.cat:hover img{transform:scale(1.015)}}
 @media (min-width:900px){.cat img{aspect-ratio:2/3}}
-.cat__n{display:block;padding-top:14px;font-size:14px;line-height:1.35}
+.cat__n{display:block;padding-top:18px;font-size:16px;line-height:1.35}
 .cat:hover .cat__n{opacity:.55}
 
 /* ---------- плитка товара ---------- */
@@ -213,13 +229,18 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 .card:hover .card__l img.b{opacity:1}
 .card__b{display:block;padding-top:14px}
 @media (min-width:900px){.card__b{padding-top:18px}}
-.card__n{font-size:15px;line-height:1.35;margin-bottom:6px}
-.card__p{font-size:14px;color:var(--ink);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
-.card__p s{color:var(--muted);font-size:12px}
-.card__p em{font-style:normal;color:var(--muted);font-size:12px}
+.card__n{font-size:15px;line-height:1.35;margin-bottom:7px}
+.card__p{font-size:16px;color:var(--ink);display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;
+  font-variant-numeric:tabular-nums}
+.card__p s{color:var(--muted);font-size:13px}
+.card__p em{font-style:normal;color:var(--muted);font-size:13px;margin-left:-3px}
 .card__meta{font-size:12px;color:var(--muted);margin-top:6px}
-.card__buy{margin-top:11px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
-  border-bottom:1px solid var(--line);padding:12px 0 3px;transition:opacity .2s}
+.card__buy{margin-top:11px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  border-bottom:1px solid var(--line);padding:12px 0 3px;transition:opacity .25s var(--ease)}
+@media (min-width:1100px) and (hover:hover){
+  .card__buy{opacity:0}
+  .card:hover .card__buy,.card:focus-within .card__buy{opacity:1}
+}
 .card__buy:hover{opacity:.55}
 
 /* ---------- лента ---------- */
@@ -237,9 +258,13 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 
 /* ---------- сетка каталога ---------- */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:56px 10px;padding-top:var(--step)}
-@media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:88px 24px}}
-@media (min-width:1100px){.grid{gap:104px 28px}}
-@media (min-width:900px){
+@media (min-width:700px){.grid{grid-template-columns:repeat(3,1fr);gap:88px 40px}}
+@media (min-width:1600px){.grid{grid-template-columns:repeat(4,1fr)}}
+/* «С этим носят» — сколько товаров, столько колонок, без пустой трети */
+@media (min-width:700px){.grid--goes{grid-template-columns:repeat(auto-fit,minmax(0,1fr));max-width:900px}}
+@media (min-width:1100px){.grid{gap:96px 40px}}
+/* сдвиг средней колонки ставил цены на три разные высоты — на десктопе сравнивать мешало */
+@media (min-width:900px) and (max-width:1099px){
   .grid > *:nth-child(3n+2){margin-top:72px}
 }
 
@@ -271,13 +296,14 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 .look:hover .look__n{opacity:.55}
 
 /* ---------- кредо ---------- */
-.assure{display:grid;gap:26px;border-top:1px solid var(--line-2);padding-top:30px}
+.assure{display:grid;gap:26px;border-top:1px solid var(--line-2);padding:30px 0 0}
 @media (min-width:760px){.assure{grid-template-columns:repeat(3,1fr);gap:40px}}
 .assure b{display:block;font-size:14px;margin-bottom:6px;font-weight:400}
 .assure span{font-size:13px;color:var(--ink-2)}
-.creed{padding-block:calc(var(--rhythm) * 1.3)}
+.creed{padding-block:calc(var(--rhythm) * .85)}
 .creed .wrap{display:grid;gap:30px;justify-items:start}
-@media (min-width:900px){.creed .wrap{grid-template-columns:auto auto;align-items:end;gap:clamp(48px,6vw,110px)}}
+@media (min-width:900px){.creed .wrap{grid-template-columns:minmax(0,1fr) 34ch;align-items:end;
+  gap:clamp(48px,6vw,110px);justify-items:stretch}}
 .creed p{font-family:var(--hand);font-weight:400;font-size:clamp(40px,5vw,92px);
   line-height:1.06;max-width:16ch;margin:0}
 .creed__go{display:inline-block;margin-top:28px;font-size:13px;color:var(--ink-2);
@@ -287,10 +313,10 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
 /* ---------- манифест ---------- */
 .mani{background:var(--ink);color:#fff}
 .mani .wrap{display:grid;gap:34px}
-@media (min-width:900px){.mani .wrap{grid-template-columns:minmax(0,1fr) minmax(0,1fr);
-  gap:clamp(64px,7vw,140px);align-items:center}}
+@media (min-width:900px){.mani .wrap{grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(64px,7vw,140px);align-items:start}}
 .mani img{width:clamp(220px,22vw,420px);height:auto;margin:0}
-.mani p{font-size:clamp(20px,1.7vw,30px);line-height:1.35;color:#ddd9d3;margin:0 0 30px;max-width:32ch}
+.mani p{font-size:clamp(20px,1.7vw,30px);line-height:1.35;color:#ddd9d3;margin:0 0 30px;max-width:32ch;text-wrap:pretty}
 
 /* ---------- подвал ---------- */
 footer{padding-bottom:calc(34px + env(safe-area-inset-bottom,0px));background:var(--paper)}
@@ -303,73 +329,78 @@ body[data-p="/"] .fass{display:none}
 .fcol h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 16px;font-weight:400}
 .fcol a{display:block;padding:5px 0;font-size:13px;color:var(--ink-2)}
 .fcol a:hover{opacity:.55}
-.fmark{width:190px;height:auto;margin-top:44px}
+.fmark{display:none}
 .fbot{margin-top:26px;padding-top:20px;border-top:1px solid var(--line);
   display:flex;flex-wrap:wrap;gap:8px 22px;justify-content:space-between;font-size:12px;color:var(--muted)}
 
 /* ---------- каталог ---------- */
-.subbar{position:sticky;z-index:40;background:var(--paper);top:calc(var(--annh,0px) + var(--head))}
+.subbar{position:sticky;z-index:40;background:var(--paper);top:calc(var(--annh,0px) + var(--head));
+  border-bottom:1px solid var(--line-2)}
 .chips{display:flex;gap:22px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;
   padding:20px var(--gut) 16px;-webkit-mask-image:linear-gradient(to right,#000 82%,transparent);
   mask-image:linear-gradient(to right,#000 82%,transparent)}
 @media (min-width:900px){.chips{-webkit-mask-image:none;mask-image:none}}
 .chips::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;font-size:13px;color:var(--muted);white-space:nowrap;
-  border-bottom:1px solid transparent;padding:12px 0 4px;transition:opacity .2s}
+.chip{flex:0 0 auto;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  white-space:nowrap;border-bottom:1px solid transparent;padding:12px 0 5px;transition:opacity .2s}
 .chip:hover{opacity:.6}
 .chip.on{color:var(--ink);border-bottom-color:var(--ink)}
 .tools{display:flex;justify-content:flex-start;align-items:center;gap:32px;padding:0 var(--gut) 18px;flex-wrap:wrap}
 .tools #sbtn{margin-left:auto}
-.tool{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+.tool{display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;
   padding:10px 0;margin:-10px 0;color:var(--muted)}
 .tool.on{color:var(--ink)}
-.box{width:16px;height:16px;border:1px solid #c9c4bc;display:block;position:relative;flex:0 0 auto}
-.box.on{background:var(--ink);border-color:var(--ink)}
+/* переключатель-пилюля вместо сырого квадрата с тёмной рамкой */
+.tool--sw{border:1px solid var(--line);padding:9px 16px;margin:0;color:var(--ink-2)}
+.tool--sw.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.box{display:none}
 .box.on::after{content:'';position:absolute;left:4px;top:4px;width:6px;height:3px;border-left:1.5px solid #fff;
   border-bottom:1.5px solid #fff;transform:rotate(-45deg)}
 .tool svg{width:12px;height:12px;stroke:currentColor;stroke-width:1.4;fill:none}
+.catalog__h{padding-bottom:var(--step)}
 .count{padding-top:var(--step);margin:0;font-family:var(--display);font-weight:500;
-  font-size:clamp(26px,3vw,44px);line-height:1.05;letter-spacing:-.02em;color:var(--ink)}
+  font-size:clamp(32px,4.2vw,60px);line-height:1.04;letter-spacing:-.025em;color:var(--ink)}
 .count em{font-style:normal;font-family:var(--sans);font-weight:400;font-size:13px;
   letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-top:10px}
 .empty{padding:70px 0;text-align:center;color:var(--muted);font-size:14px}
 
 /* ---------- карточка товара ---------- */
-.crumbs{font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:22px 0 18px;
+.crumbs{font-size:13px;color:var(--muted);padding:22px 0 18px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .crumbs a:hover{opacity:.6}
 .gal{position:relative;background:var(--mist)}
 .gal__v{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
 .gal__v::-webkit-scrollbar{display:none}
-.gal__v img{flex:0 0 100%;scroll-snap-align:start;width:100%;aspect-ratio:4/5;object-fit:cover}
-.gcount{position:absolute;right:14px;bottom:14px;z-index:2;font-size:13px;letter-spacing:.08em;
-  color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.45)}
+.gal__v img{flex:0 0 100%;scroll-snap-align:start;width:100%;aspect-ratio:2/3;object-fit:cover}
+.gcount{position:absolute;right:14px;bottom:14px;z-index:2;font-size:12px;letter-spacing:.08em;
+  color:#fff;background:rgba(0,0,0,.5);padding:5px 9px}
 .pdp__t{font-family:var(--display);font-weight:500;font-size:clamp(27px,2.6vw,42px);line-height:1.08;letter-spacing:-.015em;margin:20px 0 16px}
 .pr{display:flex;align-items:baseline;gap:12px;margin-bottom:8px}
-.pr b{font-size:16px;font-weight:400}
+.pr b{font-size:22px;font-weight:400;font-variant-numeric:tabular-nums}
 .pr s{color:var(--muted);font-size:14px}
 .split{font-size:13px;color:var(--muted);margin-bottom:30px}
 .flab{display:flex;justify-content:space-between;align-items:baseline;gap:14px;margin:30px 0 12px}
 .flab span{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 .flab a{font-size:12px;color:var(--ink);border-bottom:1px solid var(--line);padding:12px 0 2px;transition:opacity .2s}
 .flab a:hover{opacity:.55}
-.sws{display:flex;gap:18px;flex-wrap:wrap}
+.sws{display:flex;gap:12px;flex-wrap:wrap}
 .sw{display:flex;align-items:center;gap:9px;font-size:13px;color:var(--ink-2);transition:opacity .2s;padding:12px 0;margin:-12px 0}
-.sw i{width:16px;height:16px;display:block}
+.sw i{width:26px;height:26px;display:block;border:1px solid var(--line)}
+.sw span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 .sw:hover{opacity:.6}
 .sw.on{color:var(--ink)}
 .sw.on i{box-shadow:0 0 0 1px var(--ink),inset 0 0 0 2px var(--paper)}
 .sizes{display:flex;gap:8px;flex-wrap:wrap}
-.size{min-width:60px;height:52px;border:1px solid #c9c4bc;display:grid;place-items:center;
+.size{min-width:60px;height:52px;border:1px solid var(--line);display:grid;place-items:center;
   font-size:14px;transition:border-color .2s,background .2s}
 .size:hover{border-color:var(--ink)}
 .size.on{border-color:var(--ink);background:var(--ink);color:#fff}
-.size.off{color:var(--muted);border-color:var(--line-2);background:var(--line-2);text-decoration:line-through}
-.size.off:hover{color:var(--ink)}
+.size.off{color:var(--muted);border-color:var(--line-2);background:none;opacity:.5}
+.size.off:hover{opacity:.8}
 .acc{border-top:1px solid var(--line-2)}
 .acc:last-of-type{border-bottom:1px solid var(--line-2)}
-.acc__h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:24px 0;
-  font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-align:left}
+.acc__h{width:100%;display:flex;justify-content:space-between;align-items:center;gap:14px;padding:26px 0;
+  font-size:16px;line-height:1.3;text-align:left}
 .acc__h svg{width:10px;height:10px;stroke:currentColor;stroke-width:1.5;fill:none;
   transition:transform .35s var(--ease);flex:0 0 auto}
 .acc__h svg path{transition:transform .35s var(--ease);transform-origin:5px 5px}
@@ -392,7 +423,7 @@ body[data-p="/"] .fass{display:none}
   transform:translateY(110%);transition:transform .34s var(--ease)}
 .stickybuy.on{transform:none}
 @media (min-width:900px){
-  .pdp{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:clamp(48px,5vw,96px);align-items:start}
+  .pdp{display:grid;grid-template-columns:minmax(0,1fr) 464px;gap:clamp(48px,5vw,88px);align-items:start}
   .gal{margin-left:0;background:transparent}
   .gal__v{display:grid;grid-template-columns:1fr;gap:12px;overflow:visible}
   .gal__v img{max-height:calc(100vh - var(--head) - 48px)}
@@ -488,9 +519,9 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 .steps{display:grid;gap:var(--gut);padding-top:var(--step)}
 @media (min-width:760px){.steps{grid-template-columns:repeat(3,1fr)}}
 .step{position:relative;padding-left:40px}
-.step b{position:absolute;left:0;top:.1em;font-size:11px;font-weight:400;
+.step b{position:absolute;left:0;top:0;line-height:1.5;font-size:12px;font-weight:400;
   letter-spacing:.14em;color:var(--muted)}
-.step span{font-size:14px;color:var(--ink-2)}
+.step span{display:block;font-size:15px;line-height:1.5;color:var(--ink-2);text-wrap:pretty}
 
 /* ---------- текстовые страницы ---------- */
 .doc{max-width:60ch}
@@ -509,7 +540,7 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 <body>
 
 <div class="ann" id="ann">
-  <p>Предзаказ новой коллекции — 1–10 октября. <a href="#/preorder">Смотреть</a></p>
+  <p>Предзаказ новой коллекции — на складе 1–10 октября. <a href="#/preorder">Смотреть предзаказ</a></p>
   <button id="annx" aria-label="Скрыть объявление"><svg viewBox="0 0 12 12"><path d="M1 1 11 11M11 1 1 11"/></svg></button>
 </div>
 
@@ -525,7 +556,7 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
     <button id="searchbtn" aria-label="Поиск">
       <svg class="ico" viewBox="0 0 20 20"><circle cx="9" cy="9" r="6"/><path d="M13.5 13.5 17 17"/></svg>
     </button>
-    <button class="hdr__cart" id="cartbtn">Корзина<span id="cartn"></span></button>
+    <button class="hdr__cart" id="cartbtn" aria-label="Корзина"><span class="hdr__cart-t">Корзина</span><svg class="ico hdr__cart-i" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 6h12l-1 11H5L4 6zM7.5 6V4.5a2.5 2.5 0 0 1 5 0V6"/></svg><span id="cartn"></span></button>
   </div>
 </header>
 
@@ -582,7 +613,7 @@ body.dev .note b{display:block;font-size:11px;letter-spacing:.14em;text-transfor
 
 <script>
 /* ===================== данные ===================== */
-const PRODUCTS = [{"id": "suit-boil", "cat": "suits", "name": "Костюм спортивный с эффектом варки", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": ["3XL"], "about": "Свободный силуэт из плотной ткани с эффектом варки: выразительная фактура и характерный оттенок. Худи нестандартного кроя с декоративными строчками держит форму, объёмные брюки дают расслабленный силуэт. Носится комплектом или по отдельности.", "spec": [["Крой", "свободный, oversize"], ["Сезон", "демисезон"], ["Особенность", "эффект варки, декоративные строчки"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°", "Не сушить в машине"], "comp": "Худи: внешний слой 100% хлопок, подкладка 100% спандекс. Брюки: 100% хлопок.", "variants": [{"page": "022", "color": "Синий", "hex": "#2f4f7a", "price": 11490, "old": 14390, "imgs": ["ed-glass-blue", "suit-boil_0_0", "ed-glass-blue-2", "suit-boil_0_1", "suit-boil_0_2", "suit-boil_0_3", "suit-boil_0_4", "suit-boil_0_5", "suit-boil_0_6", "suit-boil_0_7"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}, {"page": "023", "color": "Чёрный", "hex": "#1b1b1b", "price": 11490, "old": 14390, "imgs": ["suit-boil_1_0", "suit-boil_1_1", "suit-boil_1_2", "suit-boil_1_3", "suit-boil_1_4", "suit-boil_1_5", "suit-boil_1_6"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}, {"page": "024", "color": "Кирпичный", "hex": "#c14a42", "price": 11490, "old": 14390, "imgs": ["suit-boil_2_0", "ed-glass-red", "suit-boil_2_1", "suit-boil_2_2", "suit-boil_2_3", "suit-boil_2_4", "suit-boil_2_5", "suit-boil_2_6", "suit-boil_2_7"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}], "goesWith": ["tshirt", "pants-pleat"], "chart": null, "card": 0}, {"id": "suit-sport", "cat": "suits", "name": "Костюм спортивный утеплённый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": ["S"], "about": "Куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тёплый костюм на межсезонье, который не выглядит спортзалом.", "spec": [["Крой", "свободный"], ["Сезон", "демисезон, утеплённый"], ["Вышивка", "на груди куртки"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "Хлопок 80%, полиэстер 20%. Подкладка брюк — флис.", "variants": [{"page": "013", "color": "Серый", "hex": "#8a8a8a", "price": 10900, "old": null, "imgs": ["ed-lib-back", "suit-sport_0_0", "suit-sport_0_1", "suit-sport_0_2", "suit-sport_0_3", "suit-sport_0_4", "suit-sport_0_5", "suit-sport_0_6"], "desc": "Утеплённый спортивный костюм VNACHALE, серый: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и свобода движений.", "chart": "https://static.tildacdn.com/tild3661-3163-4564-a435-373932353561/IMG_2594_1.png"}, {"page": "014", "color": "Чёрный", "hex": "#1b1b1b", "price": 10900, "old": null, "imgs": ["suit-sport_1_0", "ed-cage-black-1", "ed-flat-black", "suit-sport_1_1", "suit-sport_1_2", "suit-sport_1_3"], "desc": "Утеплённый спортивный костюм VNACHALE, чёрный: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой — тепло и свобода движений.", "chart": "https://static.tildacdn.com/tild3430-3331-4638-b163-616662396365/IMG_2593_1.png"}, {"page": "015", "color": "Синий", "hex": "#27407a", "price": 10900, "old": null, "imgs": ["suit-sport_2_0", "ed-cage-mint-1", "ed-cage-mint-2", "ed-flat-mint", "suit-sport_2_1", "suit-sport_2_2"], "desc": "Утеплённый спортивный костюм VNACHALE, синий: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и лаконично.", "chart": "https://static.tildacdn.com/tild6262-3563-4237-b264-616661366239/IMG_2597_1.png"}], "goesWith": ["tshirt", "longsleeve"], "chart": "suit-sport_chart", "card": 0}, {"id": "suit-casual", "cat": "suits", "name": "Костюм кэжуал", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Современная классика свободного кроя: куртка на подкладке с вышивкой и брюки комфортной посадки. Сложный крой и конструктивные детали вместо логотипов.", "spec": [["Крой", "свободный"], ["Сезон", "демисезон"], ["Детали", "куртка на подкладке, вышивка"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "Хлопок, полиэстер.", "variants": [{"page": "004", "color": "Серый", "hex": "#9a9a97", "price": 12490, "old": 15590, "imgs": ["ed-mansion-2", "suit-casual_0_0", "ed-mansion-1", "suit-casual_0_1", "suit-casual_0_2", "suit-casual_0_3", "suit-casual_0_4", "suit-casual_0_5", "suit-casual_0_6", "suit-casual_0_7"], "desc": "Современная классика свободного кроя Цвет: серый Куртка на подкладке с вышивкой Брюки комфортной посадки Матерал: хлопок 80% неопрен 20%", "chart": null}, {"page": "025", "color": "Коричневый", "hex": "#6b5140", "price": 12490, "old": 15590, "imgs": ["suit-casual_1_0", "suit-casual_1_1", "suit-casual_1_2", "suit-casual_1_3", "suit-casual_1_4", "suit-casual_1_5", "suit-casual_1_6", "suit-casual_1_7"], "desc": "Костюм VNACHALE в стиле кэжуал casual с акцентом на сложный крой и конструктивные детали.", "chart": null}], "goesWith": ["longsleeve", "shirt"], "chart": null, "card": 0}, {"id": "suit-purple", "cat": "suits", "name": "Костюм фиолетовый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Рубашка и шорты свободного кроя. Лёгкая ткань для жары. Носится комплектом или по отдельности — верх и низ продаются раздельно.", "spec": [["Состав комплекта", "рубашка + шорты"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "001", "color": "Фиолетовый", "hex": "#b9a7b0", "price": 10900, "old": null, "imgs": ["suit-summer_0_4", "suit-summer_0_0", "ed-chair-1", "suit-summer_0_1", "suit-summer_0_2", "suit-summer_0_3"], "desc": "Летний костюм VNACHALE, фиолетовый: рубашка и шорты свободного кроя. Лёгкая ткань для жары, носится комплектом или по отдельности. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["shirt", "shorts"], "chart": "suit-summer_chart", "card": 0}, {"id": "suit-graphite", "cat": "suits", "name": "Костюм графитовый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или по отдельности.", "spec": [["Состав комплекта", "рубашка + брюки"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "002", "color": "Графитовый", "hex": "#43454a", "price": 10900, "old": null, "imgs": ["ed-street-1", "suit-summer_1_0", "suit-summer_1_1", "suit-summer_1_2", "suit-summer_1_3"], "desc": "Летний костюм VNACHALE, графит: рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или раздельно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}], "goesWith": ["shirt", "pants-summer"], "chart": "suit-summer_chart", "card": 0}, {"id": "suit-grey", "cat": "suits", "name": "Костюм серый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Лёгкое худи и шорты. Мягкая ткань для тёплых дней. Носится комплектом или по отдельности.", "spec": [["Состав комплекта", "худи + шорты"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "003", "color": "Серый", "hex": "#9d9d9a", "price": 10900, "old": null, "imgs": ["ed-brick-1", "suit-summer_2_0", "suit-summer_2_1", "suit-summer_2_2", "suit-summer_2_3", "suit-summer_2_4", "suit-summer_2_5", "suit-summer_2_6", "suit-summer_2_7"], "desc": "Летний костюм VNACHALE, серый: лёгкое худи и шорты. Мягкая ткань для тёплых дней, комплект или отдельные вещи на выбор. Доставка по России.", "chart": null}], "goesWith": ["hoodie-summer", "shorts"], "chart": "suit-summer_chart", "card": 0}, {"id": "jacket", "cat": "outer", "name": "Куртка-пуховик демисезонная", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S", "2XL"], "about": "Гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло без объёма.", "spec": [["Утеплитель", "гусиный пух"], ["Ткань", "водоотталкивающая"], ["Капюшон", "отстёгивается"]], "care": ["Стирка при 30°, деликатный режим", "Сушить в расправленном виде", "Не отбеливать"], "comp": "Верх: полиамид. Наполнитель: гусиный пух.", "variants": [{"page": "021", "color": "Чёрная", "hex": "#1b1b1b", "price": 19900, "old": null, "imgs": ["ed-lib-black-1", "jacket_0_0", "ed-lib-detail", "jacket_0_1", "jacket_0_2", "jacket_0_3", "jacket_0_4", "jacket_0_5", "jacket_0_6", "jacket_0_7"], "desc": "Демисезонный пуховик VNACHALE, чёрный: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон. Тепло без объёма. Доставка по России.", "chart": null}, {"page": "020", "color": "Белая", "hex": "#cfc5b6", "price": 19900, "old": null, "imgs": ["jacket_1_0", "ed-puffer-1", "ed-puffer-sit", "ed-puffer-back", "jacket_1_1", "jacket_1_2"], "desc": "Демисезонный пуховик VNACHALE, белый: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло и лёгкость. Доставка по РФ.", "chart": null}], "goesWith": ["hoodie-boil", "pants-summer"], "chart": null, "card": 0}, {"id": "hoodie-boil", "cat": "top", "name": "Худи с эффектом варки", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Оверсайз, утеплённый подклад, ткань-варка, вышивка-манифест на спине. Тёплое и тактильное.", "spec": [["Крой", "оверсайз"], ["Особенность", "вышивка на спине"], ["Сезон", "демисезон"]], "care": ["Стирка при 30°", "Не отбеливать", "Гладить при 110°"], "comp": "Хлопок 80%, полиэстер 20%.", "variants": [{"page": "019", "color": "Серый", "hex": "#8f8f8c", "price": 7990, "old": null, "imgs": ["hoodie-boil_0_0", "ed-cord-1", "ed-cord-detail", "hoodie-boil_0_1", "hoodie-boil_0_2"], "desc": "Худи VNACHALE оверсайз, серое: утеплённый подклад, ткань-варка, вышивка-манифест на спине. Хлопок 80%. Тёплое и тактильное. Доставка по России.", "chart": null}], "goesWith": ["pants-summer", "tshirt"], "chart": null, "card": 0}, {"id": "hoodie-summer", "cat": "top", "name": "Худи летнее", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S"], "about": "Мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть костюма летнего серого"]], "care": ["Стирка при 30°", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "005", "color": "Серый", "hex": "#9d9d9a", "price": 6690, "old": null, "imgs": ["hoodie-summer_0_1", "hoodie-summer_0_0", "ed-brick-1", "hoodie-summer_0_2", "hoodie-summer_0_3", "hoodie-summer_0_4", "hoodie-summer_0_5", "hoodie-summer_0_6"], "desc": "Лёгкое летнее худи VNACHALE, серое: мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами. Доставка по РФ.", "chart": "https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}], "goesWith": ["shorts", "tshirt"], "chart": "hoodie-summer_chart", "card": 0}, {"id": "shirt", "cat": "top", "name": "Рубашка летняя", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Свободный крой, лёгкая ткань для лета. Часть летнего костюма — можно взять отдельно или в комплекте с низом того же цвета.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть костюма летнего"]], "care": ["Стирка при 30°", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "007", "color": "Графитовая", "hex": "#4a4a4d", "price": 5690, "old": null, "imgs": ["shirt_0_2", "shirt_0_0", "ed-street-1", "shirt_0_1", "shirt_0_3", "shirt_0_4", "shirt_0_5", "shirt_0_6", "shirt_0_7"], "desc": "", "chart": null}, {"page": "009", "color": "Фиолетовая", "hex": "#c3b2ba", "price": 6690, "old": null, "imgs": ["shirt_1_0", "ed-chair-1", "shirt_1_1", "shirt_1_2", "shirt_1_3", "shirt_1_4", "shirt_1_5"], "desc": "Мужская рубашка VNACHALE, фиолетовая: свободный крой, лёгкая ткань для лета. Часть фиолетового костюма — отдельно или с шортами. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["pants-summer", "longsleeve"], "chart": "shirt_chart", "card": 0}, {"id": "longsleeve", "cat": "top", "name": "Лонгслив", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Мягкий хлопок, свободный крой, лаконичная база под любой образ.", "spec": [["Крой", "свободный"], ["Сезон", "всесезон"]], "care": ["Стирка при 30°", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "016", "color": "Чёрный", "hex": "#1b1b1b", "price": 6990, "old": null, "imgs": ["longsleeve_0_0", "longsleeve_0_1", "longsleeve_0_2", "longsleeve_0_3", "longsleeve_0_4", "longsleeve_0_5", "longsleeve_0_6", "longsleeve_0_7"], "desc": "Мужской лонгслив VNACHALE, чёрный: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.", "chart": null}, {"page": "017", "color": "Белый", "hex": "#efece5", "price": 6990, "old": null, "imgs": ["longsleeve_1_0", "longsleeve_1_1", "longsleeve_1_2", "longsleeve_1_3", "longsleeve_1_4", "longsleeve_1_5", "longsleeve_1_6", "longsleeve_1_7"], "desc": "Мужской лонгслив VNACHALE, белый: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.", "chart": null}], "goesWith": ["pants-pleat", "jacket"], "chart": null, "card": 0}, {"id": "tshirt", "cat": "top", "name": "Футболка оверсайз", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": [], "about": "Плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается со всем остальным.", "spec": [["Крой", "оверсайз"], ["Плотность", "плотный хлопок"], ["Сезон", "всесезон"]], "care": ["Стирка при 30°", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "011", "color": "Чёрная", "hex": "#1b1b1b", "price": 3900, "old": null, "imgs": ["tshirt_0_0", "tshirt_0_1", "tshirt_0_2", "tshirt_0_3"], "desc": "Мужская футболка VNACHALE оверсайз, чёрная: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3762-6166-4263-b166-313230333164/IMG_2592_1.png"}, {"page": "012", "color": "Белая", "hex": "#efece5", "price": 3900, "old": null, "imgs": ["tshirt_1_0", "tshirt_1_1", "tshirt_1_2", "tshirt_1_3"], "desc": "Мужская футболка VNACHALE оверсайз, белая: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3133-6163-4565-b339-316562643066/IMG_2590_1_1.png"}], "goesWith": ["pants-pleat", "hoodie-boil"], "chart": "tshirt_chart", "card": 0}, {"id": "pants-pleat", "cat": "bottom", "name": "Брюки с защипами", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Свободный крой с защипами, декоративные детали на поясе. 100% хлопок. Комфорт на каждый день.", "spec": [["Крой", "свободный, защипы"], ["Пояс", "декоративные детали"], ["Сезон", "всесезон"]], "care": ["Стирка при 30°", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "018", "color": "Меланж", "hex": "#e5dfd2", "price": 5990, "old": 7490, "imgs": ["pants-pleat_0_0", "pants-pleat_0_1", "pants-pleat_0_2", "pants-pleat_0_3", "pants-pleat_0_4", "pants-pleat_0_5", "pants-pleat_0_6"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": "https://static.tildacdn.com/tild3036-6437-4365-a465-653661666336/size_grid_with_S_gra.png"}, {"page": "026", "color": "Коричневые", "hex": "#6b5140", "price": 5990, "old": 7490, "imgs": ["pants-pleat_1_0", "pants-pleat_1_1", "pants-pleat_1_2", "pants-pleat_1_3", "pants-pleat_1_4"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": null}, {"page": "027", "color": "Чёрные", "hex": "#1b1b1b", "price": 5990, "old": 7490, "imgs": ["pants-pleat_2_0", "pants-pleat_2_1", "pants-pleat_2_2", "pants-pleat_2_3", "pants-pleat_2_4"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": null}], "goesWith": ["tshirt", "longsleeve"], "chart": "pants-pleat_chart", "card": 0}, {"id": "pants-summer", "cat": "bottom", "name": "Брюки летние", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть костюма графитового"]], "care": ["Стирка при 30°", "Гладить при 110°"], "comp": "100% хлопок.", "variants": [{"page": "008", "color": "Графитовые", "hex": "#4a4a4d", "price": 5690, "old": null, "imgs": ["pants-summer_0_2", "pants-summer_0_0", "ed-street-1", "pants-summer_0_1", "pants-summer_0_3"], "desc": "Мужские брюки VNACHALE, графит: свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой. Доставка по РФ.", "chart": "https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}], "goesWith": ["shirt", "tshirt"], "chart": "pants-summer_chart", "card": 0}, {"id": "shorts", "cat": "bottom", "name": "Шорты", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S"], "about": "Свободный крой, лёгкая ткань. Часть летнего костюма — можно взять отдельно или с верхом того же цвета.", "spec": [["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30°", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "006", "color": "Серые", "hex": "#9d9d9a", "price": 4890, "old": null, "imgs": ["shorts_0_4", "shorts_0_0", "ed-brick-1", "shorts_0_1", "shorts_0_2", "shorts_0_3", "shorts_0_5", "shorts_0_6"], "desc": "Мужские шорты VNACHALE, серые: свободный крой, лёгкая ткань. Часть серого летнего костюма — можно взять отдельно или с худи. Доставка по России.", "chart": "https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}, {"page": "010", "color": "Фиолетовые", "hex": "#c3b2ba", "price": 4690, "old": null, "imgs": ["shorts_1_0", "ed-chair-1", "shorts_1_1", "shorts_1_2", "shorts_1_3", "shorts_1_4"], "desc": "Мужские шорты VNACHALE, фиолетовые: свободный крой, лёгкая ткань. Часть фиолетового костюма — можно взять отдельно или с рубашкой. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["hoodie-summer", "tshirt"], "chart": "shorts_chart", "card": 0}];
+const PRODUCTS = [{"id": "suit-boil", "cat": "suits", "name": "Костюм спортивный с эффектом варки", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": ["3XL"], "about": "Свободный силуэт из плотной ткани с эффектом варки: выразительная фактура и характерный оттенок. Худи нестандартного кроя с декоративными строчками держит форму, объёмные брюки дают расслабленный силуэт. Носится комплектом или по отдельности.", "spec": [["Крой", "свободный, оверсайз"], ["Сезон", "демисезон"], ["Особенность", "эффект варки, декоративные строчки"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C", "Не сушить в машине"], "comp": "Худи: внешний слой 100% хлопок, подкладка 100% спандекс. Брюки: 100% хлопок.", "variants": [{"page": "022", "color": "Синий", "hex": "#2f4f7a", "price": 11490, "old": 14390, "imgs": ["ed-glass-blue", "suit-boil_0_0", "ed-glass-blue-2", "suit-boil_0_1", "suit-boil_0_2", "suit-boil_0_3", "suit-boil_0_4", "suit-boil_0_5", "suit-boil_0_6", "suit-boil_0_7"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}, {"page": "023", "color": "Чёрный", "hex": "#1b1b1b", "price": 11490, "old": 14390, "imgs": ["suit-boil_1_0", "suit-boil_1_1", "suit-boil_1_2", "suit-boil_1_3", "suit-boil_1_4", "suit-boil_1_5", "suit-boil_1_6"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}, {"page": "024", "color": "Кирпичный", "hex": "#c14a42", "price": 11490, "old": 14390, "imgs": ["suit-boil_2_0", "ed-glass-red", "suit-boil_2_1", "suit-boil_2_2", "suit-boil_2_3", "suit-boil_2_4", "suit-boil_2_5", "suit-boil_2_6", "suit-boil_2_7"], "desc": "Спортивный костюм VNACHALE свободного силуэта из плотной ткани с эффектом варки.", "chart": null}], "goesWith": ["tshirt", "pants-pleat"], "chart": null, "card": 0}, {"id": "suit-sport", "cat": "suits", "name": "Костюм спортивный утеплённый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": ["S"], "about": "Куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тёплый костюм на межсезонье, который не выглядит спортзалом.", "spec": [["Крой", "свободный"], ["Сезон", "демисезон, утеплённый"], ["Вышивка", "на груди куртки"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "Хлопок 80%, полиэстер 20%. Подкладка брюк — флис.", "variants": [{"page": "013", "color": "Серый", "hex": "#8a8a8a", "price": 10900, "old": null, "imgs": ["ed-lib-back", "suit-sport_0_0", "suit-sport_0_1", "suit-sport_0_2", "suit-sport_0_3", "suit-sport_0_4", "suit-sport_0_5", "suit-sport_0_6"], "desc": "Утеплённый спортивный костюм VNACHALE, серый: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и свобода движений.", "chart": "https://static.tildacdn.com/tild3661-3163-4564-a435-373932353561/IMG_2594_1.png"}, {"page": "014", "color": "Чёрный", "hex": "#1b1b1b", "price": 10900, "old": null, "imgs": ["suit-sport_1_0", "ed-cage-black-1", "ed-flat-black", "suit-sport_1_1", "suit-sport_1_2", "suit-sport_1_3"], "desc": "Утеплённый спортивный костюм VNACHALE, чёрный: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой — тепло и свобода движений.", "chart": "https://static.tildacdn.com/tild3430-3331-4638-b163-616662396365/IMG_2593_1.png"}, {"page": "015", "color": "Синий", "hex": "#27407a", "price": 10900, "old": null, "imgs": ["suit-sport_2_0", "ed-cage-mint-1", "ed-cage-mint-2", "ed-flat-mint", "suit-sport_2_1", "suit-sport_2_2"], "desc": "Утеплённый спортивный костюм VNACHALE, синий: куртка на подкладке с вышивкой и брюки на флисе. Хлопок 80%, свободный крой. Тепло и лаконично.", "chart": "https://static.tildacdn.com/tild6262-3563-4237-b264-616661366239/IMG_2597_1.png"}], "goesWith": ["tshirt", "longsleeve"], "chart": "suit-sport_chart", "card": 0}, {"id": "suit-casual", "cat": "suits", "name": "Костюм кэжуал", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Современная классика свободного кроя: куртка на подкладке с вышивкой и брюки комфортной посадки. Сложный крой и конструктивные детали вместо логотипов.", "spec": [["Крой", "свободный"], ["Сезон", "демисезон"], ["Детали", "куртка на подкладке, вышивка"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "Хлопок, полиэстер.", "variants": [{"page": "004", "color": "Серый", "hex": "#9a9a97", "price": 12490, "old": 15590, "imgs": ["ed-mansion-2", "suit-casual_0_0", "ed-mansion-1", "suit-casual_0_1", "suit-casual_0_2", "suit-casual_0_3", "suit-casual_0_4", "suit-casual_0_5", "suit-casual_0_6", "suit-casual_0_7"], "desc": "Современная классика свободного кроя Цвет: серый Куртка на подкладке с вышивкой Брюки комфортной посадки Матерал: хлопок 80% неопрен 20%", "chart": null}, {"page": "025", "color": "Коричневый", "hex": "#6b5140", "price": 12490, "old": 15590, "imgs": ["suit-casual_1_0", "suit-casual_1_1", "suit-casual_1_2", "suit-casual_1_3", "suit-casual_1_4", "suit-casual_1_5", "suit-casual_1_6", "suit-casual_1_7"], "desc": "Костюм VNACHALE в стиле кэжуал casual с акцентом на сложный крой и конструктивные детали.", "chart": null}], "goesWith": ["longsleeve", "shirt"], "chart": null, "card": 0}, {"id": "suit-purple", "cat": "suits", "name": "Костюм фиолетовый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Рубашка и шорты свободного кроя. Лёгкая ткань для жары. Носится комплектом или по отдельности — верх и низ продаются раздельно.", "spec": [["Состав комплекта", "рубашка + шорты"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "001", "color": "Фиолетовый", "hex": "#b9a7b0", "price": 10900, "old": null, "imgs": ["suit-summer_0_4", "suit-summer_0_0", "ed-chair-1", "suit-summer_0_1", "suit-summer_0_2", "suit-summer_0_3"], "desc": "Летний костюм VNACHALE, фиолетовый: рубашка и шорты свободного кроя. Лёгкая ткань для жары, носится комплектом или по отдельности. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["shirt", "shorts"], "chart": "suit-summer_chart", "card": 0}, {"id": "suit-graphite", "cat": "suits", "name": "Костюм графитовый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или по отдельности.", "spec": [["Состав комплекта", "рубашка + брюки"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "002", "color": "Графитовый", "hex": "#43454a", "price": 10900, "old": null, "imgs": ["ed-street-1", "suit-summer_1_0", "suit-summer_1_1", "suit-summer_1_2", "suit-summer_1_3"], "desc": "Летний костюм VNACHALE, графит: рубашка и брюки свободного кроя. Лёгкая ткань, лаконичный цвет. Носится комплектом или раздельно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}], "goesWith": ["shirt", "pants-summer"], "chart": "suit-summer_chart", "card": 0}, {"id": "suit-grey", "cat": "suits", "name": "Костюм серый", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Лёгкое худи и шорты. Мягкая ткань для тёплых дней. Носится комплектом или по отдельности.", "spec": [["Состав комплекта", "худи + шорты"], ["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "003", "color": "Серый", "hex": "#9d9d9a", "price": 10900, "old": null, "imgs": ["ed-brick-1", "suit-summer_2_0", "suit-summer_2_1", "suit-summer_2_2", "suit-summer_2_3", "suit-summer_2_4", "suit-summer_2_5", "suit-summer_2_6", "suit-summer_2_7"], "desc": "Летний костюм VNACHALE, серый: лёгкое худи и шорты. Мягкая ткань для тёплых дней, комплект или отдельные вещи на выбор. Доставка по России.", "chart": null}], "goesWith": ["hoodie-summer", "shorts"], "chart": "suit-summer_chart", "card": 0}, {"id": "jacket", "cat": "outer", "name": "Куртка-пуховик демисезонная", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S", "2XL"], "about": "Гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло без объёма.", "spec": [["Утеплитель", "гусиный пух"], ["Ткань", "водоотталкивающая"], ["Капюшон", "отстёгивается"]], "care": ["Стирка при 30 °C, деликатный режим", "Сушить в расправленном виде", "Не отбеливать"], "comp": "Верх: полиамид. Наполнитель: гусиный пух.", "variants": [{"page": "021", "color": "Чёрная", "hex": "#1b1b1b", "price": 19900, "old": null, "imgs": ["ed-lib-black-1", "jacket_0_0", "ed-lib-detail", "jacket_0_1", "jacket_0_2", "jacket_0_3", "jacket_0_4", "jacket_0_5", "jacket_0_6", "jacket_0_7"], "desc": "Демисезонный пуховик VNACHALE, чёрный: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон. Тепло без объёма. Доставка по России.", "chart": null}, {"page": "020", "color": "Белая", "hex": "#cfc5b6", "price": 19900, "old": null, "imgs": ["jacket_1_0", "ed-puffer-1", "ed-puffer-sit", "ed-puffer-back", "jacket_1_1", "jacket_1_2"], "desc": "Демисезонный пуховик VNACHALE, белый: гусиный пух, водоотталкивающая ткань, отстёгивающийся капюшон, рифлёные вставки. Тепло и лёгкость. Доставка по РФ.", "chart": null}], "goesWith": ["hoodie-boil", "pants-summer"], "chart": null, "card": 0}, {"id": "hoodie-boil", "cat": "top", "name": "Худи с эффектом варки", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Оверсайз, утеплённый подклад, ткань-варка, вышивка-манифест на спине. Тёплое и тактильное.", "spec": [["Крой", "оверсайз"], ["Особенность", "вышивка на спине"], ["Сезон", "демисезон"]], "care": ["Стирка при 30 °C", "Не отбеливать", "Гладить при 110 °C"], "comp": "Хлопок 80%, полиэстер 20%.", "variants": [{"page": "019", "color": "Серый", "hex": "#8f8f8c", "price": 7990, "old": null, "imgs": ["hoodie-boil_0_0", "ed-cord-1", "ed-cord-detail", "hoodie-boil_0_1", "hoodie-boil_0_2"], "desc": "Худи VNACHALE оверсайз, серое: утеплённый подклад, ткань-варка, вышивка-манифест на спине. Хлопок 80%. Тёплое и тактильное. Доставка по России.", "chart": null}], "goesWith": ["pants-summer", "tshirt"], "chart": null, "card": 0}, {"id": "hoodie-summer", "cat": "top", "name": "Худи летнее", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S"], "about": "Мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть летнего серого костюма"]], "care": ["Стирка при 30 °C", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "005", "color": "Серый", "hex": "#9d9d9a", "price": 6690, "old": null, "imgs": ["hoodie-summer_0_1", "hoodie-summer_0_0", "ed-brick-1", "hoodie-summer_0_2", "hoodie-summer_0_3", "hoodie-summer_0_4", "hoodie-summer_0_5", "hoodie-summer_0_6"], "desc": "Лёгкое летнее худи VNACHALE, серое: мягкая ткань, свободный крой. Часть серого летнего костюма — берите отдельно или в комплекте с шортами. Доставка по РФ.", "chart": "https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}], "goesWith": ["shorts", "tshirt"], "chart": "hoodie-summer_chart", "card": 0}, {"id": "shirt", "cat": "top", "name": "Рубашка летняя", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Свободный крой, лёгкая ткань для лета. Часть летнего костюма — можно взять отдельно или в комплекте с низом того же цвета.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть летнего костюма"]], "care": ["Стирка при 30 °C", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "007", "color": "Графитовая", "hex": "#4a4a4d", "price": 5690, "old": null, "imgs": ["shirt_0_2", "shirt_0_0", "ed-street-1", "shirt_0_1", "shirt_0_3", "shirt_0_4", "shirt_0_5", "shirt_0_6", "shirt_0_7"], "desc": "", "chart": null}, {"page": "009", "color": "Фиолетовая", "hex": "#c3b2ba", "price": 6690, "old": null, "imgs": ["shirt_1_0", "ed-chair-1", "shirt_1_1", "shirt_1_2", "shirt_1_3", "shirt_1_4", "shirt_1_5"], "desc": "Мужская рубашка VNACHALE, фиолетовая: свободный крой, лёгкая ткань для лета. Часть фиолетового костюма — отдельно или с шортами. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["pants-summer", "longsleeve"], "chart": "shirt_chart", "card": 0}, {"id": "longsleeve", "cat": "top", "name": "Лонгслив", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Мягкий хлопок, свободный крой, лаконичная база под любой образ.", "spec": [["Крой", "свободный"], ["Сезон", "круглый год"]], "care": ["Стирка при 30 °C", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "016", "color": "Чёрный", "hex": "#1b1b1b", "price": 6990, "old": null, "imgs": ["longsleeve_0_0", "longsleeve_0_1", "longsleeve_0_2", "longsleeve_0_3", "longsleeve_0_4", "longsleeve_0_5", "longsleeve_0_6", "longsleeve_0_7"], "desc": "Мужской лонгслив VNACHALE, чёрный: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.", "chart": null}, {"page": "017", "color": "Белый", "hex": "#efece5", "price": 6990, "old": null, "imgs": ["longsleeve_1_0", "longsleeve_1_1", "longsleeve_1_2", "longsleeve_1_3", "longsleeve_1_4", "longsleeve_1_5", "longsleeve_1_6", "longsleeve_1_7"], "desc": "Мужской лонгслив VNACHALE, белый: мягкий хлопок, свободный крой, лаконичная база под любой образ. Спокойная палитра, комфорт каждый день. Доставка по России.", "chart": null}], "goesWith": ["pants-pleat", "jacket"], "chart": null, "card": 0}, {"id": "tshirt", "cat": "top", "name": "Футболка оверсайз", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL", "3XL"], "out": [], "about": "Плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается со всем остальным.", "spec": [["Крой", "оверсайз"], ["Плотность", "плотный хлопок"], ["Сезон", "круглый год"]], "care": ["Стирка при 30 °C", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "011", "color": "Чёрная", "hex": "#1b1b1b", "price": 3900, "old": null, "imgs": ["tshirt_0_0", "tshirt_0_1", "tshirt_0_2", "tshirt_0_3"], "desc": "Мужская футболка VNACHALE оверсайз, чёрная: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3762-6166-4263-b166-313230333164/IMG_2592_1.png"}, {"page": "012", "color": "Белая", "hex": "#efece5", "price": 3900, "old": null, "imgs": ["tshirt_1_0", "tshirt_1_1", "tshirt_1_2", "tshirt_1_3"], "desc": "Мужская футболка VNACHALE оверсайз, белая: плотный хлопок, свободный крой, ровные швы. Спокойная база, которая сочетается с чем угодно. Доставка по России.", "chart": "https://static.tildacdn.com/tild3133-6163-4565-b339-316562643066/IMG_2590_1_1.png"}], "goesWith": ["pants-pleat", "hoodie-boil"], "chart": "tshirt_chart", "card": 0}, {"id": "pants-pleat", "cat": "bottom", "name": "Брюки с защипами", "stock": "preorder", "eta": "1–10 октября", "sizes": ["S", "M", "L", "XL", "2XL"], "out": [], "about": "Свободный крой с защипами, декоративные детали на поясе. 100% хлопок. Комфорт на каждый день.", "spec": [["Крой", "свободный, защипы"], ["Пояс", "декоративные детали"], ["Сезон", "круглый год"]], "care": ["Стирка при 30 °C", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "018", "color": "Меланж", "hex": "#e5dfd2", "price": 5990, "old": 7490, "imgs": ["pants-pleat_0_0", "pants-pleat_0_1", "pants-pleat_0_2", "pants-pleat_0_3", "pants-pleat_0_4", "pants-pleat_0_5", "pants-pleat_0_6"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": "https://static.tildacdn.com/tild3036-6437-4365-a465-653661666336/size_grid_with_S_gra.png"}, {"page": "026", "color": "Коричневые", "hex": "#6b5140", "price": 5990, "old": 7490, "imgs": ["pants-pleat_1_0", "pants-pleat_1_1", "pants-pleat_1_2", "pants-pleat_1_3", "pants-pleat_1_4"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": null}, {"page": "027", "color": "Чёрные", "hex": "#1b1b1b", "price": 5990, "old": 7490, "imgs": ["pants-pleat_2_0", "pants-pleat_2_1", "pants-pleat_2_2", "pants-pleat_2_3", "pants-pleat_2_4"], "desc": "Мужские брюки VNACHALE свободного кроя с защипами, серый меланж. 100% хлопок, декоративные детали на поясе. Комфорт на каждый день. Доставка по России.", "chart": null}], "goesWith": ["tshirt", "longsleeve"], "chart": "pants-pleat_chart", "card": 0}, {"id": "pants-summer", "cat": "bottom", "name": "Брюки летние", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["2XL"], "about": "Свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой.", "spec": [["Крой", "свободный"], ["Сезон", "лето"], ["Комплект", "часть графитового костюма"]], "care": ["Стирка при 30 °C", "Гладить при 110 °C"], "comp": "100% хлопок.", "variants": [{"page": "008", "color": "Графитовые", "hex": "#4a4a4d", "price": 5690, "old": null, "imgs": ["pants-summer_0_2", "pants-summer_0_0", "ed-street-1", "pants-summer_0_1", "pants-summer_0_3"], "desc": "Мужские брюки VNACHALE, графит: свободный крой, лёгкая летняя ткань. Часть графитового костюма — берите отдельно или в комплекте с рубашкой. Доставка по РФ.", "chart": "https://static.tildacdn.com/tild3030-3533-4433-a565-623463373564/IMG_2591_1.png"}], "goesWith": ["shirt", "tshirt"], "chart": "pants-summer_chart", "card": 0}, {"id": "shorts", "cat": "bottom", "name": "Шорты", "stock": "in", "sizes": ["S", "M", "L", "XL", "2XL"], "out": ["S"], "about": "Свободный крой, лёгкая ткань. Часть летнего костюма — можно взять отдельно или с верхом того же цвета.", "spec": [["Крой", "свободный"], ["Сезон", "лето"]], "care": ["Стирка при 30 °C", "Не отбеливать"], "comp": "100% хлопок.", "variants": [{"page": "006", "color": "Серые", "hex": "#9d9d9a", "price": 4890, "old": null, "imgs": ["shorts_0_4", "shorts_0_0", "ed-brick-1", "shorts_0_1", "shorts_0_2", "shorts_0_3", "shorts_0_5", "shorts_0_6"], "desc": "Мужские шорты VNACHALE, серые: свободный крой, лёгкая ткань. Часть серого летнего костюма — можно взять отдельно или с худи. Доставка по России.", "chart": "https://static.tildacdn.com/tild3339-6635-4661-a330-383936656239/photo_2026-07-23_14-.jpg"}, {"page": "010", "color": "Фиолетовые", "hex": "#c3b2ba", "price": 4690, "old": null, "imgs": ["shorts_1_0", "ed-chair-1", "shorts_1_1", "shorts_1_2", "shorts_1_3", "shorts_1_4"], "desc": "Мужские шорты VNACHALE, фиолетовые: свободный крой, лёгкая ткань. Часть фиолетового костюма — можно взять отдельно или с рубашкой. Доставка по России.", "chart": "https://static.tildacdn.com/tild3735-3234-4339-a262-333165346163/IMG_2596_1.png"}], "goesWith": ["hoodie-summer", "tshirt"], "chart": "shorts_chart", "card": 0}];
 
 const CATS = [
   {id:'suits',  name:'Костюмы', cover:'ed-cage-mint-2'},
@@ -607,7 +638,9 @@ const SIZES_ALL = ['S','M','L','XL','2XL','3XL'];
 const $  = (s,r=document)=>r.querySelector(s);
 const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
 const byId = id => PRODUCTS.find(p=>p.id===id);
-const money = n => n.toLocaleString('ru-RU') + ' ₽';
+const money = n => n.toLocaleString('ru-RU') + ' ₽';
+// 4 платежа без переплаты: остаток не делится нацело, поэтому называем первый платёж
+const splitLine = total => { const per = Math.floor(total/4); return `4 платежа · первый ${money(total - per*3)}, дальше по ${money(per)}`; };
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const im = (key,size) => key ? 'img/'+key+'-'+(size||'s')+'.jpg' : '';
 // не у каждого кадра есть версия 1600 px — молча падаем на 1100
@@ -648,10 +681,11 @@ const cartSum = () => CART.reduce((s,i)=>s+i.q*i.price,0);
 function paintCart(){
   const n = cartQty();
   $('#cartn').textContent = n ? ' (' + n + ')' : '';
+  $('#cartbtn').setAttribute('aria-label', n ? 'Корзина, ' + n : 'Корзина');
   const b = $('#cartb'), f = $('#cartf');
   if(!CART.length){
     b.innerHTML = '<div class="empty">В корзине пусто.<br>Посмотрите, что есть в наличии.</div>';
-    f.innerHTML = '<a class="btn btn--out btn--w" href="#/catalog" data-close>В каталог</a>';
+    f.innerHTML = '<a class="btn btn--out btn--w" href="#/catalog?only=in" data-close>Смотреть, что в наличии</a>';
     return;
   }
   b.innerHTML = CART.map(i=>{
@@ -665,11 +699,11 @@ function paintCart(){
             ${p.sizes.filter(z=>!p.out.includes(z)).map(z=>`<option${z===i.size?' selected':''}>${z}</option>`).join('')}
           </select>
         </div>
-        ${p.stock==='preorder'?`<div class="ci__pre">Предзаказ · отправим после 10 октября</div>`:''}
+        ${p.stock==='preorder'?`<div class="ci__pre">Предзаказ · отправим в сутки после поступления, 1–10 октября</div>`:''}
         <div class="qty">
-          <button data-q="${i.key}|-1" aria-label="Меньше">−</button>
+          <button data-q="${i.key}|-1" aria-label="Убрать одну">−</button>
           <span class="tnum">${i.q}</span>
-          <button data-q="${i.key}|1" aria-label="Больше">+</button>
+          <button data-q="${i.key}|1" aria-label="Добавить одну">+</button>
           <button class="ci__rm" data-rm="${i.key}">Удалить</button>
         </div>
       </div>
@@ -680,17 +714,17 @@ function paintCart(){
   const hasPre = CART.some(i=>byId(i.pid).stock==='preorder');
   const hasNow = CART.some(i=>byId(i.pid).stock!=='preorder');
   f.innerHTML = `
-    ${left > 0 ? `<div class="ship"><span>До бесплатной доставки ${money(left)}</span>
+    ${left > 0 ? `<div class="ship"><span>Ещё ${money(left)} до бесплатной доставки</span>
         <i style="--p:${Math.round(s/15000*100)}%"></i></div>` : ''}
-    ${hasPre && hasNow ? `<div class="ship ship--note">В заказе есть предзаказ. Вещи в наличии отправим сразу, остальное — после 10 октября. Доставку за вторую посылку не берём.</div>` : ''}
+    ${hasPre && hasNow ? `<div class="ship ship--note">В заказе есть предзаказ. Вещи в наличии отправим сразу, остальное — после поступления, 1–10 октября.${ship ? ' Доставку за вторую посылку не берём.' : ''}</div>` : ''}
     <div class="promo">
       <input id="promo" type="text" placeholder="Промокод" autocomplete="off">
       <button data-promo>Применить</button>
     </div>
     <div class="sum"><span class="muted">Товары</span><span class="tnum">${money(s)}</span></div>
-    <div class="sum"><span class="muted">Доставка</span><span class="tnum">${ship ? money(ship) : 'бесплатно'}</span></div>
+    <div class="sum"><span class="muted">Доставка</span><span class="tnum">${ship ? 'от '+money(ship) : 'бесплатно'}</span></div>
     <div class="sum t"><span>Итого</span><span class="tnum">${money(s+ship)}</span></div>
-    <div class="split" style="margin:10px 0 16px">или ${money(Math.round((s+ship)/4))} × 4 платежа</div>
+    <div class="split" style="margin:10px 0 16px">или ${splitLine(s+ship)} · Яндекс Сплит</div>
     <button class="btn btn--w" data-checkout>${hasPre && !hasNow ? 'Оформить предзаказ' : 'Оформить заказ'}</button>`;
 }
 
@@ -724,8 +758,8 @@ document.addEventListener('click', e=>{
     const raw = q.dataset.q, i = raw.lastIndexOf('|');
     cartQ(raw.slice(0, i), +raw.slice(i + 1));
   }
-  if(e.target.closest('[data-promo]')) toast('Промокод — проверка на стороне сервера');
-  if(e.target.closest('[data-checkout]')) toast('Оформление — следующий экран');
+  if(e.target.closest('[data-promo]')) toast('В прототипе промокод не проверяется');
+  if(e.target.closest('[data-checkout]')) toast('Экран оформления — следующий шаг прототипа');
   const nf = e.target.closest('[data-notify]');
   if(nf){ e.preventDefault(); const [pid, size] = nf.dataset.notify.split('|'); openNotify(pid, size); }
 });
@@ -737,8 +771,11 @@ document.addEventListener('change', e=>{
   if(!sel) return;
   const key = sel.dataset.size, it = CART.find(i=>i.key===key);
   if(!it) return;
-  it.size = sel.value;
-  it.key = it.pid + '|' + it.vi + '|' + it.size;
+  const nk = it.pid + '|' + it.vi + '|' + sel.value;
+  const ex = CART.find(i => i !== it && i.key === nk);
+  // такой размер уже лежит в корзине — складываем, иначе получим две строки с одним ключом
+  if(ex){ ex.q += it.q; CART = CART.filter(i => i !== it); }
+  else { it.size = sel.value; it.key = nk; }
   saveCart(); paintCart();
 });
 document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ sheetClose(); menuClose(); } });
@@ -796,7 +833,7 @@ $('#menub').innerHTML = `
     <a class="mrow" href="#/catalog">Каталог</a>
     <div class="msub">
       ${CATS.map(c=>`<a href="#/catalog?c=${c.id}">${c.name}</a>`).join('')}
-      <a href="#/catalog">Все товары</a>
+      <a href="#/catalog">Весь каталог</a>
     </div>
   </div>
   <div class="mgrp">
@@ -819,21 +856,27 @@ $('#searchbtn').addEventListener('click', ()=>{ sheetOpen('search'); paintSearch
 $('#sq').addEventListener('input', e=>paintSearch(e.target.value));
 const SYN = {
   'штаны':'брюки', 'треники':'брюки', 'спортивки':'костюм',
+  'джоггеры':'брюки', 'пиджак':'рубашка', 'свитер':'худи', 'водолазка':'лонгслив',
+  'спортивный':'костюм', 'спорт':'костюм',
   'свитшот':'худи', 'толстовка':'худи', 'кофта':'худи',
   'футболки':'футболка', 'куртка':'пуховик', 'верхняя':'пуховик',
   'майка':'футболка', 'шорты':'шорты', 'рубаха':'рубашка'
 };
+const norm = t => t.toLowerCase().replace(/ё/g,'е');
 function searchHay(p){
-  return (p.name + ' ' + p.variants.map(v=>v.color).join(' ') + ' ' + catName(p.cat) + ' ' +
-          p.about + ' ' + p.spec.map(x=>x.join(' ')).join(' ')).toLowerCase();
+  return norm(p.name + ' ' + p.variants.map(v=>v.color).join(' ') + ' ' + catName(p.cat) + ' ' +
+          p.about + ' ' + p.spec.map(x=>x.join(' ')).join(' ') + ' ' + p.sizes.join(' ') +
+          (p.stock === 'preorder' ? ' предзаказ новая коллекция' : ' в наличии'));
 }
 function paintSearch(q){
-  const t = q.trim().toLowerCase();
-  // ищем по словам: «спортивный костюм» находит «Костюм спортивный утеплённый»
-  const words = t.split(/[\s,]+/).filter(Boolean).map(w => SYN[w] || w);
+  const t = norm(q.trim());
+  // ищем по словам: «спортивный костюм» находит «Костюм спортивный утеплённый».
+  // окончание отбрасываем — «черные» должно находить «чёрный»
+  const stem = w => w.length > 5 ? w.slice(0, w.length - 2) : w;
+  const words = t.split(/[\s,]+/).filter(Boolean).map(w => stem(SYN[w] || w));
   const list = !t ? PRODUCTS.filter(inStock).slice(0,6)
     : PRODUCTS.filter(p => { const hay = searchHay(p); return words.every(w => hay.includes(w)); });
-  $('#sres').innerHTML = (!t ? '<div class="flab"><span>Популярное</span></div>' : '')
+  $('#sres').innerHTML = (!t ? '<div class="flab"><span>Можно забрать сейчас</span></div>' : '')
     + (list.length ? list.map(p=>`<a class="ci" href="#/p/${p.id}" data-close style="grid-template-columns:54px 1fr auto">
         <img src="${im(p.variants[0].imgs[0],'s')}" alt="" loading="lazy" style="width:54px">
         <div><div class="ci__n">${esc(p.name)}</div><div class="ci__m">${catName(p.cat)}${p.stock==='preorder'?' · предзаказ':''}</div></div>
@@ -841,7 +884,8 @@ function paintSearch(q){
       : `<div class="empty">Ничего не нашлось по запросу «${esc(q.trim())}».</div>
          <div class="flab" style="margin-top:8px"><span>Смотреть разделы</span></div>
          <div class="sizes">${CATS.map(c=>`<a class="size" style="min-width:auto;padding:0 18px"
-            href="#/catalog?c=${c.id}" data-close>${c.name}</a>`).join('')}</div>`);
+            href="#/catalog?c=${c.id}" data-close>${c.name}</a>`).join('')}
+            <a class="size" style="min-width:auto;padding:0 18px" href="#/catalog" data-close>Весь каталог</a></div>`);
 }
 
 /* ===================== плитка товара ===================== */
@@ -851,7 +895,7 @@ function cardHTML(p, d){
   const a1 = v.imgs[ci] || v.imgs[0];
   const a2 = v.imgs[ci+1] || v.imgs[0];
   const price = lowPrice(p), old = v.old;
-  const meta = p.stock === 'preorder' ? 'Предзаказ · ' + p.eta : '';
+  const meta = p.stock === 'preorder' ? 'Предзаказ · поступление ' + p.eta : '';
   const cols = p.variants.length > 1 ? `<em>· ${colorWord(p.variants.length)}</em>` : '';
   return `<article class="card rv" style="--d:${d||0}ms">
     <a class="card__l" href="#/p/${p.id}">
@@ -862,7 +906,7 @@ function cardHTML(p, d){
       <a href="#/p/${p.id}"><div class="card__n">${esc(p.name)}</div>
       <div class="card__p tnum"><span>${p.variants.some(x=>x.price!==price)?'от ':''}${money(price)}</span>${old?`<s>${money(old)}</s>`:''}${cols}</div></a>
       ${meta?`<div class="card__meta">${meta}</div>`:''}
-      <button class="card__buy" data-pick="${p.id}">${p.stock==='preorder'?'Предзаказать':'Купить'}</button>
+      <button class="card__buy" data-pick="${p.id}">Выбрать размер</button>
     </div>
   </article>`;
 }
@@ -886,7 +930,7 @@ function viewHome(){
     </a>
     <img class="stamp stamp--seam" data-stamp src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHgAAAB9CAYAAABpqadhAABCZklEQVR42u2deZxcVZn3v8+5S1V1V6/p7DtJOgsBUTYRkURAFBBcBhB953UZxVEHdVBGRDHEZdxAUdTXURncF4KCGyqoAdkRZEtId2cje9KdpNfqWu6953n/OLfoIoMLdIFhPt7Ppz7dXXX71j33nPOsv+f3yBrIBz53ZIX2MuwS2IPSa4W9KH0IgwIxSosxNKsyRUAVClbZLsKwZ+lNPDZTYWMnVAC6YEIuYLaxNJWEshj2VpRMxjLbN0zAsvOehD+ck57/XDxWgFkJFmAr5BJoqYS0JYqXeAy2lCj0wvBREP0t11MQAAFN//YuA61+x9M5pCfgzXn471EgBIz7AgR31cB9EQnQLBADJYVhKAj4qnQFwgyBe0vChQ9XWL8EvDDgi1l4ez793/1QEvBCCCpQyUNYVv603+c1+YRlGWV5ETwPmhEa0gFGogwpRCLsByKUwVjYLTAqln05iMsJtxGwJKtcEguzIugPYH2i7FRhtwj7SChHEAQQWUhkbJhPOCwkjZCtJNxeDpncDOcVLTMRZgGhhVIWbAkeXhhxcbfP+3PC6RVlvhWmAomC+lBMlC0iDPrgRzAKeArl6iO20OYrGQuNCiMCRty41QNrhb0KnnH3XSgr23yfjyUxl2aEQ8vwJ1V2GyEwysxEmKZuCjUEU4YuH+VMK6iFuAQeY6tHMyAFpdsXJsZw3Qj8FuXNotyO0AEcaoX750R8/BZIlrv5ZwXoyoh/7fHZmQj5CHIhvCMCE0HsKxuHQSYKLzAxN5TgPcCZs4TXDNQ8dcGNOAEagD3uIe2bAjPLuJG3CzwGp0VKnw9hAsd0CCTKqf3wbuBVWeVEDC0oj3nCnA7cjSbpS2p+nymwSfnt/IRfb/VojGKOm2o4dVf65KYJ7LM8oMK31nksA04sK21AvyoPNgpnFGBnO0zrhd9Z4bvTlOv3AiVIJoJnxG2eRGG/8DGUwxuFs4pQaIXGEaAD2K18UCCYKHy0H241yt6tJXZODzh8AhxjheMq6X1rzYqtpM+rT5njW2GCgAgE9olL2vqgJWG4YjjdJPzcg69Y4VtDETc2B/zGwP2qLFgLjcth/wowp0KmGZI3BFwBLLol4pXHBXwoB14MeOAbYaGBw3fBodOEw6zQV1K2D0FfAfLuNIyAn0C5ETL90JeLmF30OWwQfhFDrLB12PKdxPAyD+4fVP4QKgULrxy0vHJhwi3rfZ4XCWtiMBnhCIWoF24T5ToRrhDwLYgHfgzlrcqVodK5wefY+UXuWh/QoG5n35WJOGmfz0VWCAUODYXPJcLLrPKRJuEVw1AoOgkwbS/cjjAnA2ab8mgoHJJVdu0X9oqSxMp1zcI2lN0IP7FwooGmAWUrwrReqKjwXh8m9sFgRvlILPzb/ICrikq2F7ZGyu9E+CfAN5BNYFigYqAlXY9rpSfgbk/pjGFfRphfTndweiR58EeU9xiPG4k51Br+K1E+njHcNFqhuBR2AOaRDLMOL7PpWvBmQDg5y8Qk4XshLJgIk3fAnSgzgJsSaF4cc26taOxxIn2eD6cpTo5VYKAZWkeUtSF4JbhmUcxnugN2B+AlynAi/CKE8xLoUKUboW9zxMtPhUJ3wJWdwnu6LB/2Yi73Au4I4MiCsKhUYU9DwLommFIEAmVLSbi2M+I/NvscNzfmrh6PM8TwEguHd8Cp++A/LRw9E07Zrqw3wkxfeH1FeU8LnJjes/owGinvF/hgRphVgZKFoRAeLSv7KoZL8wlTIsOP0w3XJhA3QG5YucQTXpWDYyP34YgoWxJo9YTMPKFjgxIpDARuJ0ysgA2gECt7Fcq+0JkBU4AvGVWajJAXYUaU7mAPpA0E5ZJh5YcCsr3MdgzbsjApFD5SqbArFaN2Q8irZ1k29vj89BxIXgTFrSV2YrmtQ5i8G27tjDhelDdVYt7lC3N6Am5eDVmFcJ3P+zw4V+DUYeV7ZcupMdyTh5FY+MhQzDGR8OsZhk93eZwksLYDOjxhbgtc0AQdFs4XwweyyvQlPm/bGHCYWH7Xp3Tn4FgCrsjDkUVl4+IK3Y0Bl0yCKaPwawMvGIpZiuG/NgXcHAi3bg64Mk64f0HEf6jls4PKgw1wiYFjdkJZhN9b6AuVnwAvGQQtOckrZcj5wv/zhFlFt2GyAq0ChwvMzVlOUcN3PGgS5UaUrSh7K6CNwoet0luGNwgUDLwzgS81CSHwgfWW60X4hMBFqnwiUX6gMFBSLm0T5lphWgXKBhClVXp8dnlCa6xs9YQFntMN72gW7u1XTm8R3jgCr07gqLlwza7U8BpWHskK88vKKzA0tSkfGICjA+WlJuaBAvjGZ227MHM//BHlYYX1Ai+eIpyxG3o7I6b0BJw7W/jBgMIgfHlhxL8pmE0+720QrhhStojTMdMzYCMnhkoGHojhhPT3CYmyTWEgEJ6fBwZgP3B3osyYIhzep3RlhJtK7jyvXfjUCIxGcJsHWau0IyzJOFWSCNwcQ5unbLJwZCC0VGC7Vb6fE67wcQaBdercCBgdU4cwJglFwXjuc0z6UiBStgF/yAjnlp1aijMQlGEP8EADvFyByQLbLJus8JFmJb8v5teHwpYuj5OaDdeMwiSr/CQQJiVwogXbAGFB+bn0BAwLGFV2e8KcHNghOFKFzibl/wXw437Dp8XS0gz/WoDDrNJuINsgbBuxfKYz4RcAm0IWAueIcrwBLSkjAktnGRalFiq7FTLKwwX45oKYK3sC3ppXLigKSzzwIrhH4Mi804lREb6GctJ0YdFQauknQL/yWIswp5K+FwK+wKi67wmBnDj/pKhQgpFCxNQg5JRO+Mmu1CcJgIYa7yBOJ2AQkhZn1dMPO4FJbg3iGfcvYSY1FhJnQNEI+AdY5Ukqg0tu4kvp3AY+BNnUGCqnz6ZqIFU9mVGlW+EBA5EVOlAW+sJk9xFfsUoF4cMG3jYv4nsP5ZjRFLMmVnY3CQuHlF9IT0BZ4RFRNk4ynLPb8kBG+VhF+NjEmOPb3aD+h78mNbo6VeikxiEboSWbpWV6ia0PwqQJPm+OQD3lTxKyblaRHbXXWQHmTSELE1hslA4R+tSys9Fj7+QyG7tDFrdaXjUoNKhSFCgohAh9Jv1OC1mUDJBFaDfQrEroC3uA9R7cZyM2VkJe2qqcNKC0iBArFDwoWaVsYBChqO5nSS0DntCvYCsR+3woxBBks+RNwoSypd14NErCcGToE1gcKotVyCagKH2+YXti2Z4Y+sVj2IIaSza0tFQs03xDW6I0I25cxtIfCAPWY+/sMltTJ+Lx4z4I2qDdeiwxwgsQTo+VFR4sM8KF1rlyxSaYMKKsoiegf33Ab3t8vr8jIHosoLQpYGBDwFKANRAqyAowq8HXGkNbndgxf+nvv+DUm792zj8OF+xIX/Lnzunx2VgI0U0Bn+jyeOkGnwf6ArTb52qjyqkKdykcP6RcMEPIlOBb8yPW3AfBUqhIGk1ZDnG6cwW3+6zURFmqf6vTO1Lzu5++vBUH7Paac4yCly4i71o3KFOzcPza1+oneT3Z5zr28wnXerL/OeD96oM16UuqrxVj73m15/2561XHsiJ91VzTe5IxPD729Bkm6asan5Ca5+Wnvw9sV958SMSHrEdrXjii7CZoPz0+H+gPuKs74BaAbp/rtgbsXQNTasNn/zgOyt0t6Q5+oMvn+B6fG7cFXN8dsHtnQHm9zweNwjmDcKwY/rMn4FcChTxMyPqclV7H+8ejPOgnOu8Jb0DIN8KrBNpiFyQa8BGGQ0hKCf8qwokdQm4f9GdiZxlzgJL/x3HwHSLsaYZ3DAO9TqUGBsQIQ0aUgoIxwgmAtW5FfGMW7FDw5ImRrX8cB+cODoswYqG31XmIxcRN/IgR2NXsFLZ64A3C7krERwEu+8fkPldmOBtCWZXeInytAXJF2JNUuMMg9PUq14tS8N2OtUHAyjsh948Jfs6I6O3NwgTgm+WIDyUw6rlsoG9Q+jwXYXnIuGDQtDlwYYfHCWli/x9G1sE6sW5+RJUp/YoCxvjcFoHfCFNin9f6atiC5SKEKQnsiUF7XaL8aOAm/uEmHbQuUmofecCEBCQQPiNABMMeZBJQg5ItCh8Ersi7eGvsQYsIMwHnHD/3I0G1wQtT8/tzfvF2QQ4ho25ik7yLZUeD8LuMx42+CqOe8iIL9waCYCmqSz7kn+uDXzEGCOF/InPGFsAq4Bz33nPO5gggZyH0XKx/Z5/yztAj6KxwPYAfKZtDuDajPLZP2YDQ6rvtP/JcFl+XgawEu9HjdCMsjITpKFMDoV2VbcZww0iFW5/D4xRAo5C2JqWt7N6Z3AxvGlE+uhFahiGWDQFHWuW6EMpZiIaEcha0CLcvjPh3dYZX/BwL34mA7Qm4ohUu1LHPsKnSStODW0X4eaysGoq588ixWPtzJky5GxqGPD4QGN7rQ1MMf4xgDsp2P2a5UUtHIny0JPx8smGpKrmS8oB5Duqn2kTGBp+vtcOFQ8AAxIMQD0E8DMmg+2mNMKsB3tUk3NIU8Is0OS/PHe8IHQyZGQqvSiCMHYhgSghtwDQDZWOF0Sb4jMDR65W3GGHWLMPbrHOdnkti2awEuwrMRp/vtwtv2weDVukOUqMqxQR4OJCaicAOQjzqdu0Jj0HzcyXBsiq9R2tpzQmHJRBGoJ4wM5VCpX3ObaJUUQb9iLNw6MKuQWUHyvTnihVdTU2uhuyRAT9rFs7b68RtI8KMFBorB1hZiktv7k0gCSFb8FmaPpznTI7aQFIEGkACh7UuNTigiqmAmiSmuyicPQ8GPUuvjTi9H64DWsbzwJ+tXVA1qLZC+6yAG5vgtH1ucn1AVdlVBZPX/lsIiSo/EmgwKUwqDz/cELIAl6M+qCf57HQ8vlBMoFxUHrCw33dx6S96wmnHQdl0wtChEQ+shdmHJNwYeSyZIbxHHGjtaUdYnkVjxVsJtuzx7omwvN/hgn2tpjqFZj1gB6eVGr4IZxtotulqbxCmx8rVzyXVFBlGPAcU+4mFhxXieyIumh+xBlKEQVfA4c0BD2/wOTaABm8MtcGypzBR1V27Btp7oPnZ2MmXVTFZhlOHnMitDa2awAVvnnD46T0pECvbg1SH94PNwQldAS+Qg38XK0CxTCGC0gTlYzlYFikfeH6WyT0+74DUMDHKdxLlwwti7rKGj9o/U7fz145b0ofr+5ybBFwioLc8g7FsTX3dLc5qXFg5ABOGi+7ogc5jonQDcc5d47eJsrHJ6fE46wIGR6fjOeh1cQeMKJT2Kt0RlD3hIybmbhUu74JGswKMGFaUhD2bAj5plPf0KUOWpx/JMnBcBi5YA/llrgRHnqHdKwDlHI3iIjpPpi6q362eM64GFYzvEA9hIPyfBIol6E11sWg69mUHeZQDYCaURBnwoRA5OG02I0wTSPwMk81lIAsq3KCwTuD9EWhZ2Sdphd9TOZa7eiHfwlEToCHjc/4zuYsvq+7OIn0oO4MnAs7/hzzzQEXZH8EVCqUK7A3ScGYCWzzwrLMfomfLQBzH4tfHEw7CQJvwAoEiMFBxcZwmY8kZgWQXNPqWaRXlxxnht3lhLukgVz0FPxRgXcCiQOjc7774feugaVl6M89QuszvhLIK12UPiDMfeIsJiC/MbRUuryg/UOWKrCtFODyEoyuQGBB1WOpn3EUcrzG6agwpOlRw4542BaZWlO+pclEE4ndBx/6QtkD5VQBDESQN7ovNU5fMWE95RV4w/VBuh2n7fd4qMZ9f46Akz1ixtyg75c8sIQu2FcygskXh6gzMy8S8M/J4SSRuB1ec8eUNw4CN+EMqopNnMszYDRMMVDphaJxjH/UEg/LYoJBFWLww4k0KYozP/LxltcLqSPl4G+Sf5m5zuF3DYxbEuOo2m4GL13ksWwqVa58ZUW1xu/DWUbfKDrx32+DqnB9B+EUjvH7YsDkK+LFnWFVIpbeCNrnk+WcWw87VLur1jLh6t6RYNy/gOvU4oZrVeqrXmTg21oFUeg0NKmf5sKjL511roc0QsD0Upotwq3r8uASfs048N9U61H+DuEkUzKIKq4bg1g4Iy6BWmNRsWL0u4Pxz3DlencWcvRa8hREPluErrU6P1iZH1AeJhDuBpQ3CohblsjY4LXY6a78HNgRvQNlaiPmignmmdu99ECyHuMvnvbOFE8XwwgPspqezs+JUekkAbw8gP1H4UhhwlqHI0BAMZ5QXSsKkWRHvG1a2qjKBv2C0/AXFbyTizEH4aA5M7JgDbBa+sjZkQXUh1DmqYxVMLuL9g8raRmfoVSfIGwYy8PYcnNgLOgRJP0QZV1O8J1FuaAcR4aIjoMABtVf1OlaDfxRE6zyWZ4XL9yoWOLHWn3+6jktRQYVDW4S3lFwpa6TKFBO45P4vihH/d2HMPd0B53UIh4g87TypZh0nxStSf9qLXWjQ85WvV/3Lehpd1cmYBcVIOM9COefEbpxmBrXiUqDWqykBqYAgHNIuvGYP/HpBxLXXOvFZ992r4C2H+MGQzqxhlQUz6hb6kh5oXpmW8DyVa9YEoRpN6iUMKjsNeIGrYLzdlCAxwg4/4PQtPtcKXJ644u8GfZoreQgqokww7n9V3C5K2uDEroDLl0N8//+stBy3qFbwFkc8UoC3e7A3D34z+EGaHBcwIZhm8NrAb0j/HlZ+VIp4vYI5e3w76UmP6qJ5FKY2W270YUIEcZhWIALl9Fk/VSu6OviWssNhCbAby8v3wz/Pi7nNLHKIhmUefMUTzgamjaarolq28reurKrPuxRGrPDRrPPzNDWxvQGIW+F9XT4XHgXRfS7rUc+dnCiYJRHfGopYFAlnjzqXYVfeFWETK1tGlZ+NKJfGljPKhkVzY153OPTzDMTQV4N/DiRdGeZmfW7OCPNGU+6XnHPJPt8J5VtqCHCeimpKf22Plc0VMI3CC0R4HiA9jhgJenzWhOCVhCkeNAdgyspjwzGdR0H0VHZydTFsg2zJZ10ozCrXuF0G4kbH+/G+BTGf02dAJKoLXjy+EzdCi+9xrDX0EbFu7gG57ir1UL0ntzq2NTAlE/CjZnjJgFMZkgdvRPnTcMwLjxyrHtSng6zsDvhjKxw15FgU8iJ0tcBpg4YF1RJIyQqLDLRat+tAyDVC9mnqQzMLiip8pDHN1aYpuJIFbwSSvHDFeo+PpbtO6qyTqyWpnoI3DwZnJ9w0N+KBuVC6tqZMtboYnoHJ9QWSR31emPf5jVWmpsEI8UEiKHnCG2tI0nQ8NkjFBZamI7Qp5EchIWaJ6XJ0BC3FMchSNZUUJk6EPl1R6S2M+PY+5foWZ9WquGCHWDDDkLQZPtzj881UHwv1jxIlNQvo8Zrbc1JOr/Tzuuvc1IeO13i8tEH4tS8c7gsLIqcmvCyYIrxjfsSadJfbca6moARRAt8PoC0LLwGM9fB9bSCvEQ12LBpVtTKNPz53xirIppg3D/sckRPmVCmaJN2xBXfOSTUF4fJMQFdljKzvWYEOCcSPhpzeqFynkB0BTXdKryg7hoXNiyO+WTdAo1D2XETrpDDdJqPKuoURN5jA4gMZ3+2sYk0wN5tkaazN2jwdUT0PBiPlHV5V9NeI0QwYA7eket7jOV4LVa3G7PY4rUn5aQzZsgMgFBI3tva8sMRAV51UUvUa/R0QGsgOCWdaeJ4RdnZBo7FKINAXKdtCJ0I1FdGer86Kvmx8Vq23OOE3w/D7pjGqIRTUuNDmhvFGcg6W45aqO2ZoD8BLnH5NUPpyqXowjjPrsdTjoB7AO4W4CNsioT+qcG8JzgvgaC9kpknKDKpijNCRrsDqTjOBPj0dfOCg1WVxvio11oSBwMEC6fvfUCKTBh4sjjTrnmGwjW6MsQpNo8oDjc5V7NeIn9YzmZF6KO0C0xsC7rfKabFzc5eYJbBPhD2hw9XuTmmm4gCMtS4evWocu2tZ6gLEFe4YdmWNnucU9PaKq0ZveSaS61WylGtriFKehAxF6pyfdrFRIbIwUITVxnkinghzm5wa/HYn9NWjuP7sGnspEHLAWoW7jEPHxqIs9dMT/lByBJ2vzgueAYqQxHV8ALuhd5qyMxDmV8CKuyGjcPh43QRqgO+XjXEuJ3/tmivHsjhaTz84FhIPWhLlRoGFAQxUhN+OwOs8+IbWz5isXqN1VDGNcNII2KxgssAgdFTDhQ/FSt4TfhjC6/cqXxBYZgyT6xUnXg5xj+OMxjoRPSGVT8dWAwJPNTRandBbQFJJYVfWWLObssyQmKk2LaTzhELFoxdDOQdERWJxtIG1AQ95uoGXyxzdFFqipAHFjPDZioPRNIfKy0fg7jim5+kENf5ckENdxGp2WVmbQPdE4TV90CeOkfhPftWinWS4sldZvS3iee0Z2j3Lx0YTlxw4uw43sgMaCmOTKmmZqo+wsYpDfir+YPX8lTXvbc0xPU54kVpesQmO04TZnpALZYzcvGKxWMplwA+INsIPPfivkYg1kgISxhvZaoRCAYaMy60TK+vbhOcPQDsp8EHrlLHaAe05mFqEX3bGvH1jwMdxvvC/FiybqhO8cEBZLXBKg889pYSoQ2gYqU/uVgAdDDgkhMnRmB/s2OSVW2uYBOxTCd4/kmVmk+UY68pfj6vEHNboQnWUU8xRGbTs6Ha9EtwOHBlALoZKArkmOH8Yzs/4rN8qbBkVviwVbqgNNT5Vn+VrUHqDMpy+ESIsGXDRsvYgZCYV1o3X50/hOkkpYE7oVN4t3R6vDDy+ahLWuXJ/Xm7SiETnPsM7VdlkhGke3B9D4vkMArKqDr6aJ8zOpTdF7eiE3qdiRd8HwTmQdAe8qSVhXahc1wgXZuE4ID8EyVCag07GEh3GwJAKnzNKX0NaumJhZADKCdhAWBDAyZOU6zcFXLXauTPJ30IleKBOvCx1NdPDGMgA2gDGS5hbT7cwTeaYGB4yIff3lxj14K40S7S5Gql6QWvCxSjfb3XRlWOH4dgFZVYrcE4dzHmTuIiNjg+54B8FUZfPO/NwTeTo7+O0gCxJ0tRkWmRmUiZ7EcfhbHzlGwj5QaUrCxkP8m2QCVxlgx2C8l5ljcC/zfO5b6PHybVUgn8tZl797DHHkNARj6mjKrKEWJhT4zM/7WNtupisYaAEO8OIXmsJpvu8LlYmjEAlMNxi0pVqWoS3iuGdCWQi4eb5Efer+0zrYeklPj2jUJaxFKKmn4ZPJb7b7XNBs/Dl1Mq3uDi2T+rDP9kKT9wE5TxoNUpvYjgrUnoS+OR+uFxhZ8YFIb4CfMdAfyzM8w03b/S5YYPHaVscK7vKX0CIVi34KEdeoTH93qQmvo8ok+rhFlYhw57PiCq3/wn2kdAx0XBVi+OqvGNLhS3+LMjEQq7gxFFLBAWjbE+vU6lXZkfKbO72ebRFeP5gFdqTsqH/tQFXY7brfC5oEb44DIlNd+hfgA7ZlIfRa3DdXugH8sKiRLkTuEIVb1HMxx8N+JYPdxp4ZyxEHuSLyjojjEwUzhoWzooNex6DrmGPf5YS2/6SUZg45EjcDNmYJ1AIWDE01TMqvq3A/mk+RxyaZcZIiQc3+rw/hDsWxtwNLmWWEcgoeD5Ew8onfAjXhizoqrAbGB6PQVC1FlPDqG0UdgpMVMfT3ez9FVFV3bmPBvzfVv765KrbNV5TGlAZdhbtrUOw1oNkRFkgwgmB8LEYvJ6AHSjvFqEhgYGMclMRFhuhAtw+Ai8oOQNpcgtMThKuv89la0q1fZNq3aRskf1RQHkEbk3Ay8DLU5r9RoU/1jNyNxEMwsRMzOuWwBUScwVAT8hrgXV+AFEZSjEUJ0Jut5vIQ2fCI3t8PkTMFatTPNF4bmQGhCq0Az0KH0I5fr8Ti/6fG/C16feu8XlxI3wj1bPGPHm/IxWgBbwC2KLy81D4cWy4fVGZzbXn9kHTkM8RBo4QOFOFw0LwyjDBE84rQxknxc4bFYxxk8ReqHTAkerzfYl5VRoZe9zdkTHJVOqCjR7cDzzmO2p+3adctzPmumrGqR7eSS7LlCQhj/CJHQGv7oGvieEPXsJrR30u9vug3KRYI3x5vzKcFS4uK0OJkrHCicAVy+rgrzWAEWWwTTiqVzmjGPPGnM+/82fKRFak+KiNMNkK13kQFF2C4sn0bJJJXbqi8i0jXDk35sFan/mWNPXZBzoRhom5DbgNuKonw7xiwgd84Y0CoVVuMHB8ozC16BZPpQh3BrBsL/S2CWf1+Hy9M+ZtOsbq/wSvQZRdE4SPxO47P+fB4Vb4VFreUzdUaSWhJYQggZGS0qPCP3eW+W+Ft66NMaYZEoR8AkfFUMpBK8KM0RpDaFUdbqQljVTtB80Kr23w+eME4WN/rg5oWaqjk4DrUPpGlO/nD8jrqtsxURN4KLus5ZS5MW+aG/FglQ8rpVKyyyFeDnGKzZZaVEdnmY1zY86P4IUGNuSFQ4D+2F0/EafLZiWwC2VwALRVeOujISsEkhpAv6SulQ8sHXB8IDajnKLKhNbIpQnrCTLwHJjCBpBHeD3w4u6A1dsCdmQDzjBZMCgjGViK8KmhFAlhxnpW1OWY40RSOQtSUraq0Oa5B9hwoJG1GvzlED/qc2E7vLhRmC/CQFl5Tz71pW16j+2uS8kfCx4vmZfw25QF/fFJfbK+fwJai+pYAeY+CDojHlgf8dJYmdAhHFZ2i2kAkIxwiHXViAsUvjoA+xqVyzaHLK7isqti7iHIIOStSy6oCouAa0xNeLGOSRXbDCZSdiUwapxaeKEPrQrW7HcPrJQ4qoNK+jRMCq/IP5Xqhr90POSMuazvlvk2gS2eIAdWMVb17vqAQ5uE/+yHkciVfh4ZwwVR6ou2OuxvYQRWros4YWmZDWnkKX6qO2Ql2KMgWg3+ibBtIObIAbi71e2OViAYdQu/KYF+lHZNYadly8XVNgfVWbseiqL0N7iF5sVARri43+etayBcVUcR7Sn5UfhZ5HNcCI8q7AVuDmCdCsXqFwVGmGudtShp9IV6xEqrvmFLhokIkwbddY+3cExJH4cJPSFQkEaOrm6EjIV7i8r2Jjg2FDpLrszElJVVJeGouRGXneZwxWa86MzlEF8L3vNhYFfEywpwc7srhanCiUKFtqxwrsCEftBA+KeNWWZR06silRqVMvzeKpsyDmSX9YRPZbJMPieVGvWY4MQ9i4KJWJSHYwM43cArC9CRQGjaIBShJYZ3CaxpdWDsSwrKXsvfFoT4Wya4FDMnmybArevo1Z8uoidQLpwDSY/PB1vh2D4n1pf5woIB1xQranX0R1+bHXPOogpd1U4w9dJrqY42L4bhrohXDis3NDjx+/j1S9UoEiRN0BAlvD9FaDyerlShoMo8hEk58ENotzDglxiuJxd3YOj1hfOM8OXBFF1pIQlgooAxs2AY5TdWuUSVyYkr53hV4LqLDo034V+1Ko1hQc49lKEaQD3VnPPadAduDOn0hRVDKSmdGVMXBvBHIUb4gqZ6c/kzwE5X5ec4DcpbY86rQF+Qkqan3BbV5+ENuRDkmx+FqcshfmU6NlG2jhr+zcKjQ8q3IrjbQG6fq32q2xEpOat8w4iTFGmPLjLuAYsBkiDmXz1hzyRh1ij0Aveq5QyU/nrpYGBxugVa07ltsjXyuTH9NbKc3uToFaw8EagX5VxM+aHOCo8CetQzWIlfrVpc7rDc6zJjSNFEa9ChiTNy8n7AO3FhuerkX5mz7M3AlHLIxQnclcDvUoChqdeijDz2I5wkytwSVHy3wIr7lP/G9W1AY5/LW+HwQfiURhy2IOLfRZiPMJHxA8OqsJLOCMg7q/37Cnfk3ba0B5j9h6a52JK6voSPl0iGDu/082erG8zZY2Q0D6YTPGKV72ZqDCqBJIUDvwLg0NQOMIZ9WeEulC/0jbIXWNIGzT0Z5lWrMMe7AAGWltiqSqTC7xSuUViNsjkvNIsQmVSXHD0Id8+J+OB86O3xeecsw5XimieOi22m6neKMscCo6AivBo4ougUm6m6Uep2xDFl91BzOCPLWX0OX5x48AP+MlUDdURJOnUq3J6KirwRXl+BHTbt8KluggFmp7VACUBsmTQMlULMlyZDi4HjGuAkE9NZ01xs3CwB66DJCM2inGFh7/yIl6tyaYvwTx6oudYBwn6Wg9LugNu7MswF7k2TtjfX4ybWQweu9TqJ23rtCi1xTTBFIN4QsCQQlqRVFp4BSZtR3utDHCk/mleh59p6VAP8bRPsOLgq3DkMxWpZpir3ifIr4yRNLmWwnaABh9QGmXIgWWj1fc5pgea9Lkcd1ZNox88wOQdTYnhwmvD9zZAVQ0MKpgjNRJDOiEv3w8rJwvGScPrCmHs2KR8vRdw4TninS/YHTPWcD4lxuxRxrVSFGkvdwrlNzkWybhPQV3HF40cmyqZ8zLsVzNpnCSBfrdld6FoMPZRzRqFFOF1hCWOpzyStwTq0lr6pWQiSgMtUOCdyi8BI/Xxgl5qMmRu4v05WZW3k88NixO/2wgdjS69ZBsl9EAQ+fVuUnWLYvTbL7M6IS9OSynH7w4mhoBClKSmbto83Beg1ys6aO15eXd6hyyJNqGK0I3jLDNi3aszPfLYOL72334Zj9zmEMHQAzpsahCiitAw7EXa+wPEFHOVgvao3qiBFm3BXyfKyLOgg7FG44wjonV7hU0nCHUZSa3RhkR1zIqZ3VrjOj/ns1oDbNoeu7+84DAIFGCqz1SrbU0OlCJSanYvx4wUxl1fjxijTKy4+asrKIwqDeTAlZd3imDtXpH4yzy5tr6YJ5ptKY4jQ9hwcVRlzmapS6dCagQcyZgx5uJRsve/NLIWRouElvoNZTfZT06E74I3ZkNkGoMvn+N6AT/WErOgLuMLNCV+Lxm5YxtP25SiIROhLB5zNQMOQY3k5ryvkFQJ2FjSq0KhjurtBIAjd/6x7ujVSdQh8WIDhmPuLys4QTAI2pYN4fKiRm9VDVqfpTy9l1lPoVxgSp3qoJ/n5OZB0hywO4JRh4UqUi2PhK2ugHWVaojRWUZUXtcFZ6jplk8BxXsQmH4Z0HDjh2rylQlEctsaU4XdWOaxBmGR4PBadFRcKtDFokzCvoDw66ngok3rgmHj6jHKewOh6uCUH51Xc5PoJDArkTRpvVmH6TAeN7Y09QusUdFMD5Epjnb1z1InGcaXDus2e4HH0bsvMQ2I+3e2zIBfwHQvXqzC/Knp/1wfREFQqMCiG/iTgu5UM0+qQ/ahayWHVt1FlqghNIzDsVfgtQJShwUI2cbgtM+womOZmhSmSIi+Xwd+zqAwr/EIfh1aRxjVcYXvs0oq+BK5YQNRNpIE7i/BbVXbk3CJYVFdUpYc/rJiMMG0dzCnGXGLgtGb4uig5k1pi14zCgIDfBC3GcqYRvmxiOut2M0ouTebaUFgSQC6jDMYBr0pN6CbPZZxyjKEhs2WIjfLDWn3Is19UlgB4Eb8bgWE/5bT0UqhTCvojhIwobTW5YTw4SZU5KilZqjgm/bqJl8S5mg3w/iDgXXmfWZHykA9qlVYDEARclIeOGMqpyX3Kggo/9RMH3Hq6PmcVzpImBJrsmL6KfRf06JfI9fcRpSXj8qfV70qyIKPK2vkxd1An+O44bAkzH3oV/pBL2RCSVOVISkAegJcYN8HVMGusPJIV5gto5KRXvt7VlBmQQag0wPuN8EeFfMltyqxJZ+LVEUgb5AYcjOWiPQG/j3wuqKIaGR8wLIvQaMdWtl+EpEU4zIS8OH1zZjAWtUKdMYMRpjzoUq9/72YZ1bqlG1KgoBpnLwwpWFOV19Z1Tk/SCVahIw1lNksddXCtvz2qdCtowW2AEQPXjCo/EFd87hoMNwAF5QffjFgWRmzxheWi9Yn3mlT0ag05aBVyY5V348oMD/HdThlNXJGazbqT7r0eitf+nXsZX5aaD2WPm4Zgf851btknhhcIfCZwdsMeEeZXrWjjxj41XZiBqVF3y+o0FnWdVmakCFkvhpwV/iMQXmkNW0xqJm7drzx0SMzr3wZtpZCTdipvVfPUOaOf7BiFIZQ9KdNKjLM+TSpGXrgDGhTmNAkC3ItyU6OrNsAqX1wJ9mz+vsfKNLu0tMTWRPlCCLGBTabMcAXaMyBF+B5KB45pZmeU5ox9NxH7IuekZKl/e7vGGkPJ82FtAlmFdX66g0ca4JAun/eOQphTLtOIaYUMHenqS56u7qryM3YLv89CZ9GhRdpSmKsVy7nToNgDz9+rDALHi7gozajStTjhd3Vw1erW6WS127mDMZQHI85sCmmdBuf3WTaHyq8SwwfTSo4tJevaracEbHvKQivCVOoY0UrVAcYlYrwI7sqBDCmXLoroqRaf9SSwNi98HmHFFMiVfd60tMwGxika+8bcpFkVl+O1aTDDtoLBc7lphAWjDjCGQEMJyo3CrG7f9TG+9u/fx1gEbOqqvXeC0JgLeEVkOUOUvUZ5lzWcDCwGyJTZpcpeHyiD9YUlGZiG0rziKZbK8tf5lLXFxRD+RSKWT4s4LudxLQ53DkYYHVa62wRN4Gs7lPcJvE0dqjKpAwRGUBYVXdx5OM0FmgHll5pQ6g5ZmHcBgZcGLkVYjmGoARoQ5h3Ajfz3OqoBjxi4JQ1N/jPKo8PgWcNlqmxRRbdCbi6URNier/rQYEtQUGh8RQpmrIfRKIaWUfjNfnhrrKzvhHJ3wBHlhJetg8lVHdzRLBw6rMRZOKYS83WUVetDzhxPF/CadGGoEATCVIUWC3EDSEW5rzPhJmNZHis9o3CvdVitTDNMHHDVeHfUEpxwcPTCeHDEPZSTjPA2hTardCHMQJgQjWXI+kZgNfCL0LmAAcKktpSLu05ipdAAL4wjfrkw5rY1GeYvjHhQ4Gg/4H3VSNbzQjiqDEEA8wKPFwcB11Bx1PbjTa43upXvpUF3g6PyBcMpOELOOZMNs1T4eWx5/RSBYfhqLLy6oeJAB3IQTHBNoOWeUtUbEE4tKzsFTmmFS0QpDI+VpWzMwgnAKeVU6YaQtYFzpcYDn60WIxjLzlZoDX1e1xNwhZ8wpTtkcclwuSp7jIKI4T/7lYcsfPrhiNlRwu1zS2yNQl5UDzaY1D+LalKPalwHlL24n6/oV/pRtkrII4OOVHHPogo3zHmWOqA8FXbXbMxDJWVru2ud9yMLnxfhT4PKi9J0XSFFp3xDlZ/4Y/iiYQMVsbSOlxqjei/FmI3blUsfjLnKV65dFHM7llfPUG5DaDQCmoLY2i1UFni8KA445DGY3KjcsDl0ft14MEQ7XJw2rhKwCPhpsv9X6kTXj8V1/nwjMR1loMGwojvgiGeCIX48Ea3V4M+CohFuaBM8XAPMCRl4aSi8zodbenBYNi9id8m1myunBs8Ez8GUh8dbElTddH0wtDjm4+dAckjMPT0+l4YwpwQTBKb6aR/4jlCYaJXzNOGqvOF9lYBNobIliRh9umx3MtbbJ+5JjSvfrezefmVQhbsFdEvA14cj9glc5ME1Iun/2cdBf3KwkZ0pXLNdWeTH/IfNosWYn7QJ9+YFdvoYibm82+OYOYaPb3P0fhWrbCwI/UnMxgP4np82ZfLUgCVd8ElfudkIr0mUXyWw3Hcbo+gDGJ/5zZDdL2zxAt5v4f1RRE59HmhwpRCMG0UhDtGRkqANWGG3gag74PNhzHtLwoBAo+/cKWIYiRPXYJGDw8B6AprxoYhHzoFT1/n8yE/4ZcrYW7QQWlxrPIBtlrVlV9s0K4UhPdIJ++vmKgmVJuU0TzhtWLloQczlPQHTOoR/61dGqjHmI1Jn+aSJwkkDSqkU8M+LIq6uV/xXFQ9BK2AzQmcCnTF8vgVOGVK6Edp9V0hWaYCwAOuWwC59hhpkjJdRFrAbApZmlcNHlFuN8MVq6aPAETUJhzUitBpYECsX1zublLgivGRQ+cHCmMtTiNQV2yyVaowcFToDV/KwbafySQujLfDVrtCl8uqhA41QCMcmK4phoyhzIvf9swXa4pQyInDZpQ01QX4OxvbqidLmCYsC4SqBWxVKRQc1sg/DZIS9rcK5IZyq4KvhwnLEt+pZupJz3NOewAu3+TzSE/AFP2EqMAdNceVGmaiuh8BEz/DfJfiP6YIvlitvSSGq42THMdbnvBH4fSbNpRolUri1BPf4Lj7rp4gOI275bz6IWWhdajfmoSHY67nymsMsZK0wLy/MC30WJI79x5ahXHbkpCcFAZ+6H/x6VRhKChfKCPObhaWN8G4j3NkGryHFbqMutzlQUDZHZQoNPr/eY3mvCL+ZmN7IOMSko8yPeVkWjkkRHVtMzKmhcr06vZTU0Bi7tA10c5Cy0FaNx04YMso244zH9kTZgmMzCASeb4TYgMk5qiZvRNktyhltMPWcOnVlLacSrwSDu+HTRejPAv1phWNVRPePKns8yGYCvvOrIr17An6sSutSqIyz1FGqpSuhwy9JRehNfFbO8fglSq+mHJYppNZLW9StOYgiWH+2MSTCXj+lasIRrErK5neUKkEaovxDGcp5YYpAnNRxTAkkOafSblwYcbF6PK+ofDfrGn31+9UJngALd7nVMPcMnzWFiPOt8IkemNgJfeOl3hNXlY+FOKf8DI9Vj1m2NwkfHnIUBGKrYG4YTCK3Gw5WFvhqbNwqfwiEU9TR9k+KXSmLVeFQEWYULBsrMacEAb8vwO0iPC/O4FOmXmiOJzygcok9WR+JITJCwaRwmbZ+GFboLUPcJHRaYYqBt1qfhfUIjIsyIG7yrAgfK1q+U1ZmWXeTJlLWJsrDeXfutsWw/2CmgV+WJmGyMV8eUHbnwK84iGwUut091yqtIszwfa7JKNMTw381RZy9qPx4+HXcizdOJZ4Kr+kOuDL0WdsovGEEgtiyvSp6beCgJI0KZp9L651t4M2eumTy033Wt4xt4cFqlUIJwg443giLh5RvGMe+mhFhbnrOppokhx6kHbh1Nfizod8K3w9czL1NlJ4BOL8B2o1yYQi5vPB6IzRJwsx9PkduyjpXqR462FMaEuUBgVtmCu8BGgaV9Y2A5zGhisnaGboq9EbjkBSSg9cCefXcahs3v7HQb8eAeLYAFmWTBy+uuCc2TaAp7Wj98HOhj8OyKqTYNeAAKKjhMqO83IOCCgvKyrpWYFT5gzXsyQq32DH6RqnDQqv4wmRV+rYre4wwVYRDFNCEudV88O8jh/r7soUNTS6Vt87CxzsrPKrjiLpUsUc2oT8eG5QpuzZs54rDCYdph+44Bokttx3M+rfWXRJQG/NAEfaVQBssV4mwc5/yshxkKh5n7hPOFGG3sUxOYFTLDuddp/FlIviTCL9qg8nWJXK8tItOmvCP2DgIZVG+h3JXDiox3N4ZcWkdGjc50kxDf1RLFAaMOFchSnX05gBkGHZVEpcD5iC1oA+E0y529su9TY6raroqTVnDxES5bmmZDSPQFSgvEVimSu8CGK3XPXhCYRqcgfLBQWUVcL6FuwvQ5/n83ABYjxdMcNDWoRi+UnKAspZ1PketrRNUxhoGInddqaFA8AQC60JDS/Pu7xuOgMIz2YGb+lY9VNXcrzyXGh1SaBHlBoXn9/h807fcmBEObRdWAg+IK3YfbxpWFSSqsLNf+XdA5secsyDivwX+GMOjC0rOR0cN05pdXm5ZKJyBQ+Q9PxT+mAset6LHVWEYlRnA5UOftKuEQhy5PfsLXA+Gg35ya/30wHDToAO+5VVYZl1obl6z8MZQmD/iGOatCr+qR52VgK4C0wlDJVjqC4d0B7xtbdpOR4SrNKXDQsHbr9AifEmUeTt9ZnrCqnbBWkfrNy4aB1ykZViUfm8MeKc1L2tc08qBJOEeavooHuxHNYw7t8L6WOlKeadbq3RLQxCnYEOTkpVk6tU26BxIujMcotAewYsEFvVBSZXf7KjwU6kmG4BKBuyocm1s+OiEmEuzcElZMZrifMez0q4F7yiIVNjYnLK/ee5BiOesatPifq5fAvtW1JGF5lk6PAFrhOtzLt8dpZRL1U4yNoE4C0aE2fUopKtG0oyltUFY5sOSIOKzc8BfGPPZ5RCvyVSrC4VyAZLIsDan3GTh9aPK5rTPXcN4b+jssVX37bKyEeizji86sq451lCsbMM1c5TLnmNt7i6rstxFfHUIhhtce3XJumI+rwn8qZDdpzxa8bhqRU3vivE+08TSGkKbD9+LA94T+3x3KODOnoDXl8r0uVClZU4EO7Ow0jia95II0+K0ZqgedAMAiyK+uwJ++C/QTI7cqCUMBWtKVLqgf/lY4+bkuTTBK8FeBmYh7OgW3hgqV1uXOtwvwm5RtkfCjpGA//e8ItvrKaECyKUPa1RgcwLXB8I9auk9Cr7vp9GQdQXh8lBJMsJVnkMlaNpsYH69fLYqfGcl7Hd9Tp+8GpHn4PF464IK1/8Jbp8JpYmOLX/siMYCPfX63rJjIkrKDmr8X4PCb3YoVDnOTNoR5YEJDrS9ZVj5pZ/eROrLNNeLM7q2c0naO/DxHoLP5ck90C9+AfRVJ7fKP6Jj3NVa55LHBKfrk8TFEw4X5RpPmdkT8k8+QOzxLs/wdlVuJqUHqtLLKHTVs7KgZoC6sqaH4P+WoxYckXZpsc+kR2CEUQth3hX5Xbkg5sJuj7PyhlcWlHaTRpl+OiC8a2HM2xC2he4m43SF3Pv3pE94ru7kZ1oarRoL9cWxY5kdysDRj4bMF+HLI8IXF0Z8zawGf37E/bFy8u6AgRwsLyhrgNG07PH4/y39ff+3Hh5IyfJ/gOND5S0IWxotb13vsdwsh3iDx0ub4fWjIEXlARzyYHMaD5tUz4LlfxzUq8qimi6cUFE2LU74+Qi8aZJwsYGbKkK7NXzEpDDLSa3QFMPDNuZEL+JwUR5uEECcDv7f0IL9f+ORGLIIl24MOMyHw4aV3RaOy6WF5gYgivjJHhgxircYhqOACxqFt+xTLPDQCteW5nFX5q/18PvzoI4x61lrrGcdo+39m66h/1hsj8eyBVqssjV2KcL3Fd2cLQV8qbLs+NCcKBep8h/dAXc1w4cKygMVpc8qJ68EOz1tj141IKougYJfdQOqv68ee6/aVl2q/XhXprHo9KU1BonW9Gt4wjWqC4Ka89OF4qcTbqrAwNp7OfB1wPUk/ekdcK9PcN2ebHE92etAf/5vWYi15604YMH/tf9fNhY3WJgRXoelIwRNhElAvuI+bwVgDeS7Aj67AkxXQHFTQLknIN4UoI8FFDcGHFZzU5lHHUnoU+7nsB9atmeZuSXDvI0hndthQg803wfBfY6nw/+rlHnuvGcVDD+e76v2aNInvsxToSw8cBMpyH1py6Mun2/aEO32WfWwz1FbAu7pDnhdT8C+7sDh4NgQcKQoFybCvkA5U4XZiYsXDuagpaRsU+GnAp2+ssgKTaIMqLBR4W6r7DMOU9VmIStKi3Wrq1GEVoVGUTrUlXBMBKwquxCmASM5ZaAg/HRRxAXrAt7SAovSktNmVdrUwT8XWWWqCnmjGIRNTbBuv+GTHnRqQimMuVd93l1O2fIEGkTIxUolcKG8YTFsV2WLjdiTZGhsTJhdNkwCKtbSnwgjvlAaqrBjomPOKSxNO3avhcZsSr2YhWQUolFInudoGu214J0DSQ9kJkFji/vO0p9ruPmYa9vTYrOEsYyFZ8MiSQBRIUd2cXGMjffJ1vxGnzWNwrxBZWOjsF+Vjr0BJzdE3OcJU+RBaMz5rGsUZuaAffAblDs84f1W2WWEhWGKqUnSdqQRjpBxL/QItE+CjpGU7s3UePWj7j1bUtZZYWQKHNurbM4J04rKDxFuVTjad53B/jUwnBjApRWgrGxD+AGwQWFoEvxwGFdj2qs8YoUpi4SJPZbrMDxkEu6bn/CbnoDfz4Rle1wf9e2AThBmxtWSGKAX+kXZ6QkLMhD6YyyyDMOdwP0BvCNWuirCx0M4H2Va4hZoRwb82BGr7HIkBBSy0FASvrcg4tL1Pt/PC6eMKEMi9Cn0qlJIG455scsbJ0Z4aQIZVUY9YUK1fY+49gWlIlwicF+r8uIhYUYIDUbZWIn51miW5uaE73QIJ25VPiVKf6vw6X7lw43CzBLMQ5nu+47H2SvB7oLjs3oZsDAG2y4s3A93xe7BHD3qmj5kVNk+KKzxlUMi6B0UOgww5NJkXtok0sRwf6z05IRTLcig8qgoH7TCt4F1nRHX9AScGws/zsXcqYZTYtCSstcEvGhvkX0vguJ6n3cNwbci4bWD8IiBCQFM2KYMGeGm+RWursZ3N0JPP5yYwADCtpS+aeYIxEPwQKiEDZAtQtmHcDS1BVLO58SHwyKlKYafCizOwjtDeEmSMpgVlEfL8LAKW9oMH8i5iWafcm024nKBpNulX9tGhbYQZvuMtUv13HMqxvA5dUXar1GHhvy2jDH9SSs0j8K9RnlNh3BZJd1kvsCozwW5hHwCE7dYvukLb/OE5gGIPOGSEBrKyo+BG8xShzQ4K1b2h9AQOoR+r8DdKUPbQmBxCfyso/j1VJheUQ73hcXThSUlZUMRrmp3m+QLKpxdUjZYKAfCa4rQbCAoCtut4V0V4W2dMZ/uCVmC8nsVvmkDFs+OuLgIbzfCD7JFRptTgytWHk2Epa2QH/Q5B5+T88r79gpH+ZFr0tEVsqgn4I4AFozA0ETHUtuJsGu3ck3iyjgWRsLkCpQC4QV2DJBvBLwchCE0iVBeEPNPnsfp4gRTHEGU9vl7sDPmPKNsH7FcPGC5eD8cPj/m3O1Q3BzyKk+YXEhzwBGOIHvQdSof3ueedy4LH8oKr7Hw2UUR301gT5OTUCYDo0OwUpSsB2/Y5tYQA6B9YBsci+wUD4ZC5buViKUo65vd8w8HHfPdXIULDSBezO5QmGchUwY/gGN8ePkISOCkcZMHSRHurCg97eA3CTNLytZh5WqFO+KIT0oqwRdW+MmQcmFeaU+T4X4Z8s3wMlE6F1RcpM0qvg8LmpS7YuVigIURX++MeE855KTQ59trwXiGlRPhyBG4MxNxplqaJsVcmYfnVXy+cAuYwDAK/PcQfDvyOHxUuQDlow2WXwSu2t3D9SuekhOelyhbImWDwN05R8XwQAneXoQv4PPqroC3zi3zWEUZ8B2kuDIgvFYg2hlwp4VjKzFX9xl+YmHxep9V8wO2JZbTFXICxnfieGusrO9wbstvJGIiyiMBlEvK+3zL7ethZkl5dQH+paJcXVZOTuDNBo5PXN5cSvBL37HGD5aVTeKYiLzE8Musz39Fwgx1IeZ/Ae4LhBEVQgOoBpzfDJk4pVmIXJcxNWmGK4V+iCi9AlpQPjCq7AiEhlFhSSCcrFnCoYjJxrJ6fcBHG4XLVVgYw9UKt4XKY2XYg9C1KeCXa32O1YjNAmuLymigfK/b54J1ME3BW1BhlRo+1AyeVd63Bz5KxEkZ4UqjrO0J+EObskqELcshnldiKxGr2uBTfsT8qTFfUogaDL9MhJPzjp4pNlCqKI9IzDGeMNgIJwSuOvD++RFfWxDxXhKOEOuMGw/mBE6fr48tO1Q4y4PjRDg3G9A3WenJwo9UeFFRGUoMN6rSkTg2WklhSn4ZSirMNj7vzgidBdghwqKM8AkbcPwM4bDRiJtnx7y1M+buduHLVnkkhm/5TpKtiZSNPrQmQkfGSZ/7UFblhDPboXlI2YKrpjjZKi1As7kPGkT550LaRrXagy+l88V3+cYAMB3CqyYKC0uuF25rC3RMEI7LwXQ/4Us5j6MqAeuscgTQVFAebnUrKhyJeVEM6xVafDitQfiDFzJzbsyVCaye5XGDCJ8suDooXR9yZlhh15DrvnK8wCkVn6tzqXvQDCekdTnaE/CxrT4ftgGvMK4E9hPdPicEwucHYVQspxfga1nwE2VXGdqSgJ9OgiOH4cvDcHOT8KpNPhdsClnYWOH3IyEP7vA4NQ44ZVA5RqBpgeFuA61pkldipasIV1UipnRGTC8KNzUpXxdhUQ6koHxAhTd68IZ+y6cFpiew2IfAc9DSe2bGPB/ln0rChBbY+4jHGbsDfrZN2WXBa3aT9QBwQotwRORs13AYigEs92DpkLCoAHfmhame8AWgXYRpKH3SAxkCftoBpw7XgJGtq3tJxLkAw6rsV0fLXwRClGErhH61S5kyLXT6bTtK3hOmxs5CDWMYVFgfwtIYhgxsbVB2jxi+s6DC9T0BH++AV++D7QK3qzI3D0cMK5eIYWdOuTSCeRbaEiEQyKDsU2FQlB0qNPnOcFmfRnTmGYhFOQShLauUCoaLTEJ/KLwz4vHaK7XKPQgTM0oGoa+kXC8Bv/RjrjdwREV5OIBNMQwGsMUKH6goHzDCm1pg8oDlLQsTfrsGwsBnTV5YUICKB6Nl4dglFXrW+byoQbiirLQhfGyi8N2dytJDI9YqSE/AzxLhGl9pnSFcvVv5SQxTm+C4NmAL3IIyY5Iwvy/1BhrS0tGM0++7VaFdmFJMPZ1GYEjZKAAPw+RJASePgLVCxUsYjIWKL/SLx5CUGJzjCET/YsLhPgimQkt/lgYBCRPyMZjQ+RJxscK+dhiexRPxHNUO3XPcYmn2oBKl53QyVofXAxkPWtPexgNz/4yPWXvcDc1TM0wcLdO7uAZhscYtvmY/pK2lwu5a9MU6aGrO0jYAkk/Ih4bC1DKPAWzJMG92mY090Nyeo/mRIruXgb0fvHzAYs9xWUaxz/6HiuyeCHJIhlm+5aVlYbpVghw0DApfHa2w+UhI1vucnxHOjKG5AR7aEvHBF8LQ1oClERxhldlWaE9dKE9gFGUfwkDiOsCoKI0oEz14McKxAWTLwuf+PwUOCl0O/43gAAAAAElFTkSuQmCC" alt="" aria-hidden="true">
   </div>
-  <div class="wrap"><a class="hero__alt" href="#/catalog?only=in">В наличии — <b>12 моделей</b>, отправляем на следующий день</a></div>
+  <div class="wrap"><a class="hero__alt" href="#/catalog?only=in">В наличии — <b>${stock.length} ${plural(stock.length,'модель','модели','моделей')}</b>, отправляем на следующий рабочий день</a></div>
 
   <section>
     <div class="wrap">
@@ -909,7 +953,7 @@ function viewHome(){
       <div class="headline rv">
         <span class="num">02</span>
         <span class="lbl">В наличии</span>
-        <a class="more" href="#/catalog">Весь каталог</a>
+        <a class="more" href="#/catalog?only=in">Все ${stock.length} ${plural(stock.length,'модель','модели','моделей')}</a>
       </div>
     </div>
     <div class="rail">${stock.map((p,i)=>cardHTML(p, Math.min(i,2)*70)).join('')}</div>
@@ -919,7 +963,7 @@ function viewHome(){
     <a class="banner bleed rv" href="#/preorder">
       <img src="${im('ed-glass-red','x')}" ${XFB} alt="" loading="lazy">
       <span class="banner__t" style="display:flex">
-        <span class="banner__k">Предзаказ · на складе 1–10 октября</span>
+        <span class="banner__k">Предзаказ · поступление 1–10 октября</span>
         <span class="banner__h">Эффект<br>варки</span>
         <span class="banner__d">Костюм с эффектом варки, костюм кэжуал и брюки с защипами. 3 модели, 8 расцветок — дешевле, чем будут после поступления.</span>
         <span class="banner__go">Смотреть предзаказ</span>
@@ -932,7 +976,7 @@ function viewHome(){
       <div class="headline rv">
         <span class="num">03</span>
         <span class="lbl">Образы</span>
-        <span class="more" style="border:0">Всё в наличии</span>
+        <a class="more" href="#/catalog?only=in">Всё в наличии</a>
       </div>
       <div class="looks">
         ${LOOKS.map((L,li)=>{
@@ -941,7 +985,7 @@ function viewHome(){
             <img src="${im(L.ph,'s')}" alt="" loading="lazy">
             <span class="look__b">
               <span class="look__n">${L.n}</span>
-              <span class="look__m tnum">${L.items.length} вещи · ${money(sum)}</span>
+              <span class="look__m tnum">${L.items.length} ${plural(L.items.length,'вещь','вещи','вещей')} · ${money(sum)}</span>
             </span>
           </button>`;
         }).join('')}
@@ -952,9 +996,9 @@ function viewHome(){
   <section style="padding-top:0">
     <div class="wrap">
       <div class="assure rv">
-        <div><b>Доставка 2–5 дней</b><span>Ozon, Яндекс, СДЭК. От 15 000 ₽ — бесплатно</span></div>
-        <div><b>Обмен и возврат 14 дней</b><span>Без объяснения причин, если не подошло</span></div>
-        <div><b>Оплата частями</b><span>4 платежа без переплаты, Яндекс Сплит</span></div>
+        <div><b>Доставка 2–6 дней</b><span>Ozon, Яндекс, СДЭК. От 15 000 ₽ — бесплатно</span></div>
+        <div><b>Обмен и возврат 14 дней</b><span>Если вещь не подошла и сохранила бирки</span></div>
+        <div><b>Оплата частями</b><span>Картой или 4 платежа без переплаты — Яндекс Сплит</span></div>
       </div>
     </div>
   </section>
@@ -971,7 +1015,7 @@ function viewHome(){
     <div class="wrap rv">
       <h2 class="sr">О бренде</h2>
       <img src="data:image/png;base64,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" alt="VNACHALE">
-      <p>Комфорт не противоречит статусу, а уверенность не требует строгого дресскода.</p>
+      <p>Комфорт не противоречит статусу, а уверенность не требует строгого дресс-кода.</p>
       <a class="btn btn--ghost" href="#/about">О философии бренда</a>
     </div>
   </section>`;
@@ -996,6 +1040,9 @@ function viewCatalog(q){
   if(sort==='rich')  list = [...list].sort((a,b)=>lowPrice(b)-lowPrice(a));
 
   return `
+  <div class="wrap catalog__h">
+    <h1 class="count">${cat==='all'?'Весь каталог':catName(cat)}${list.length?`<em>${list.length} ${plural(list.length,'модель','модели','моделей')}${size?' · размер '+size:''}${only?' · только в наличии':''}</em>`:''}</h1>
+  </div>
   <div class="subbar">
     <div class="chips">
       <a class="chip ${cat==='all'?'on':''}" href="${catUrl('', size, sort, only)}">Все</a>
@@ -1003,14 +1050,12 @@ function viewCatalog(q){
     </div>
     <div class="tools tools--3">
       <button class="tool" id="fbtn"><svg viewBox="0 0 14 14"><path d="M1 3h12M3 7h8M5.5 11h3"/></svg>Фильтры${size?' · '+size:''}</button>
-      <a class="tool ${only?'on':''}" href="${catUrl(cat==='all'?'':cat, size, sort, !only)}">
-        <i class="box${only?' on':''}"></i>Только в наличии</a>
+      <a class="tool tool--sw ${only?'on':''}" href="${catUrl(cat==='all'?'':cat, size, sort, !only)}">Только в наличии</a>
       <button class="tool" id="sbtn">Сортировка: ${sort==='cheap'?'дешевле':sort==='rich'?'дороже':'новая коллекция'}
         <svg viewBox="0 0 14 14"><path d="M3 5l4 4 4-4"/></svg></button>
     </div>
   </div>
   <div class="wrap">
-    <h1 class="count">${cat==='all'?'Весь каталог':catName(cat)}<em>${list.length} ${plural(list.length,'модель','модели','моделей')}${size?' · размер '+size:''}${only?' · только в наличии':''}</em></h1>
     <div class="grid">${list.map((p,i)=>cardHTML(p, Math.min(i,2)*70)).join('')
       || `<div class="empty" style="grid-column:1/-1">
             ${size ? 'В размере '+size+(cat==='all'?'':' в разделе «'+catName(cat)+'»')+' сейчас ничего нет.' : 'Здесь пока ничего нет.'}
@@ -1026,7 +1071,12 @@ function viewCatalog(q){
 /* ===================== карточка товара ===================== */
 function viewProduct(id, q){
   const p = byId(id);
-  if(!p) return '<div class="wrap"><div class="empty">Товар не найден</div></div>';
+  if(!p) return `<div class="wrap"><div class="empty">Такого товара нет — возможно, он снят с продажи.
+      <div class="sizes" style="justify-content:center;margin-top:22px">
+        <a class="size" style="min-width:auto;padding:0 18px" href="#/catalog?only=in">Что есть в наличии</a>
+        <a class="size" style="min-width:auto;padding:0 18px" href="#/catalog">Весь каталог</a>
+        <a class="size" style="min-width:auto;padding:0 18px" href="#/">На главную</a>
+      </div></div></div>`;
   const vi = Math.min(+(q.get('v')||0), p.variants.length-1);
   const v  = p.variants[vi];
   const cur = q.get('size') || '';
@@ -1035,7 +1085,7 @@ function viewProduct(id, q){
     return off ? `<button class="size off" data-notify="${p.id}|${s}" title="Нет в наличии — сообщим о поступлении">${s}</button>`
                : `<a class="size ${cur===s?'on':''}" href="#/p/${p.id}?v=${vi}&size=${s}">${s}</a>`;
   }).join('');
-  const cta = cur ? (p.stock==='preorder' ? 'Оформить предзаказ · '+cur : 'Купить · размер '+cur) : 'Выберите размер';
+  const cta = (p.stock==='preorder' ? 'В предзаказ' : 'В корзину') + (cur ? ' · '+cur : '');
   const goes = p.goesWith.map(byId).filter(Boolean);
 
   return `
@@ -1052,30 +1102,31 @@ function viewProduct(id, q){
       <div class="pdp__i rv" style="--d:90ms">
         <h1 class="pdp__t">${esc(p.name)}</h1>
         <div class="pr tnum"><b>${money(v.price)}</b>${v.old?`<s>${money(v.old)}</s>`:''}</div>
-        <div class="split">или ${money(Math.round(v.price/4))} × 4 платежа · Яндекс Сплит${
-          p.stock==='preorder' ? '<br>Предзаказ · поступление '+p.eta+' 2026 года' : ''}</div>
+        <div class="split">или 4 платежа без переплаты · Яндекс Сплит${
+          p.stock==='preorder' ? '<br>Предзаказ · поступление '+p.eta : ''}</div>
 
         ${p.variants.length>1 ? `
-        <div class="flab"><span>Цвет</span></div>
+        <div class="flab"><span>Цвет: ${esc(v.color.toLowerCase())}</span></div>
         <div class="sws">
-          ${p.variants.map((x,i)=>`<a class="sw ${i===vi?'on':''}" href="#/p/${p.id}?v=${i}${cur?'&size='+cur:''}"><i style="background:${x.hex}"></i>${esc(x.color)}</a>`).join('')}
+          ${p.variants.map((x,i)=>`<a class="sw ${i===vi?'on':''}" href="#/p/${p.id}?v=${i}${cur?'&size='+cur:''}" title="${esc(x.color)}"><i style="background:${x.hex}"></i><span>${esc(x.color)}</span></a>`).join('')}
         </div>`:''}
 
         <div class="flab"><span>Размер</span>${p.chart?'<a href="#" data-sg>Размерная сетка</a>':''}</div>
         <div class="sizes">${sizes}</div>
 
         <div style="margin-top:32px" id="buyanchor">
-          <button class="btn btn--w${cur?'':' btn--wait'}" data-add="${p.id}|${vi}">${cta}</button>
+          <button class="btn btn--w" data-add="${p.id}|${vi}">${cta}</button>
+          ${cur ? '' : '<div class="hint">Сначала выберите размер</div>'}
         </div>
 
         <div class="after">
           <div class="after__l">${p.stock==='preorder'
-            ? 'Предзаказ. Спишем оплату сразу, отправим после 10 октября. Отменить и вернуть деньги можно в любой момент до отправки.'
+            ? 'Предзаказ. Оплата списывается сразу. Партия приходит 1–10 октября, отправим в течение суток. Отменить заказ и вернуть деньги можно в любой момент до отправки.'
             : 'В наличии. Отправим на следующий рабочий день.'}</div>
           <div class="after__r">
-            <span>Доставка 2–5 дней · от 15 000 ₽ бесплатно</span>
+            <span>Доставка 2–6 дней · от 15 000 ₽ бесплатно</span>
             <span>Обмен и возврат 14 дней</span>
-            <span>Картой или 4 платежа без переплаты</span>
+            <span>Картой или 4 платежа без переплаты — Яндекс Сплит</span>
           </div>
         </div>
 
@@ -1097,8 +1148,8 @@ function viewProduct(id, q){
 
         <div class="acc"><button class="acc__h" aria-expanded="false">Оплата и доставка <svg viewBox="0 0 10 10"><path class="v" d="M5 .5v9"/><path d="M.5 5h9"/></svg></button>
           <div class="acc__b"><div class="acc__i">
-            <dl class="dl"><dt>Ozon</dt><dd>2–4 дня · 350 ₽</dd><dt>Яндекс</dt><dd>2–5 дней · 350 ₽</dd>
-            <dt>СДЭК</dt><dd>3–6 дней · 390 ₽</dd><dt>От 15 000 ₽</dt><dd>бесплатно</dd></dl>
+            <dl class="dl"><dt>Ozon</dt><dd>2–4 дня · 350 ₽</dd><dt>Яндекс Доставка</dt><dd>2–5 дней · 350 ₽</dd>
+            <dt>СДЭК</dt><dd>3–6 дней · 390 ₽</dd><dt>От 15 000 ₽</dt><dd>бесплатно</dd></dl>
             <p style="margin-top:14px">Оплата картой или Яндекс Сплит — 4 платежа без переплаты. Обмен и возврат 14 дней.</p>
           </div></div></div>
       </div>
@@ -1109,11 +1160,11 @@ function viewProduct(id, q){
     <div class="headline rv" style="padding-left:0">
       <span class="lbl">С этим носят</span>
     </div>
-    <div class="grid" style="padding-top:0">${goes.map((x,i)=>cardHTML(x, i*70)).join('')}</div>
+    <div class="grid grid--goes" style="padding-top:0">${goes.map((x,i)=>cardHTML(x, i*70)).join('')}</div>
   </section>
 
   <div class="stickybuy" id="sticky">
-    <button class="btn btn--w${cur?'':' btn--wait'}" data-add="${p.id}|${vi}">${cta}</button>
+    <button class="btn btn--w" data-add="${p.id}|${vi}">${cta}</button>
   </div>`;
 }
 
@@ -1122,7 +1173,7 @@ function sizeTable(p){
     return `<img src="${im(p.chart,'l')}" alt="Размерная сетка — ${esc(p.name)}" style="width:100%;background:var(--mist)">
       <p class="muted" style="font-size:13px;margin-top:14px">Мерки сняты с изделия. Если вы между размерами, берите больший — крой свободный.</p>`;
   }
-  return `<p style="margin:0 0 14px">Сетки по этой модели пока нет. Напишите нам рост и обхват груди — подберём размер и обменяем бесплатно, если не подойдёт.</p>
+  return `<p style="margin:0 0 14px">Сетки по этой модели пока нет. Напишите нам рост и обхват груди — подберём размер, а если не подойдёт, обменяем в течение 14 дней.</p>
   <a class="ulink" href="mailto:codevnachale@bk.ru">Написать на почту</a>
   <div class="note" style="margin-top:22px"><b>Нужны замеры</b>Сетки сняты по десяти моделям из пятнадцати. По остальным пяти нужны обхват груди, талии, длина изделия и рукава.</div>`;
 }
@@ -1170,7 +1221,7 @@ function viewAbout(){
     <p>Задолго до трендов и навязанных ролей мужчина находил опору в своей природе и способности создавать, защищать, брать ответственность и оставаться верным себе.</p>
     <p>Настоящая сила не нуждается в доказательствах, потому что она проявляется в поступках, а не в навязанных образах. Она чувствуется в уверенности, спокойствии и способности оставаться верным себе при любых обстоятельствах.</p>
     <h2>Исходный код</h2>
-    <p>Долгое время статус ассоциировался со строгими силуэтами, формальной одеждой и необходимостью соответствовать ожиданиям окружающих. Но в современном мире статус больше не нуждается в подобных доказательствах. Комфорт не противоречит статусу, а уверенность не требует строгого дресскода.</p>
+    <p>Долгое время статус ассоциировался со строгими силуэтами, формальной одеждой и необходимостью соответствовать ожиданиям окружающих. Но в современном мире статус больше не нуждается в подобных доказательствах. Комфорт не противоречит статусу, а уверенность не требует строгого дресс-кода.</p>
     <p>Сила не всегда в усложнении. Мы создаём одежду, которая выглядит премиально не за счёт трендов, а за счёт кроя, материалов и фактуры.</p>
     <div class="note"><b>Что здесь изменилось</b>Все три манифеста с главной переехали сюда. На главной осталось одно предложение со ссылкой. Исправлены четыре опечатки, которые висят в текстах на боевом сайте.</div>
     <a class="btn btn--out" href="#/catalog" style="margin-top:34px">В каталог</a>
@@ -1181,7 +1232,7 @@ function viewInfo(){
   return `<section class="wrap"><div class="doc rv">
     <h1>Покупателям</h1>
     <div class="acc"><button class="acc__h" aria-expanded="true">Доставка и оплата <svg viewBox="0 0 10 10"><path class="v" d="M5 .5v9"/><path d="M.5 5h9"/></svg></button>
-      <div class="acc__b on"><div class="acc__i"><dl class="dl"><dt>Ozon</dt><dd>2–4 дня · 350 ₽</dd><dt>Яндекс Доставка</dt><dd>2–5 дней · 350 ₽</dd><dt>СДЭК</dt><dd>3–6 дней · 390 ₽</dd><dt>От 15 000 ₽</dt><dd>бесплатно</dd></dl><p style="margin-top:14px">Оплата картой через ЮKassa или Яндекс Сплит — 4 платежа без переплаты.</p></div></div></div>
+      <div class="acc__b on"><div class="acc__i"><dl class="dl"><dt>Ozon</dt><dd>2–4 дня · 350 ₽</dd><dt>Яндекс Доставка</dt><dd>2–5 дней · 350 ₽</dd><dt>СДЭК</dt><dd>3–6 дней · 390 ₽</dd><dt>От 15 000 ₽</dt><dd>бесплатно</dd></dl><p style="margin-top:14px">Оплата картой через ЮKassa или Яндекс Сплит — 4 платежа без переплаты.</p></div></div></div>
     <div class="acc"><button class="acc__h" aria-expanded="false">Обмен и возврат <svg viewBox="0 0 10 10"><path class="v" d="M5 .5v9"/><path d="M.5 5h9"/></svg></button>
       <div class="acc__b"><div class="acc__i"><p>14 дней с момента получения, без объяснения причин, если вещь не была в носке и сохранила бирки. Деньги возвращаем на ту же карту в течение 10 дней.</p></div></div></div>
     <div class="acc"><button class="acc__h" aria-expanded="false">Реквизиты <svg viewBox="0 0 10 10"><path class="v" d="M5 .5v9"/><path d="M.5 5h9"/></svg></button>
@@ -1195,14 +1246,14 @@ function viewInfo(){
 function footerHTML(){
   return `<footer><div class="wrap">
     <div class="fass">
-      <span>Доставка 2–5 дней · от 15 000 ₽ бесплатно</span>
+      <span>Доставка 2–6 дней · от 15 000 ₽ бесплатно</span>
       <span>Обмен и возврат 14 дней</span>
-      <span>Оплата картой или 4 платежа без переплаты</span>
+      <span>Картой или 4 платежа без переплаты — Яндекс Сплит</span>
     </div>
     <div class="fcols">
       <div class="fcol"><h4>Каталог</h4>
         ${CATS.map(c=>`<a href="#/catalog?c=${c.id}">${c.name}</a>`).join('')}
-        <a href="#/preorder">Предзаказ</a><a href="#/catalog">Все товары</a></div>
+        <a href="#/preorder">Предзаказ</a><a href="#/catalog">Весь каталог</a></div>
       <div class="fcol"><h4>Покупателям</h4>
         <a href="#/info">Доставка и оплата</a><a href="#/info">Обмен и возврат</a>
         <a href="#/info">Публичная оферта</a><a href="#/info">Политика конфиденциальности</a>
@@ -1394,23 +1445,30 @@ function catalogInit(q){
 }
 
 let pickReturn = null;   // куда вернуться, закрыв размерную сетку
+let notifyReturn = null; // куда вернуться из подписки на размер
 
-function openNotify(pid, size){
+function openNotify(pid, size, back){
   const p = byId(pid);
+  if(back) notifyReturn = back;
   $('#pickt').textContent = 'Нет в наличии';
   $('#pickb').innerHTML = `
-    <p style="margin:0 0 20px">${esc(p.name)}, размер ${size} — закончился.
-      Оставьте почту: напишем в день, когда он вернётся на склад.</p>
+    <p style="margin:0 0 20px">${esc(p.name)} — размера ${size} сейчас нет.
+      Оставьте почту: напишем, как только этот размер вернётся на склад.</p>
     <input id="nmail" type="email" placeholder="Почта" autocomplete="email"
       style="width:100%;height:52px;border:0;border-bottom:1px solid var(--line);padding:0 0 8px;
              font:inherit;font-size:17px;outline:none;background:transparent;border-radius:0;
              -webkit-appearance:none;appearance:none">
-    <p class="muted" style="font-size:13px;margin-top:16px">Пишем только про этот размер. Отписаться — одной ссылкой в письме.</p>`;
-  $('#pickf').innerHTML = `<button class="btn btn--w" data-notify-go>Сообщить о поступлении</button>`;
+    <p class="muted" style="font-size:13px;margin-top:16px">Пишем только про этот размер. Отписаться — одной ссылкой в письме.
+      Почту используем только для этого уведомления.</p>
+    ${notifyReturn ? '<button class="ulink" data-notify-back style="margin-top:18px">Вернуться к выбору размера</button>' : ''}`;
+  $('#pickf').innerHTML = `<button class="btn btn--w" data-notify-go>Сообщите, когда появится</button>`;
+  $('#pickb [data-notify-back]')?.addEventListener('click', ()=>{
+    const go = notifyReturn; notifyReturn = null; go();
+  });
   $('#pickf [data-notify-go]').addEventListener('click', ()=>{
     const v = ($('#nmail').value||'').trim();
     if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ $('#nmail').focus(); toast('Проверьте почту'); return; }
-    sheetClose(); toast('Сообщим о поступлении');
+    notifyReturn = null; sheetClose(); toast('Сообщим о поступлении');
   });
   sheetOpen('pick');
 }
@@ -1437,7 +1495,8 @@ function openLook(li){
 
 function openPick(pid, startV, startS){
   const p = byId(pid);
-  let vi = startV || 0, size = startS || null;
+  const cheapest = p.variants.reduce((b,v,i)=> v.price < p.variants[b].price ? i : b, 0);
+  let vi = startV != null ? startV : cheapest, size = startS || null;
   const paint = () => {
     const v = p.variants[vi];
     $('#pickt').textContent = p.name;
@@ -1446,22 +1505,27 @@ function openPick(pid, startV, startS){
         <img src="${im(v.imgs[0],'s')}" alt="" style="width:96px;aspect-ratio:2/3;object-fit:cover;background:var(--mist)">
         <div>
           <div class="pr tnum" style="margin-bottom:6px"><b>${money(v.price)}</b>${v.old?`<s>${money(v.old)}</s>`:''}</div>
-          <div class="split" style="margin:0">или ${money(Math.round(v.price/4))} × 4 платежа${
+          <div class="split" style="margin:0">или 4 платежа без переплаты${
             p.stock==='preorder'?'<br>Предзаказ · поступление '+p.eta:''}</div>
         </div>
       </div>
       ${p.variants.length>1?`
-        <div class="flab"><span>Цвет</span></div>
-        <div class="sws">${p.variants.map((x,i)=>`<button class="sw ${i===vi?'on':''}" data-v="${i}"><i style="background:${x.hex}"></i>${esc(x.color)}</button>`).join('')}</div>`:''}
-      <div class="flab"><span>Размер</span><a href="#" data-sgp>Размерная сетка</a></div>
+        <div class="flab"><span>Цвет: ${esc(v.color.toLowerCase())}</span></div>
+        <div class="sws">${p.variants.map((x,i)=>`<button class="sw ${i===vi?'on':''}" data-v="${i}" title="${esc(x.color)}"><i style="background:${x.hex}"></i><span>${esc(x.color)}</span></button>`).join('')}</div>`:''}
+      <div class="flab"><span>Размер</span>${p.chart?'<a href="#" data-sgp>Размерная сетка</a>':''}</div>
       <div class="sizes">${p.sizes.map(s=>p.out.includes(s)
         ? `<button class="size off" data-notify="${p.id}|${s}">${s}</button>`
         : `<button class="size ${size===s?'on':''}" data-s="${s}">${s}</button>`).join('')}</div>
-      <a href="#/p/${p.id}?v=${vi}" data-close class="ulink" style="display:inline-block;margin-top:26px">Подробно о товаре</a>`;
+      <a href="#/p/${p.id}?v=${vi}" data-close class="ulink" style="display:inline-block;margin-top:26px">Открыть карточку</a>`;
     $('#pickf').innerHTML = `<button class="btn btn--w" ${size?'':'disabled'} data-go>${
-      size ? (p.stock==='preorder' ? 'Оформить предзаказ' : 'В корзину') + ' · ' + money(v.price) : 'Выберите размер'}</button>`;
+      size ? (p.stock==='preorder' ? 'В предзаказ' : 'В корзину') + ' · ' + money(v.price) : 'Выберите размер'}</button>`;
     $$('#pickb [data-v]').forEach(b=>b.addEventListener('click',()=>{ vi = +b.dataset.v; paint(); }));
     $$('#pickb [data-s]').forEach(b=>b.addEventListener('click',()=>{ size = b.dataset.s; paint(); }));
+    // тап по зачёркнутому размеру раньше затирал этот же лист без пути назад
+    $$('#pickb [data-notify]').forEach(b=>b.addEventListener('click', e=>{
+      e.preventDefault(); e.stopPropagation();
+      openNotify(p.id, b.dataset.notify.split('|')[1], () => openPick(p.id, vi, size));
+    }));
     $('#pickb [data-sgp]')?.addEventListener('click', e=>{
       e.preventDefault();
       pickReturn = () => { openPick(p.id, vi, size); };   // вернём и цвет, и размер
