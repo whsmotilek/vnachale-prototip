@@ -353,7 +353,20 @@ main{padding-top:calc(var(--annh,0px) + var(--head))}
    между лентой и следующим кадром превращался в белую полосу */
 .shop{padding-block:0}
 .cats-s{padding-block:clamp(34px,4vw,56px) 0}
+/* Имя дропа и строка смысла лежат на кадре, а не под ним: отдельный заголовок
+   добавлял к каждому дропу ещё экран бумаги. */
 .dban{display:block;position:relative;overflow:hidden;background:var(--mist)}
+.dban__t{position:absolute;left:0;right:0;bottom:0;display:block;color:#fff;text-align:center;
+  padding:clamp(90px,17vh,220px) var(--gut) clamp(26px,4.4vh,54px);
+  background:linear-gradient(to top,rgba(0,0,0,.74) 0%,rgba(0,0,0,.46) 34%,
+    rgba(0,0,0,.13) 66%,rgba(0,0,0,0) 100%)}
+.dban__k{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  opacity:.85;margin-bottom:10px;font-variant-numeric:tabular-nums}
+.dban__h{display:block;font-family:var(--hand);font-weight:400;
+  font-size:clamp(42px,8.4vw,120px);line-height:.94;letter-spacing:-.01em}
+.dban__d{display:block;font-size:13px;line-height:1.55;margin:12px auto 0;max-width:44ch;
+  opacity:.92;text-wrap:pretty}
+@media (min-width:900px){.dban__d{font-size:15px;margin-top:16px}}
 .dban img{display:block;width:100%;height:clamp(400px,72svh,760px);object-fit:cover}
 @media (min-width:900px){.dban img{height:clamp(520px,88vh,940px)}}
 @media (hover:hover){.dban img{transition:transform 1.2s var(--slow)}
@@ -1238,6 +1251,19 @@ function syncAnn(){
   setTimeout(watch, 60);
 })();
 
+/* В фирменном шрифте нет цифр, «Ё», ₽ и тире — недостающий знак молча подставляется
+   из Golos и ломает слово (так «ВСЁ» показывало чужую «ё»). Под ?dev ругаемся в консоль. */
+if(location.search.includes('dev')) addEventListener('hashchange', checkHand), setTimeout(checkHand, 400);
+function checkHand(){
+  setTimeout(() => {
+    const bad = /[0-9Ёё₽—–]/;
+    $$('.hero__h,.gtit__h,.dban__h,.creed p:not(.creed__m),.done h1,.pohero h1').forEach(e => {
+      const m = (e.textContent || '').match(bad);
+      if(m) console.warn('[шрифт] нет глифа «' + m[0] + '»:', e.textContent.trim().slice(0, 40));
+    });
+  }, 200);
+}
+
 $('#annx').addEventListener('click', ()=>{
   document.body.classList.add('noann');
   syncAnn(); syncOver();
@@ -1396,14 +1422,14 @@ function dropBlockHTML(d, i){
   const units = d.items.map(k => UNITS.find(u => u.key === k)).filter(Boolean).slice(0, 4);
   return `
   <section class="drop" id="drop-${d.id}">
-    <a class="dban bleed rv" href="#/drop/${d.id}" aria-label="Дроп ${esc(d.n)}">
+    <a class="dban bleed rv" href="#/drop/${d.id}">
       <img src="${im(d.ph,'x')}" ${XFB} alt="" loading="lazy">
+      <span class="dban__t">
+        <span class="dban__k">Дроп ${String(i+1).padStart(2,'0')}</span>
+        <span class="dban__h">${esc(d.n)}</span>
+        <span class="dban__d">${esc(d.slogan)}</span>
+      </span>
     </a>
-    <div class="gtit rv">
-      <span class="gtit__k">Дроп ${String(i+1).padStart(2,'0')}</span>
-      <h2 class="gtit__h">${esc(d.n)}</h2>
-      <p class="gtit__d">${esc(d.slogan)}</p>
-    </div>
     <div class="tiles">${units.map((u,j)=>tileHTML(u, Math.min(j,3)*70)).join('')}</div>
     <a class="seeall rv" href="#/drop/${d.id}">Смотреть дроп</a>
   </section>`;
@@ -1433,7 +1459,7 @@ function viewHome(){
   <section class="shop" style="padding-top:0">
     <div class="gtit rv">
       <span class="gtit__k">Витрина</span>
-      <h2 class="gtit__h">Всё на складе</h2>
+      <h2 class="gtit__h">В наличии</h2>
       <p class="gtit__d">${all.length} ${plural(all.length,'позиция','позиции','позиций')} — отправим на следующий рабочий день.</p>
     </div>
     <div class="rail rail--auto rail--shop" id="rail">
